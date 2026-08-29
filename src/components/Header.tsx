@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
-import { motion, useMotionValue } from 'motion/react';
+import { motion, useMotionValue, useSpring } from 'motion/react';
 import { Menu, X, Send, Film } from 'lucide-react';
 import { NavigationItem } from '../types/portfolio';
 import { getFocusTrapTargetIndex, getHeaderTranslateY } from '../lib/portfolioUi';
@@ -9,6 +9,7 @@ interface HeaderProps {
   currentSlide: number;
   onNavigateToSlide: (index: number) => void;
   onDrawerOpenChange?: (isOpen: boolean) => void;
+  reducedMotion?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -16,9 +17,15 @@ export const Header: React.FC<HeaderProps> = ({
   currentSlide,
   onNavigateToSlide,
   onDrawerOpenChange,
+  reducedMotion = false,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const headerY = useMotionValue(0);
+  const easedHeaderY = useSpring(headerY, {
+    stiffness: 360,
+    damping: 38,
+    mass: 0.35,
+  });
   const headerRef = useRef<HTMLElement>(null);
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -180,7 +187,7 @@ export const Header: React.FC<HeaderProps> = ({
         ref={headerRef}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        style={{ y: headerY }}
+        style={{ y: reducedMotion ? headerY : easedHeaderY }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         className="absolute top-0 left-0 right-0 z-50 w-full pointer-events-none"
       >

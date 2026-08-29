@@ -50,7 +50,10 @@ export function App() {
     const direction = targetIndex > currentSlide ? 1 : -1;
     const currentEl = slidesRef.current[currentSlide];
     const nextEl = slidesRef.current[targetIndex];
-    const duration = reducedMotion ? 0.01 : 0.8;
+    const exitDuration = reducedMotion ? 0.01 : 0.46;
+    const enterDuration = reducedMotion ? 0.01 : 0.78;
+    const enterOffset = reducedMotion ? 0 : 18;
+    const exitOffset = reducedMotion ? 0 : 10;
 
     const targetScrollEl = nextEl?.querySelector<HTMLElement>('[data-slide-scroll]');
     if (targetScrollEl) targetScrollEl.scrollTop = 0;
@@ -65,27 +68,27 @@ export function App() {
 
       // Prepare next slide position
       gsap.set(nextEl, {
-        yPercent: direction * 100,
+        yPercent: direction * enterOffset,
         opacity: 0,
+        scale: reducedMotion ? 1 : 0.992,
         display: 'block',
       });
 
-      // Animate current out and next in
+      // A short exit plus a longer decelerating arrival feels closer to
+      // natural scrolling than moving a full viewport at constant intensity.
       tl.to(currentEl, {
-        yPercent: -direction * 30,
+        yPercent: -direction * exitOffset,
         opacity: 0,
-        duration,
-        ease: 'power3.inOut',
-      }).to(
-        nextEl,
-        {
-          yPercent: 0,
-          opacity: 1,
-          duration,
-          ease: 'power3.inOut',
-        },
-        '<=0.1'
-      );
+        scale: reducedMotion ? 1 : 0.996,
+        duration: exitDuration,
+        ease: 'power2.in',
+      }, 0).to(nextEl, {
+        yPercent: 0,
+        opacity: 1,
+        scale: 1,
+        duration: enterDuration,
+        ease: 'power3.out',
+      }, reducedMotion ? 0 : 0.08);
     } else {
       setCurrentSlide(targetIndex);
       isAnimating.current = false;
@@ -229,6 +232,7 @@ export function App() {
         currentSlide={currentSlide}
         onNavigateToSlide={goToSlide}
         onDrawerOpenChange={setDrawerOpen}
+        reducedMotion={reducedMotion}
       />
 
       {/* Main Slides Stack Container */}

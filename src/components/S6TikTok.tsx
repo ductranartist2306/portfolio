@@ -4,11 +4,20 @@ import { Smartphone, Flame, TrendingUp } from 'lucide-react';
 
 interface S6TikTokProps {
   data: any;
+  isActive?: boolean;
+  reducedMotion?: boolean;
 }
 
-export const S6TikTok: React.FC<S6TikTokProps> = ({ data }) => {
+export const S6TikTok: React.FC<S6TikTokProps> = ({
+  data,
+  isActive = true,
+  reducedMotion = false,
+}) => {
   return (
-    <div className="relative w-full h-full min-h-screen pt-28 pb-16 px-6 lg:px-16 bg-[#0A0E14] text-white overflow-y-auto">
+    <div
+      className="portal-section relative h-full min-h-screen w-full overflow-y-auto px-6 pb-16 pt-32 text-white lg:px-16"
+      data-slide-scroll
+    >
       {/* Header Eyebrow */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-white/10 pb-6 mb-8 gap-4">
         <div>
@@ -24,23 +33,28 @@ export const S6TikTok: React.FC<S6TikTokProps> = ({ data }) => {
         </p>
       </div>
 
-      {/* Grid 9:16 Vertical Phone Aspect Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto my-auto">
+      {/* Responsive 16:9 stages with contained vertical source footage */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-8 max-w-6xl mx-auto my-auto items-stretch">
         {data.grid.map((item: any) => (
-          <div key={item.id} className="space-y-3">
+          <div
+            key={item.id}
+            className="rounded-[28px] border border-white/10 bg-[#141B24]/70 p-4 sm:p-5 shadow-[0_24px_60px_rgba(0,0,0,0.22)]"
+          >
             <VideoCard
               title={item.title}
               subtitle={item.subtitle}
               videoPath={item.path}
               fallbackUrl={item.fallbackVideoUrl}
-              aspectRatio="9:16"
+              sourceAspectRatio="9:16"
               playMode="click"
+              isActive={isActive}
+              reducedMotion={reducedMotion}
             />
           </div>
         ))}
 
         {/* Feature Highlights Card */}
-        <div className="flex flex-col justify-between p-6 rounded-2xl bg-[#141B24] border border-[#FF9F1C]/30 aspect-[9/16]">
+        <div className="lg:col-span-2 flex flex-col justify-between gap-6 p-6 rounded-[28px] bg-[#141B24] border border-[#FF9F1C]/30 min-h-[280px]">
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-[#FF9F1C]">
               <Flame className="w-5 h-5" />
@@ -58,7 +72,7 @@ export const S6TikTok: React.FC<S6TikTokProps> = ({ data }) => {
             </p>
           </div>
 
-          <div className="space-y-3 pt-4 border-t border-white/10 font-mono-tech text-xs text-[#00D9FF]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-4 border-t border-white/10 font-mono-tech text-xs text-[#00D9FF]">
             <div className="flex items-center justify-between p-2 rounded bg-[#0A0E14]">
               <span>KOL / KOC Commercial</span>
               <span>100% Retain</span>

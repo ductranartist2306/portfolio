@@ -1,6 +1,6 @@
 import React from 'react';
 import { Award, Film, CheckCircle2, Cpu, Wrench } from 'lucide-react';
-import portraitImg from '../assets/images/regenerated_image_1787278337594.png';
+import portraitImg from '../assets/images/regenerated_image_1787278337594.webp';
 
 interface S2AboutProps {
   data: any;
@@ -9,7 +9,10 @@ interface S2AboutProps {
 
 export const S2About: React.FC<S2AboutProps> = ({ data, brand }) => {
   return (
-    <div className="relative w-full h-full min-h-screen pt-28 pb-16 px-6 lg:px-16 bg-[#0A0E14] text-white overflow-y-auto">
+    <div
+      className="portal-section relative h-full min-h-screen w-full overflow-y-auto px-6 pb-16 pt-32 text-white lg:px-16"
+      data-slide-scroll
+    >
       {/* Header Eyebrow */}
       <div className="flex items-center gap-3 border-b border-white/10 pb-4 mb-8">
         <span className="font-mono-tech text-xs text-[#00D9FF] tracking-widest uppercase">

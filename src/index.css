@@ -6,12 +6,13 @@
 }
 
 :root {
-  --background: #000000;
+  --background: #130c08;
   --foreground: #ffffff;
-}
-
-html, body, * {
-  font-family: 'Be Vietnam Pro', sans-serif;
+  --portal-gold: #f4b860;
+  --portal-cream: #fff8e7;
+  --portal-burgundy: #4b1f20;
+  --surface-scrim: rgba(10, 8, 7, 0.54);
+  --content-foreground: #fffaf1;
 }
 
 body {
@@ -23,58 +24,66 @@ body {
 }
 
 /* Liquid Glass Effect */
-.liquid-glass {
-  background: rgba(255, 255, 255, 0.02);
-  background-blend-mode: luminosity;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: none;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12);
-  position: relative;
-  overflow: hidden;
-}
+@layer components {
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.02);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: none;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12);
+    position: relative;
+    overflow: hidden;
+  }
 
-.liquid-glass::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.4px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.45) 0%,
-    rgba(255, 255, 255, 0.15) 20%,
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0) 60%,
-    rgba(255, 255, 255, 0.15) 80%,
-    rgba(255, 255, 255, 0.45) 100%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
+  .liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.15) 20%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0.15) 80%,
+      rgba(255, 255, 255, 0.45) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
 
-/* Glass Pill Effect */
-.glass-pill {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(16px) saturate(180%);
-  border-radius: 9999px;
-  box-shadow: none !important;
+  /* Glass Pill Effect */
+  .glass-pill {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(16px) saturate(180%);
+    border-radius: 9999px;
+    box-shadow: none !important;
+  }
+
+  .portal-section {
+    background:
+      linear-gradient(180deg, rgba(5, 5, 5, 0.46) 0%, var(--surface-scrim) 42%, rgba(2, 2, 2, 0.7) 100%),
+      radial-gradient(circle at 72% 42%, rgba(244, 184, 96, 0.09), transparent 52%);
+  }
 }
 
 @layer utilities {
   .font-instrument {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
   }
   .font-title {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
   }
   .font-body {
     font-family: 'Be Vietnam Pro', sans-serif;
   }
   .font-mono-tech {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    font-family: 'JetBrains Mono', monospace;
   }
 
   /* Glow Effects */
@@ -127,4 +136,12 @@ body {
 
 .magazine-slide {
   will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-rise {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -4,11 +4,20 @@ import { Camera, Film, HeartHandshake, Sparkles } from 'lucide-react';
 
 interface S8EventsProps {
   data: any;
+  isActive?: boolean;
+  reducedMotion?: boolean;
 }
 
-export const S8Events: React.FC<S8EventsProps> = ({ data }) => {
+export const S8Events: React.FC<S8EventsProps> = ({
+  data,
+  isActive = true,
+  reducedMotion = false,
+}) => {
   return (
-    <div className="relative w-full h-full min-h-screen pt-28 pb-16 px-6 lg:px-16 bg-[#0A0E14] text-white overflow-y-auto">
+    <div
+      className="portal-section relative h-full min-h-screen w-full overflow-y-auto px-6 pb-16 pt-32 text-white lg:px-16"
+      data-slide-scroll
+    >
       {/* Header Eyebrow */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-white/10 pb-6 mb-8 gap-4">
         <div>
@@ -37,8 +46,10 @@ export const S8Events: React.FC<S8EventsProps> = ({ data }) => {
             subtitle="Video Intro mở đầu hội nghị khoa học Aesthetic"
             videoPath={data.sections[0].videoUrl}
             fallbackUrl={data.sections[0].videoUrl}
-            aspectRatio="16:9"
+            sourceAspectRatio="16:9"
             playMode="click"
+            isActive={isActive}
+            reducedMotion={reducedMotion}
           />
 
           <p className="font-body text-sm text-[#B8C2CC] leading-relaxed">

@@ -4,11 +4,20 @@ import { Film, Car, Sparkles } from 'lucide-react';
 
 interface S4CommercialsProps {
   data: any;
+  isActive?: boolean;
+  reducedMotion?: boolean;
 }
 
-export const S4Commercials: React.FC<S4CommercialsProps> = ({ data }) => {
+export const S4Commercials: React.FC<S4CommercialsProps> = ({
+  data,
+  isActive = true,
+  reducedMotion = false,
+}) => {
   return (
-    <div className="relative w-full h-full min-h-screen pt-28 pb-16 px-6 lg:px-16 bg-[#0A0E14] text-white overflow-y-auto">
+    <div
+      className="portal-section relative h-full min-h-screen w-full overflow-y-auto px-6 pb-16 pt-32 text-white lg:px-16"
+      data-slide-scroll
+    >
       {/* Header Eyebrow */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-white/10 pb-6 mb-8 gap-4">
         <div>
@@ -27,14 +36,16 @@ export const S4Commercials: React.FC<S4CommercialsProps> = ({ data }) => {
       {/* Asymmetric Bento Grid Layout */}
       <div className="grid grid-cols-12 gap-6 my-auto">
         {data.bentoGrid.map((item: any) => (
-          <div key={item.id} className={item.gridSpan}>
+          <div key={item.id} className="col-span-12 lg:col-span-6">
             <VideoCard
               title={item.title}
               subtitle={item.subtitle}
               videoPath={item.path}
               fallbackUrl={item.fallbackVideoUrl}
-              aspectRatio={item.aspectRatio as any}
+              sourceAspectRatio={item.aspectRatio as any}
               playMode={item.id === 's4_bento_1' ? 'click' : 'hover'}
+              isActive={isActive}
+              reducedMotion={reducedMotion}
             />
           </div>
         ))}

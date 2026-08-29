@@ -1,33 +1,190 @@
-import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import React, { useEffect, useId, useRef, useState } from 'react';
+import { motion, useMotionValue } from 'motion/react';
 import { Menu, X, Send, Film } from 'lucide-react';
 import { NavigationItem } from '../types/portfolio';
+import { getFocusTrapTargetIndex, getHeaderTranslateY } from '../lib/portfolioUi';
 
 interface HeaderProps {
   navItems: NavigationItem[];
   currentSlide: number;
   onNavigateToSlide: (index: number) => void;
+  onDrawerOpenChange?: (isOpen: boolean) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   navItems,
   currentSlide,
   onNavigateToSlide,
+  onDrawerOpenChange,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const headerY = useMotionValue(0);
+  const headerRef = useRef<HTMLElement>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const drawerId = useId();
+  const drawerTitleId = useId();
 
   const leftNav = navItems.slice(0, 4);
   const rightNav = navItems.slice(4);
 
+  const getActiveSlideScrollElement = () => {
+    const slideEl = document.querySelectorAll('.magazine-slide')[currentSlide] as
+      | HTMLElement
+      | undefined;
+    return (
+      slideEl?.querySelector<HTMLElement>('[data-slide-scroll]') ??
+      slideEl?.querySelector<HTMLElement>('.overflow-y-auto') ??
+      null
+    );
+  };
+
+  const setDrawerOpen = (nextOpen: boolean) => {
+    if (nextOpen) headerY.set(0);
+
+    if (nextOpen && document.activeElement instanceof HTMLElement) {
+      previousFocusRef.current = document.activeElement;
+    }
+
+    setMobileMenuOpen(nextOpen);
+  };
+
+  const getFocusableElements = (): HTMLElement[] => {
+    const drawer = drawerRef.current;
+    if (!drawer) return [];
+
+    return Array.from(
+      drawer.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    );
+  };
+
+  useEffect(() => {
+    onDrawerOpenChange?.(mobileMenuOpen);
+  }, [mobileMenuOpen, onDrawerOpenChange]);
+
+  useEffect(() => {
+    headerY.set(0);
+    setDrawerOpen(false);
+  }, [currentSlide, headerY]);
+
+  useEffect(() => {
+    const scrollEl = getActiveSlideScrollElement();
+    if (!scrollEl) return;
+
+    const handleScroll = () => {
+      const headerHeight = headerRef.current?.getBoundingClientRect().height ?? 0;
+      headerY.set(getHeaderTranslateY(scrollEl.scrollTop, headerHeight));
+    };
+
+    handleScroll();
+    scrollEl.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+
+    let resizeObserver: ResizeObserver | null = null;
+    if (headerRef.current && 'ResizeObserver' in window) {
+      resizeObserver = new ResizeObserver(handleScroll);
+      resizeObserver.observe(headerRef.current);
+    }
+
+    return () => {
+      scrollEl.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      resizeObserver?.disconnect();
+    };
+  }, [currentSlide, headerY]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) {
+      const scrollEl = getActiveSlideScrollElement();
+      const headerHeight = headerRef.current?.getBoundingClientRect().height ?? 0;
+      headerY.set(getHeaderTranslateY(scrollEl?.scrollTop ?? 0, headerHeight));
+
+      if (!previousFocusRef.current) return;
+
+      const restoreTarget =
+        previousFocusRef.current && previousFocusRef.current.isConnected
+          ? previousFocusRef.current
+          : mobileToggleRef.current;
+      previousFocusRef.current = null;
+      restoreTarget?.focus();
+      return;
+    }
+
+    const focusableElements = getFocusableElements();
+    const initialFocusTarget = focusableElements[0] ?? drawerRef.current;
+    initialFocusTarget?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setDrawerOpen(false);
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const currentFocusable = getFocusableElements();
+      if (currentFocusable.length === 0) {
+        event.preventDefault();
+        drawerRef.current?.focus();
+        return;
+      }
+
+      const activeElement = document.activeElement;
+      const activeIndex = currentFocusable.findIndex((element) => element === activeElement);
+      const targetIndex = getFocusTrapTargetIndex({
+        activeIndex,
+        count: currentFocusable.length,
+        shiftKey: event.shiftKey,
+      });
+
+      if (targetIndex !== null) {
+        event.preventDefault();
+        currentFocusable[targetIndex].focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentSlide, headerY, mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const activeScrollEl = getActiveSlideScrollElement();
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousScrollOverflow = activeScrollEl?.style.overflow ?? '';
+    const previousScrollTouchAction = activeScrollEl?.style.touchAction ?? '';
+
+    document.body.style.overflow = 'hidden';
+    if (activeScrollEl) {
+      activeScrollEl.style.overflow = 'hidden';
+      activeScrollEl.style.touchAction = 'none';
+    }
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      if (activeScrollEl) {
+        activeScrollEl.style.overflow = previousScrollOverflow;
+        activeScrollEl.style.touchAction = previousScrollTouchAction;
+      }
+    };
+  }, [currentSlide, mobileMenuOpen]);
+
   return (
     <>
       <motion.nav
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4 w-full pointer-events-none"
+        ref={headerRef}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        style={{ y: headerY }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute top-0 left-0 right-0 z-50 w-full pointer-events-none"
       >
-        <div className="liquid-glass rounded-full px-5 sm:px-8 py-3 flex items-center justify-between max-w-6xl mx-auto pointer-events-auto backdrop-blur-md">
+        <div className="liquid-glass w-full px-5 sm:px-8 py-3 flex items-center justify-between border-b border-white/10 pointer-events-auto backdrop-blur-md">
           {/* Left Desktop Nav Links */}
           <div className="hidden xl:flex items-center gap-6">
             {leftNav.map((item) => {
@@ -36,6 +193,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   key={item.id}
                   onClick={() => onNavigateToSlide(item.targetSlide)}
+                  data-cursor-tone="light"
                   className={`text-xs font-sans tracking-wide transition-all duration-300 relative py-1 flex items-center gap-2 cursor-pointer ${
                     isActive
                       ? 'text-white font-semibold'
@@ -54,7 +212,8 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Center Logo: TRẦN ANH ĐỨC */}
           <button
             onClick={() => onNavigateToSlide(0)}
-            className="group flex flex-col items-center focus:outline-none cursor-pointer my-0 mx-auto xl:mx-0"
+            data-cursor-tone="accent"
+            className="group my-0 mx-auto flex cursor-pointer flex-col items-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F4B860] focus-visible:ring-offset-4 focus-visible:ring-offset-black/80 xl:mx-0"
           >
             <div className="flex items-center gap-2">
               <Film className="w-4 h-4 text-white/90 group-hover:scale-110 transition-transform" />
@@ -71,37 +230,44 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="hidden xl:flex items-center gap-6">
             {rightNav.map((item) => {
               const isActive = currentSlide === item.targetSlide;
+              const isContactCta = item.targetSlide === 8;
               return (
                 <button
                   key={item.id}
                   onClick={() => onNavigateToSlide(item.targetSlide)}
-                  className={`text-xs font-sans tracking-wide transition-all duration-300 relative py-1 flex items-center gap-2 cursor-pointer ${
-                    isActive
-                      ? 'text-white font-semibold'
-                      : 'text-white/70 hover:text-white'
-                  }`}
+                  data-cursor-tone={isContactCta ? 'accent' : 'light'}
+                  className={
+                    isContactCta
+                      ? `liquid-glass rounded-full px-5 py-1.5 text-xs font-medium text-white transition-all flex items-center gap-2 cursor-pointer ${
+                          isActive ? 'ring-1 ring-white/40' : 'hover:opacity-90'
+                        }`
+                      : `text-xs font-sans tracking-wide transition-all duration-300 relative py-1 flex items-center gap-2 cursor-pointer ${
+                          isActive
+                            ? 'text-white font-semibold'
+                            : 'text-white/70 hover:text-white'
+                        }`
+                  }
                 >
-                  {isActive && (
+                  {!isContactCta && isActive && (
                     <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                   )}
                   <span>{item.label}</span>
+                  {isContactCta && <Send className="w-3 h-3 text-white/80" />}
                 </button>
               );
             })}
-
-            {/* Contact Glass Button */}
-            <button
-              onClick={() => onNavigateToSlide(8)}
-              className="liquid-glass rounded-full px-5 py-1.5 text-xs font-medium text-white hover:opacity-90 transition-all flex items-center gap-2 cursor-pointer"
-            >
-              <span>LIÊN HỆ</span>
-              <Send className="w-3 h-3 text-white/80" />
-            </button>
           </div>
 
           {/* Mobile Toggle */}
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            ref={mobileToggleRef}
+            type="button"
+            onClick={() => setDrawerOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Đóng menu' : 'Mở menu'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls={drawerId}
+            aria-haspopup="dialog"
+            data-cursor-tone="accent"
             className="xl:hidden p-2 text-white/90 cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -111,9 +277,20 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 xl:hidden pt-24 pb-8 px-8 bg-black/95 text-white flex flex-col justify-between backdrop-blur-2xl">
+        <div
+          ref={drawerRef}
+          id={drawerId}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={drawerTitleId}
+          tabIndex={-1}
+          className="fixed inset-0 z-40 xl:hidden pt-24 pb-8 px-8 bg-black/95 text-white flex flex-col justify-between backdrop-blur-2xl"
+        >
           <div className="flex flex-col gap-4 overflow-y-auto">
-            <p className="font-mono-tech text-xs text-white/50 uppercase tracking-widest mb-2 border-b border-white/10 pb-2">
+            <p
+              id={drawerTitleId}
+              className="font-mono-tech text-xs text-white/50 uppercase tracking-widest mb-2 border-b border-white/10 pb-2"
+            >
               DANH MỤC TRUY CẬP
             </p>
             {navItems.map((item) => (
@@ -121,8 +298,9 @@ export const Header: React.FC<HeaderProps> = ({
                 key={item.id}
                 onClick={() => {
                   onNavigateToSlide(item.targetSlide);
-                  setMobileMenuOpen(false);
+                  setDrawerOpen(false);
                 }}
+                data-cursor-tone={item.targetSlide === 8 ? 'accent' : 'light'}
                 className={`text-left font-instrument text-2xl tracking-wide transition-colors py-1 flex items-center justify-between ${
                   currentSlide === item.targetSlide
                     ? 'text-white font-bold'

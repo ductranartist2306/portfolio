@@ -4,11 +4,20 @@ import { Star, ShieldCheck, Tag } from 'lucide-react';
 
 interface S7ReviewsProps {
   data: any;
+  isActive?: boolean;
+  reducedMotion?: boolean;
 }
 
-export const S7Reviews: React.FC<S7ReviewsProps> = ({ data }) => {
+export const S7Reviews: React.FC<S7ReviewsProps> = ({
+  data,
+  isActive = true,
+  reducedMotion = false,
+}) => {
   return (
-    <div className="relative w-full h-full min-h-screen pt-28 pb-16 px-6 lg:px-16 bg-[#0A0E14] text-white overflow-y-auto">
+    <div
+      className="portal-section relative h-full min-h-screen w-full overflow-y-auto px-6 pb-16 pt-32 text-white lg:px-16"
+      data-slide-scroll
+    >
       {/* Header Eyebrow */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-white/10 pb-6 mb-8 gap-4">
         <div>
@@ -29,20 +38,22 @@ export const S7Reviews: React.FC<S7ReviewsProps> = ({ data }) => {
         {data.reviews.map((rev: any) => (
           <div
             key={rev.id}
-            className="p-6 rounded-2xl bg-[#141B24] border border-[#00D9FF]/20 hover:border-[#00D9FF] transition-all grid grid-cols-1 md:grid-cols-12 gap-6 items-center"
+            className="p-6 rounded-[28px] bg-[#141B24] border border-[#00D9FF]/20 hover:border-[#00D9FF] transition-all grid grid-cols-1 xl:grid-cols-12 gap-6 items-start"
           >
-            <div className="md:col-span-5">
+            <div className="xl:col-span-6">
               <VideoCard
                 title={rev.title}
                 subtitle={rev.category}
                 videoPath={rev.videoUrl}
                 fallbackUrl={rev.videoUrl}
-                aspectRatio="9:16"
+                sourceAspectRatio="9:16"
                 playMode="click"
+                isActive={isActive}
+                reducedMotion={reducedMotion}
               />
             </div>
 
-            <div className="md:col-span-7 space-y-4">
+            <div className="xl:col-span-6 space-y-4 self-center">
               <span className="font-mono-tech text-xs text-[#FF9F1C] px-3 py-1 rounded-full bg-[#FF9F1C]/10 border border-[#FF9F1C]/30 inline-block">
                 {rev.category}
               </span>

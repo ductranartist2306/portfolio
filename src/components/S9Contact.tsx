@@ -18,22 +18,10 @@ export const S9Contact: React.FC<S9ContactProps> = ({ data, brand }) => {
   const details = data.contactDetails;
 
   return (
-    <div className="relative w-full h-full min-h-screen pt-28 pb-12 px-6 lg:px-16 bg-[#0A0E14] text-white flex flex-col justify-between overflow-y-auto">
-      {/* Background Video Layer */}
-      <div className="absolute inset-0 z-0 opacity-20 overflow-hidden pointer-events-none">
-        <video
-          src={data.media.path}
-          autoPlay
-          loop
-          muted
-          playsInline
-          onError={(e) => {
-            (e.target as HTMLVideoElement).src = data.media.fallbackVideoUrl;
-          }}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-[#0A0E14]/80" />
-      </div>
+    <div
+      className="portal-section relative flex h-full min-h-screen w-full flex-col justify-between overflow-y-auto px-6 pb-12 pt-32 text-white lg:px-16"
+      data-slide-scroll
+    >
 
       <div className="relative z-10 max-w-6xl mx-auto w-full my-auto space-y-10">
         {/* Giant Header CTA */}
@@ -144,9 +132,8 @@ export const S9Contact: React.FC<S9ContactProps> = ({ data, brand }) => {
       </div>
 
       {/* Footer Copyright */}
-      <div className="relative z-10 pt-8 mt-10 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono-tech text-[11px] text-[#6B7480]">
-        <span>© 2026 TRAN ANH DUC / DO VAN TUNG. ALL RIGHTS RESERVED.</span>
-        <span>DESIGN CONCEPT: FINANCE LOGIC + MAGAZINE AESTHETICS</span>
+      <div className="relative z-10 pt-8 mt-10 border-t border-white/10 text-center font-mono-tech text-[11px] text-[#8A93A0]">
+        <span>© 2026 TRAN ANH DUC. ALL RIGHTS RESERVED.</span>
       </div>
     </div>
   );

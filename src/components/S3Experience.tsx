@@ -4,13 +4,22 @@ import { VideoCard } from './VideoCard';
 
 interface S3ExperienceProps {
   data: any;
+  isActive?: boolean;
+  reducedMotion?: boolean;
 }
 
-export const S3Experience: React.FC<S3ExperienceProps> = ({ data }) => {
+export const S3Experience: React.FC<S3ExperienceProps> = ({
+  data,
+  isActive = true,
+  reducedMotion = false,
+}) => {
   const [activeExp, setActiveExp] = useState(data.timeline.length - 1); // Default to Carnow (2024-2026)
 
   return (
-    <div className="relative w-full h-full min-h-screen pt-28 pb-16 px-6 lg:px-16 bg-[#0A0E14] text-white overflow-y-auto">
+    <div
+      className="portal-section relative h-full min-h-screen w-full overflow-y-auto px-6 pb-16 pt-32 text-white lg:px-16"
+      data-slide-scroll
+    >
       {/* Header Eyebrow */}
       <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-8">
         <div>
@@ -37,8 +46,10 @@ export const S3Experience: React.FC<S3ExperienceProps> = ({ data }) => {
               videoPath={data.media?.behindTheScenes?.path}
               fallbackUrl={data.media?.behindTheScenes?.fallbackVideoUrl}
               youtubeUrl={data.media?.behindTheScenes?.youtubeUrl || "https://www.youtube.com/embed/t2MhC7DhrPc?autoplay=1&mute=1&loop=1&controls=0&rel=0&playsinline=1&playlist=t2MhC7DhrPc"}
-              aspectRatio="16:9"
+              sourceAspectRatio="16:9"
               playMode="autoplay"
+              isActive={isActive}
+              reducedMotion={reducedMotion}
             />
           </div>
 
@@ -74,53 +85,77 @@ export const S3Experience: React.FC<S3ExperienceProps> = ({ data }) => {
         </div>
 
         {/* Right Column (7 cols): Interactive Timeline List */}
-        <div className="lg:col-span-7 space-y-4">
-          {data.timeline.map((item: any, idx: number) => {
-            const isSelected = activeExp === idx;
-            return (
-              <div
-                key={idx}
-                onClick={() => setActiveExp(idx)}
-                className={`p-6 rounded-2xl transition-all duration-300 cursor-pointer border ${
-                  isSelected
-                    ? 'bg-[#141B24] border-[#00D9FF] shadow-cyan-glow'
-                    : 'bg-[#141B24]/60 border-white/10 hover:border-white/30'
-                }`}
-              >
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-3">
-                    <Building className={`w-4 h-4 ${isSelected ? 'text-[#00D9FF]' : 'text-[#6B7480]'}`} />
-                    <h3 className="font-title text-base sm:text-lg font-bold uppercase tracking-wider text-white">
-                      {item.company}
-                    </h3>
+        <div className="lg:col-span-7 relative pl-8">
+          {/* Connecting spine so this reads as a progression, not equal cards */}
+          <div className="absolute left-[7px] top-3 bottom-3 w-px bg-gradient-to-b from-[#00D9FF]/50 via-white/10 to-transparent" />
+
+          <div className="space-y-4">
+            {data.timeline.map((item: any, idx: number) => {
+              const isSelected = activeExp === idx;
+              return (
+                <div key={idx} className="relative">
+                  <span
+                    className={`absolute -left-8 top-7 w-[15px] h-[15px] rounded-full border-2 transition-colors ${
+                      isSelected
+                        ? 'bg-[#00D9FF] border-[#00D9FF] shadow-cyan-glow'
+                        : 'bg-[#0A0E14] border-white/20'
+                    }`}
+                  />
+                  <div
+                    className={`rounded-2xl border transition-all duration-300 ${
+                      isSelected
+                        ? 'bg-[#141B24] border-[#00D9FF] shadow-cyan-glow'
+                        : 'bg-[#141B24]/60 border-white/10 hover:border-white/30'
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      aria-controls={`experience-details-${idx}`}
+                      aria-expanded={isSelected}
+                      onClick={() => setActiveExp(idx)}
+                      data-cursor-tone="light"
+                      className="w-full cursor-pointer rounded-2xl p-6 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F4B860] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0E14]"
+                    >
+                      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-3">
+                          <Building className={`w-4 h-4 ${isSelected ? 'text-[#00D9FF]' : 'text-[#6B7480]'}`} />
+                          <h3 className="font-title text-base font-bold uppercase tracking-wider text-white sm:text-lg">
+                            {item.company}
+                          </h3>
+                        </div>
+
+                        <span className={`font-mono-tech text-xs px-3 py-1 rounded-full border ${
+                          isSelected
+                            ? 'bg-[#00D9FF]/10 text-[#00D9FF] border-[#00D9FF]/40'
+                            : 'bg-white/5 text-[#B8C2CC] border-white/10'
+                        }`}>
+                          {item.period}
+                        </span>
+                      </div>
+
+                      <p className="font-title text-sm font-semibold text-[#FF9F1C]">
+                        {item.role}
+                      </p>
+                    </button>
+
+                    {isSelected && (
+                      <ul
+                        id={`experience-details-${idx}`}
+                        className="mx-6 mb-6 space-y-2 border-t border-white/10 pt-4 font-body text-xs text-[#B8C2CC] sm:text-sm"
+                      >
+                        {item.highlights.map((h: string, hIdx: number) => (
+                          <li key={hIdx} className="flex items-start gap-2.5">
+                            <CheckCircle2 className="w-4 h-4 text-[#00D9FF] shrink-0 mt-0.5" />
+                            <span>{h}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
-
-                  <span className={`font-mono-tech text-xs px-3 py-1 rounded-full border ${
-                    isSelected
-                      ? 'bg-[#00D9FF]/10 text-[#00D9FF] border-[#00D9FF]/40'
-                      : 'bg-white/5 text-[#B8C2CC] border-white/10'
-                  }`}>
-                    {item.period}
-                  </span>
                 </div>
-
-                <p className="font-title text-sm text-[#FF9F1C] font-semibold mb-3">
-                  {item.role}
-                </p>
-
-                {isSelected && (
-                  <ul className="space-y-2 mt-4 pt-4 border-t border-white/10 font-body text-xs sm:text-sm text-[#B8C2CC]">
-                    {item.highlights.map((h: string, hIdx: number) => (
-                      <li key={hIdx} className="flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-[#00D9FF] shrink-0 mt-0.5" />
-                        <span>{h}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

@@ -3,7 +3,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import contentData from './data/contentData.json';
 import { Header } from './components/Header';
-import { BackgroundVideo } from './components/BackgroundVideo';
+import { CustomCursor } from './components/CustomCursor';
+import { GoldenPortalBackground } from './components/GoldenPortalBackground';
 import { S1Hero } from './components/S1Hero';
 import { S2About } from './components/S2About';
 import { S3Experience } from './components/S3Experience';
@@ -13,7 +14,8 @@ import { S6TikTok } from './components/S6TikTok';
 import { S7Reviews } from './components/S7Reviews';
 import { S8Events } from './components/S8Events';
 import { S9Contact } from './components/S9Contact';
-import { ChevronUp, ChevronDown, Sparkles } from 'lucide-react';
+import { ChevronUp, ChevronDown } from 'lucide-react';
+import { canNavigateSlides, shouldNavigateFromScroll } from './lib/portfolioUi';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,9 +25,21 @@ export function App() {
   const containerRef = useRef<HTMLDivElement>(null);
   const slidesRef = useRef<(HTMLDivElement | null)[]>([]);
   const isAnimating = useRef(false);
+  const [reducedMotion, setReducedMotion] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const navItems = contentData.navigation;
   const slidesData = contentData.slides;
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   // GSAP Smooth Slide Transition
   const goToSlide = (targetIndex: number) => {
@@ -36,6 +50,10 @@ export function App() {
     const direction = targetIndex > currentSlide ? 1 : -1;
     const currentEl = slidesRef.current[currentSlide];
     const nextEl = slidesRef.current[targetIndex];
+    const duration = reducedMotion ? 0.01 : 0.8;
+
+    const targetScrollEl = nextEl?.querySelector<HTMLElement>('[data-slide-scroll]');
+    if (targetScrollEl) targetScrollEl.scrollTop = 0;
 
     if (currentEl && nextEl) {
       const tl = gsap.timeline({
@@ -56,14 +74,14 @@ export function App() {
       tl.to(currentEl, {
         yPercent: -direction * 30,
         opacity: 0,
-        duration: 0.8,
+        duration,
         ease: 'power3.inOut',
       }).to(
         nextEl,
         {
           yPercent: 0,
           opacity: 1,
-          duration: 0.8,
+          duration,
           ease: 'power3.inOut',
         },
         '<=0.1'
@@ -78,10 +96,31 @@ export function App() {
   useEffect(() => {
     let touchStartY = 0;
 
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      if (isAnimating.current) return;
+    // The active slide's own scrollable content (each S* component renders
+    // an `.overflow-y-auto` root) must be allowed to scroll before we treat
+    // a wheel/touch gesture as a request to change slides.
+    const getActiveScrollEl = (): HTMLElement | null => {
+      const activeSlide = slidesRef.current[currentSlide];
+      return activeSlide?.querySelector<HTMLElement>('[data-slide-scroll]') ?? null;
+    };
 
+    const handleWheel = (e: WheelEvent) => {
+      if (
+        isAnimating.current ||
+        !canNavigateSlides({ drawerOpen, interactiveTarget: false })
+      ) {
+        return;
+      }
+
+      const scrollEl = getActiveScrollEl();
+      if (scrollEl) {
+        const atTop = scrollEl.scrollTop <= 0;
+        const atBottom = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 1;
+        if (e.deltaY > 0 && !atBottom) return;
+        if (e.deltaY < 0 && !atTop) return;
+      }
+
+      e.preventDefault();
       if (e.deltaY > 30) {
         goToSlide(currentSlide + 1);
       } else if (e.deltaY < -30) {
@@ -94,9 +133,23 @@ export function App() {
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
-      if (isAnimating.current) return;
+      if (
+        isAnimating.current ||
+        !canNavigateSlides({ drawerOpen, interactiveTarget: false })
+      ) {
+        return;
+      }
       const touchEndY = e.changedTouches[0].clientY;
       const diff = touchStartY - touchEndY;
+
+      const scrollEl = getActiveScrollEl();
+      if (scrollEl) {
+        const atTop = scrollEl.scrollTop <= 0;
+        const atBottom = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 1;
+        // diff > 0 means the finger swiped up, i.e. requesting to scroll further down.
+        if (diff > 0 && !atBottom) return;
+        if (diff < 0 && !atTop) return;
+      }
 
       if (diff > 50) {
         goToSlide(currentSlide + 1);
@@ -106,11 +159,41 @@ export function App() {
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-        goToSlide(currentSlide + 1);
-      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-        goToSlide(currentSlide - 1);
+      const target = e.target;
+      const interactiveTarget =
+        target instanceof Element &&
+        Boolean(target.closest('input, textarea, select, button, a, [contenteditable="true"]'));
+
+      if (!canNavigateSlides({ drawerOpen, interactiveTarget })) return;
+
+      const direction =
+        e.key === 'ArrowDown' || e.key === 'PageDown'
+          ? 'down'
+          : e.key === 'ArrowUp' || e.key === 'PageUp'
+          ? 'up'
+          : null;
+      if (!direction) return;
+
+      e.preventDefault();
+      const scrollEl = getActiveScrollEl();
+      if (
+        scrollEl &&
+        !shouldNavigateFromScroll({
+          direction,
+          scrollTop: scrollEl.scrollTop,
+          scrollHeight: scrollEl.scrollHeight,
+          clientHeight: scrollEl.clientHeight,
+        })
+      ) {
+        const step = e.key.startsWith('Page') ? scrollEl.clientHeight * 0.85 : 80;
+        scrollEl.scrollBy({
+          top: direction === 'down' ? step : -step,
+          behavior: reducedMotion ? 'auto' : 'smooth',
+        });
+        return;
       }
+
+      goToSlide(currentSlide + (direction === 'down' ? 1 : -1));
     };
 
     const container = containerRef.current;
@@ -129,22 +212,32 @@ export function App() {
       }
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentSlide]);
+  }, [currentSlide, drawerOpen, reducedMotion]);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-black text-white font-body select-none">
-      {/* Mux HLS Background Video Stream */}
-      <BackgroundVideo opacity={0.4} />
+    <div
+      className="relative h-screen w-screen overflow-hidden bg-[#130c08] font-body text-white"
+    >
+      {/* Custom Contrast Cursor */}
+      <CustomCursor reducedMotion={reducedMotion} />
+
+      <GoldenPortalBackground reducedMotion={reducedMotion} />
 
       {/* Top Fixed Header */}
       <Header
         navItems={navItems}
         currentSlide={currentSlide}
         onNavigateToSlide={goToSlide}
+        onDrawerOpenChange={setDrawerOpen}
       />
 
       {/* Main Slides Stack Container */}
-      <div ref={containerRef} className="relative z-10 w-full h-full">
+      <div
+        ref={containerRef}
+        aria-hidden={drawerOpen || undefined}
+        className="relative z-10 h-full w-full"
+        inert={drawerOpen || undefined}
+      >
         {/* Slide 01 — Hero */}
         <div
           ref={(el) => (slidesRef.current[0] = el)}
@@ -169,7 +262,11 @@ export function App() {
           className="absolute inset-0 w-full h-full magazine-slide"
           style={{ display: currentSlide === 2 ? 'block' : 'none' }}
         >
-          <S3Experience data={slidesData.s3} />
+          <S3Experience
+            data={slidesData.s3}
+            isActive={currentSlide === 2}
+            reducedMotion={reducedMotion}
+          />
         </div>
 
         {/* Slide 04 — Commercials */}
@@ -178,7 +275,11 @@ export function App() {
           className="absolute inset-0 w-full h-full magazine-slide"
           style={{ display: currentSlide === 3 ? 'block' : 'none' }}
         >
-          <S4Commercials data={slidesData.s4} />
+          <S4Commercials
+            data={slidesData.s4}
+            isActive={currentSlide === 3}
+            reducedMotion={reducedMotion}
+          />
         </div>
 
         {/* Slide 05 — 2D Animation & App */}
@@ -187,7 +288,11 @@ export function App() {
           className="absolute inset-0 w-full h-full magazine-slide"
           style={{ display: currentSlide === 4 ? 'block' : 'none' }}
         >
-          <S5Animation data={slidesData.s5} />
+          <S5Animation
+            data={slidesData.s5}
+            isActive={currentSlide === 4}
+            reducedMotion={reducedMotion}
+          />
         </div>
 
         {/* Slide 06 — TikTok & Social */}
@@ -196,7 +301,11 @@ export function App() {
           className="absolute inset-0 w-full h-full magazine-slide"
           style={{ display: currentSlide === 5 ? 'block' : 'none' }}
         >
-          <S6TikTok data={slidesData.s6} />
+          <S6TikTok
+            data={slidesData.s6}
+            isActive={currentSlide === 5}
+            reducedMotion={reducedMotion}
+          />
         </div>
 
         {/* Slide 07 — Reviews */}
@@ -205,7 +314,11 @@ export function App() {
           className="absolute inset-0 w-full h-full magazine-slide"
           style={{ display: currentSlide === 6 ? 'block' : 'none' }}
         >
-          <S7Reviews data={slidesData.s7} />
+          <S7Reviews
+            data={slidesData.s7}
+            isActive={currentSlide === 6}
+            reducedMotion={reducedMotion}
+          />
         </div>
 
         {/* Slide 08 — Events */}
@@ -214,7 +327,11 @@ export function App() {
           className="absolute inset-0 w-full h-full magazine-slide"
           style={{ display: currentSlide === 7 ? 'block' : 'none' }}
         >
-          <S8Events data={slidesData.s8} />
+          <S8Events
+            data={slidesData.s8}
+            isActive={currentSlide === 7}
+            reducedMotion={reducedMotion}
+          />
         </div>
 
         {/* Slide 09 — Contact */}
@@ -228,10 +345,15 @@ export function App() {
       </div>
 
       {/* Right Fixed Slide Controls & Counter */}
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-4">
+      <div
+        aria-hidden={drawerOpen || undefined}
+        className="fixed right-6 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-4 lg:flex"
+        inert={drawerOpen || undefined}
+      >
         <button
           onClick={() => goToSlide(currentSlide - 1)}
           disabled={currentSlide === 0}
+          aria-label="Slide trước"
           className="p-2 rounded-full liquid-glass text-white hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
         >
           <ChevronUp className="w-4 h-4" />
@@ -243,6 +365,8 @@ export function App() {
             <button
               key={idx}
               onClick={() => goToSlide(idx)}
+              aria-label={`Đi tới slide ${idx + 1}`}
+              aria-current={currentSlide === idx}
               className={`w-2 transition-all duration-300 rounded-full cursor-pointer ${
                 currentSlide === idx
                   ? 'h-8 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]'
@@ -255,6 +379,7 @@ export function App() {
         <button
           onClick={() => goToSlide(currentSlide + 1)}
           disabled={currentSlide === totalSlides - 1}
+          aria-label="Slide tiếp theo"
           className="p-2 rounded-full liquid-glass text-white hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
         >
           <ChevronDown className="w-4 h-4" />

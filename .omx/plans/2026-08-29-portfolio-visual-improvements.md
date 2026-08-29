@@ -1,6 +1,6 @@
 # Portfolio Visual Improvements Plan
 
-Date: 2026-08-29  
+Date: 2026-08-29
 Status: implemented and verified on `codex/portfolio-visual-improvements`; user-owned baseline changes preserved
 
 ## Outcome
@@ -45,7 +45,8 @@ The [Golden Portal reference](https://motionsites.ai/?prompt=golden-portal) is a
 - Expand the existing dot/ring cursor.
 - Tune the current CSS gradients.
 
-Pros: smallest diff.  
+Pros: smallest diff.
+
 Cons: fails the literal non-sticky requirement, does not solve vertical-video presentation, and remains visually far from the cloud portal reference.
 
 ### Option B: Contract-led component update (recommended)
@@ -56,14 +57,16 @@ Cons: fails the literal non-sticky requirement, does not solve vertical-video pr
 - Use one RAF-driven cursor controller with a bounded warm trail and explicit contrast modes.
 - Mount one optimized background component behind all slides and make section surfaces translucent.
 
-Pros: meets all four requirements, preserves existing architecture, and gives future content one consistent contract.  
+Pros: meets all four requirements, preserves existing architecture, and gives future content one consistent contract.
+
 Cons: touches the shared shell plus six media-section layouts and requires an original background asset.
 
 ### Option C: Convert to a normal document-scrolling site
 
 - Remove the full-screen slide stack and render sections in normal flow.
 
-Pros: native navigation and true in-flow header behavior.  
+Pros: native navigation and true in-flow header behavior.
+
 Cons: changes the portfolio's core interaction model, invalidates current GSAP navigation work, and is outside the requested scope.
 
 Decision: Option B.
@@ -461,7 +464,7 @@ Evidence captured from the delivered working tree on branch `codex/portfolio-vis
 
 | Check | Result |
 |---|---|
-| `npm test` | 13 tests passed, 0 failed. Covers header offset, inactive YouTube/native source gating, YouTube parameters, media render states, media fit, portal base paths, cursor capability/palettes, drawer navigation suspension, keyboard scroll boundaries, and the Pages workflow contract. |
+| `npm test` | 15 tests passed, 0 failed. Covers header offset, inactive YouTube/native source gating, YouTube parameters, media render states and fallback exhaustion, media fit, portal base paths, cursor capability/palettes, drawer navigation suspension and focus wrapping, keyboard scroll boundaries, and the Pages workflow contract. |
 | `npm run lint` | `tsc --noEmit` exited 0. |
 | `npm run build` | Vite production build exited 0; 2,096 modules transformed. |
 | `git diff --check` | Clean. |
@@ -473,7 +476,7 @@ Production asset results:
 - Golden portal desktop: AVIF `41,654` bytes; WebP `43,628` bytes.
 - Golden portal mobile: AVIF `25,620` bytes; WebP `26,534` bytes.
 - No new runtime dependency was added.
-- The existing JavaScript-size warning remains: main bundle `520.66 kB` (`170.50 kB` gzip), above Vite's 500 kB advisory threshold.
+- The existing JavaScript-size warning remains: main bundle `520.85 kB` (`170.58 kB` gzip), above Vite's 500 kB advisory threshold.
 
 ### Browser interaction evidence
 
@@ -500,7 +503,7 @@ Production asset results:
 ### Remaining limitations
 
 - Nine referenced local MP4 files are absent from the repository. The implementation shows stable 16:9 error/deferred states and fully verifies the working S3 YouTube path, but real native playback requires the approved media files or replacement URLs.
-- The production build succeeds but retains Vite's advisory warning for the `520.66 kB` JavaScript chunk. This predates the feature and is not caused by the optimized image assets.
+- The production build succeeds but retains Vite's advisory warning for the `520.85 kB` JavaScript chunk. This predates the feature and is not caused by the optimized image assets.
 
 ## Review Report
 

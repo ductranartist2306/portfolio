@@ -1,0 +1,338 @@
+{
+  "brand": {
+    "name": "TRẦN ANH ĐỨC",
+    "shortName": "TAD",
+    "role": "EDITOR - FILMMAKER",
+    "secondaryTitle": "Media Specialist",
+    "experienceYears": "5+",
+    "bio": "Với hơn 5 năm kinh nghiệm quay phim, chụp ảnh, edit video. Tôi luôn mong muốn nâng cao kỹ năng quay cũng như kỹ năng Edit Video của bản thân. Sử dụng thành thạo các phần mềm như Adobe Premiere Pro, After Effects, PTS, CapCut. Đã từng tham gia nhiều dự án từ video quảng cáo, sự kiện và các dạng video ngắn.",
+    "contact": {
+      "fullName": "TRAN ANH DUC",
+      "role": "VIDEO EDITOR & MEDIA SPECIALIST",
+      "address": "Tôn Đức Thắng,Văn Miếu - Quốc Tử Giám,Hà Nội",
+      "phone": "0964221467",
+      "email": "ductran.artist2306@gmail.com",
+      "instagram": "ditotheti",
+      "facebook": "Đức Trần"
+    },
+    "skills": [
+      "Adobe Premiere Pro",
+      "After Effects",
+      "Photoshop (PTS)",
+      "CapCut",
+      "Davinci Resolve",
+      "Camera Operation & Lighting",
+      "Color Grading",
+      "Motion Graphics"
+    ]
+  },
+  "styleGuide": {
+    "colors": {
+      "bgDeep": "#0A0E14",
+      "surfaceCard": "#141B24",
+      "accentCyan": "#00D9FF",
+      "accentAmber": "#FF9F1C",
+      "textBody": "#B8C2CC"
+    },
+    "typography": {
+      "fontTitle": "Be Vietnam Pro, sans-serif",
+      "fontBody": "Be Vietnam Pro, sans-serif",
+      "fontMono": "Be Vietnam Pro, Italic"
+    }
+  },
+  "navigation": [
+    { "id": "s1", "label": "Trang Bìa", "targetSlide": 0 },
+    { "id": "s2", "label": "Giới Thiệu", "targetSlide": 1 },
+    { "id": "s3", "label": "Kinh Nghiệm", "targetSlide": 2 },
+    { "id": "s4", "label": "Video Quảng Cáo", "targetSlide": 3 },
+    { "id": "s5", "label": "Video TVC", "targetSlide": 4 },
+    { "id": "s6", "label": "TikTok & Shorts", "targetSlide": 5 },
+    { "id": "s7", "label": "Review Sản Phẩm", "targetSlide": 6 },
+    { "id": "s8", "label": "Sự Kiện & Event", "targetSlide": 7 },
+    { "id": "s9", "label": "Liên Hệ", "targetSlide": 8 }
+  ],
+  "slides": {
+    "s1": {
+      "id": "s1",
+      "index": "S1",
+      "title": "PORTFOLIO",
+      "subtitle": "EDITOR - FILMMAKER",
+      "author": "TRAN ANH DUC",
+      "tagline": "THIS IS ME, DOING WHAT I LOVE",
+      "locationTag": "MEDIA SPECIALIST / HANOI, VIETNAM",
+      "media": {
+        "fileName": "s1_hero_showreel_4k.mp4",
+        "path": "./assets/s1_hero_showreel_4k.mp4",
+        "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-cinematic-shot-of-a-cameraman-filming-a-scene-41528-large.mp4",
+        "type": "mp4",
+        "mode": "Autoplay, loop, muted, mờ nhẹ",
+        "aspectRatio": "16:9"
+      }
+    },
+    "s2": {
+      "id": "s2",
+      "index": "S2",
+      "title": "GIỚI THIỆU",
+      "subtitle": "TRAN ANH DUC",
+      "headline": "Sáng Tạo Hình Ảnh & Dựng Phim Chuyên Nghiệp",
+      "body": "Với hơn 5 năm kinh nghiệm quay phim, chụp ảnh, edit video. Tôi luôn mong muốn nâng cao kỹ năng quay cũng như kỹ năng Edit Video của bản thân. Sử dụng thành thạo các phần mềm như Adobe Premiere Pro, After Effects, PTS, CapCut. Đã từng tham gia nhiều dự án từ video quảng cáo, sự kiện và các dạng video ngắn.",
+      "media": {
+        "fileName": "regenerated_image_1787278337594.png",
+        "path": "/src/assets/images/regenerated_image_1787278337594.png",
+        "type": "jpg",
+        "aspectRatio": "4:5"
+      },
+      "highlights": [
+        "Adobe Premiere Pro",
+        "After Effects",
+        "PTS",
+        "CapCut"
+      ]
+    },
+    "s3": {
+      "id": "s3",
+      "index": "S3",
+      "title": "KINH NGHIỆM LÀM VIỆC",
+      "subtitle": "HÀNH TRÌNH PHÁT TRIỂN NĂNG LỰC",
+      "media": {
+        "behindTheScenes": {
+          "fileName": "s3_behindthescenes.mp4",
+          "path": "./assets/s3_behindthescenes.mp4",
+          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-film-crew-working-on-a-movie-set-41530-large.mp4",
+          "youtubeUrl": "https://www.youtube.com/embed/t2MhC7DhrPc?autoplay=1&mute=1&loop=1&controls=0&rel=0&playsinline=1&playlist=t2MhC7DhrPc",
+          "type": "youtube",
+          "aspectRatio": "16:9"
+        },
+        "companiesLogos": {
+          "fileName": "s3_companies_logos.png",
+          "path": "./assets/s3_companies_logos.png",
+          "type": "png"
+        }
+      },
+      "timeline": [
+        {
+          "company": "GAPO SOCIAL NETWORK",
+          "role": "Nhân viên sáng tạo - biên tập nội dung",
+          "period": "2019 - 2020",
+          "highlights": [
+            "Chịu trách nhiệm soạn thảo các tài liệu truyền thông, truyền đạt thông tin sản phẩm, dịch vụ của công ty.",
+            "Sản xuất nội dung đăng tải fanpage, các tài khoản mạng xã hội của công ty, quản lý nội dung cho website.",
+            "Thực hiện nhiệm vụ truyền thông các giá trị văn hóa nội bộ của công ty đến cán bộ công nhân viên.",
+            "Tạo lập và duy trì mối quan hệ với các đơn vị báo chí, là người trực tiếp giữ liên lạc và phổ biến kế hoạch truyền thông đến đại sứ thương hiệu."
+          ]
+        },
+        {
+          "company": "MEDIA DEPARTMENT - VOV WORLD",
+          "role": "Phóng viên Ảnh",
+          "period": "2020 - 2021",
+          "highlights": [
+            "Tìm kiếm và thực hiện đề tài báo chí nổi bật trong xã hội.",
+            "Xây dựng nội dung bài báo, kiểm duyệt, xuất bản qua CMS.",
+            "Sáng tạo, lập kế hoạch và xây dựng nội dung truyền thông bao gồm các thông cáo báo chí, bài diễn thuyết, phát biểu của cán bộ quản lý."
+          ]
+        },
+        {
+          "company": "BAZIC ENTERTAINMENT",
+          "role": "Leader Team Media",
+          "period": "2021 - 2022",
+          "highlights": [
+            "Phụ trách sản xuất cùng đội nhóm các video giới thiệu sản phẩm, clip ngắn theo yêu cầu trên các nền tảng mạng xã hội.",
+            "Quản lý sản xuất - hậu kì, dựng phim cho các video của Công ty.",
+            "Setup thiết bị, trực kỹ thuật các buổi livestream, đào tạo... liên quan đến hoạt động truyền thông marketing."
+          ]
+        },
+        {
+          "company": "CÔNG TY CỔ PHẦN TẬP ĐOÀN BALIOGO",
+          "role": "Leader Team Media",
+          "period": "2022 - 2023",
+          "highlights": [
+            "Xây dựng kế hoạch sản xuất các video, clip ngắn theo yêu cầu của Công ty để đăng tải lên các nền tảng mạng xã hội.",
+            "Quản lý, hậu kỳ ảnh, video sản phẩm của Công ty.",
+            "Setup thiết bị, trực kỹ thuật các buổi livestream, đào tạo... liên quan đến hoạt động truyền thông marketing.",
+            "Tư vấn, hỗ trợ phòng marketing cùng Ban lãnh đạo xây dựng hình ảnh truyền thông đối ngoại."
+          ]
+        },
+        {
+          "company": "CÔNG TY CỔ PHẦN GOVI VIỆT NAM",
+          "role": "Chuyên viên Media",
+          "period": "2023 - 2024",
+          "highlights": [
+            "Quay phim, chụp ảnh, thiết kế và sản xuất hậu kì, dựng phim (âm thanh, hình ảnh, kỹ xảo...) cho các clip quảng cáo.",
+            "Xây dựng kế hoạch, lên ý tưởng, thiết kế và thực hiện hệ thống video của công ty, sản phẩm.",
+            "Kết nối và tạo network với KOC, KOL công ty chuyên về Media."
+          ]
+        },
+        {
+          "company": "CÔNG TY CỔ PHẦN CARNOW",
+          "role": "Chuyên viên Media",
+          "period": "2024 - 2026",
+          "highlights": [
+            "Quay phim, chụp ảnh, thiết kế và sản xuất hậu kỳ, dựng phim (âm thanh, hình ảnh, kỹ xảo...) cho các clip quảng cáo, đại lý liên kết.",
+            "Xây dựng kế hoạch, lên ý tưởng, thiết kế và thực hiện hệ thống video của công ty, sản phẩm.",
+            "Kết nối và tạo network với KOC, KOL công ty chuyên về Media.",
+            "Xây dựng nội dung video, hình ảnh trên kênh truyền thông của công ty trên các nền tảng mạng xã hội."
+          ]
+        }
+      ]
+    },
+    "s4": {
+      "id": "s4",
+      "index": "S4",
+      "title": "Video Quảng Cáo",
+      "subtitle": "COMMERCIAL & AUTOMOTIVE VIDEOS",
+      "description": "Các video quảng cáo thương hiệu, sản phẩm và bất động sản (ví dụ: video giới thiệu công trình kiến trúc, video quảng cáo thời trang, trang sức, ô tô).",
+      "bentoGrid": [
+        {
+          "id": "s4_bento_1",
+          "title": "Wuling Bingo 2026 — Rain Cinematic",
+          "subtitle": "Bento Ô 1: Xe Wuling Bingo màu tím 2026 dưới trời mưa",
+          "fileName": "s4_wuling_bingo_rain.mp4",
+          "path": "./assets/s4_wuling_bingo_rain.mp4",
+          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-car-driving-on-a-rainy-city-street-at-night-42861-large.mp4",
+          "aspectRatio": "16:9",
+          "gridSpan": "col-span-12 lg:col-span-8",
+          "playMode": "Click-to-play, có control"
+        },
+        {
+          "id": "s4_bento_2",
+          "title": "Wuling Mini EV Showcase",
+          "subtitle": "Bento Ô 2: Các góc xe Wuling Mini EV (>20s)",
+          "fileName": "s4_wuling_miniev.mp4",
+          "path": "./assets/s4_wuling_miniev.mp4",
+          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-luxury-electric-car-in-a-showroom-41221-large.mp4",
+          "aspectRatio": "9:16",
+          "gridSpan": "col-span-12 lg:col-span-4",
+          "playMode": "Hover-to-play, muted"
+        }
+      ]
+    },
+    "s5": {
+      "id": "s5",
+      "index": "S5",
+      "title": "Video TVC",
+      "subtitle": "Television Video Commercials",
+      "description": "Video TVC phục vụ truyền thông/định hướng doanh nghiệp.",
+      "bentoGrid": [
+        {
+          "id": "s5_bento_1",
+          "title": "App TMT-eGreen UI Demo",
+          "subtitle": "Bento Ô 1: App TMT-eGreen trên mockup Oppo A93",
+          "fileName": "s5_tmtegreen_oppoa93.mp4",
+          "path": "./assets/s5_tmtegreen_oppoa93.mp4",
+          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-smartphone-showing-a-graph-41551-large.mp4",
+          "aspectRatio": "9:16",
+          "gridSpan": "col-span-12 lg:col-span-6",
+          "playMode": "Hover-to-play, muted"
+        },
+        {
+          "id": "s5_bento_2",
+          "title": "4K Motion Transition Effects",
+          "subtitle": "Bento Ô 2: Chuyển động 4K 5s",
+          "fileName": "s5_transition_4k_5s.mp4",
+          "path": "./assets/s5_transition_4k_5s.mp4",
+          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-colorful-fluid-motion-abstract-background-41485-large.mp4",
+          "aspectRatio": "16:9",
+          "gridSpan": "col-span-12 lg:col-span-6",
+          "playMode": "Hover-to-play, muted"
+        }
+      ]
+    },
+    "s6": {
+      "id": "s6",
+      "index": "S6",
+      "title": "Video TikTok & Social Media",
+      "subtitle": "SHORT-FORM & KOL CAMPAIGNS",
+      "description": "Nội dung ngắn hợp xu hướng, truyền thông thương hiệu với KOL/KOC, định dạng tối ưu cho TikTok, Instagram Reels và YouTube Shorts.",
+      "grid": [
+        {
+          "id": "s6_grid_1",
+          "title": "KOL / KOC Commercial Campaign",
+          "subtitle": "Grid Dọc 1: Video clip quảng cáo KOL/KOC",
+          "fileName": "s6_social_campaign_01.mp4",
+          "path": "./assets/s6_social_campaign_01.mp4",
+          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-young-woman-recording-a-vlog-with-her-phone-41539-large.mp4",
+          "aspectRatio": "9:16",
+          "playMode": "Click-to-play, có control"
+        },
+        {
+          "id": "s6_grid_2",
+          "title": "Event TikTok & Shorts Format",
+          "subtitle": "Grid Dọc 2: Video sự kiện định dạng TikTok/Shorts",
+          "fileName": "s6_social_campaign_02.mp4",
+          "path": "./assets/s6_social_campaign_02.mp4",
+          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-crowd-at-a-music-festival-41526-large.mp4",
+          "aspectRatio": "9:16",
+          "playMode": "Click-to-play, có control"
+        }
+      ]
+    },
+    "s7": {
+      "id": "s7",
+      "index": "S7",
+      "title": "Short Video Review Sản Phẩm",
+      "subtitle": "PRODUCT EXPERIENCES & UNBOXING",
+      "description": "Các video đánh giá thực tế, unboxing và trải nghiệm chiều sâu cho sản phẩm ô tô, thiết bị công nghệ, mỹ phẩm và đồ gia dụng cao cấp.",
+      "reviews": [
+        {
+          "id": "rev_1",
+          "title": "Trải Nghiệm Thực Tế Ô Tô Điện Wuling",
+          "category": "Automotive / EV",
+          "desc": "Quay dựng góc chi tiết nội thất, chế độ lái thông minh và tính năng sạc điện.",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-luxury-electric-car-in-a-showroom-41221-large.mp4"
+        },
+        {
+          "id": "rev_2",
+          "title": "Review Mỹ Phẩm Skincare Dược Liệu",
+          "category": "Beauty & Health",
+          "desc": "Hiệu ứng macro ánh sáng dịu nhẹ tôn vinh chất kem và thiết bị nhãn hàng.",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-woman-applying-facial-cream-41541-large.mp4"
+        }
+      ]
+    },
+    "s8": {
+      "id": "s8",
+      "index": "S8",
+      "title": "Video Intro Event & Ảnh Chụp Event",
+      "subtitle": "EVENTS, CONFERENCES & COMMUNITY",
+      "sections": [
+        {
+          "type": "video",
+          "title": "Video Intro Event",
+          "body": "Video intro mở đầu cho các sự kiện, hội nghị khoa học (ví dụ: hội nghị Aesthetic, chương trình khởi động thương hiệu Vivant Skincare Việt Nam ngày 29/09).",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-stage-lights-at-a-concert-41525-large.mp4"
+        },
+        {
+          "type": "photo",
+          "title": "Ảnh Chụp Event",
+          "body": "Ghi lại hình ảnh các chương trình sự kiện cộng đồng, thiện nguyện (chương trình 'Xoá BỚT cho em' phối hợp cùng VTV Cần Thơ - hành trình phá bỏ tự ti, đồng hành cùng trẻ em vùng khó khăn).",
+          "imageUrl": "./assets/project_spatial.jpg"
+        }
+      ]
+    },
+    "s9": {
+      "id": "s9",
+      "index": "S9",
+      "title": "THÔNG TIN LIÊN HỆ",
+      "subtitle": "LET'S WORK TOGETHER",
+      "contactDetails": {
+        "name": " TRAN ANH DUC",
+        "role": "VIDEO EDITOR / FILMMAKER",
+        "address": "Tôn Đức Thắng,Văn Miếu - Quốc Tử Giám,Hà Nội",
+        "phone": "0964221467",
+        "email": "ductran.artist2306@gmail.com",
+        "socials": [
+          { "platform": "Instagram", "handle": "ditotheti", "url": "https://instagram.com" },
+          { "platform": "Facebook", "handle": "Đức Trần", "url": "https://facebook.com" },
+          { "platform": "Behance", "handle": "Đức Trần", "url": "https://behance.net" },
+          { "platform": "TikTok", "handle": "ditotheti", "url": "https://tiktok.com" }
+        ]
+      },
+      "media": {
+        "fileName": "s7_contact_bg.mp4",
+        "path": "./assets/s7_contact_bg.mp4",
+        "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-abstract-glowing-particles-in-motion-41486-large.mp4",
+        "iconsSvg": "s7_social_icons.svg"
+      }
+    }
+  }
+}

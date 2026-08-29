@@ -1,0 +1,8 @@
+{
+  "name": "Remix Creative Portfolio 4 thay hình nền",
+  "description": "High-end luxury magazine-style portfolio website built with React, Tailwind CSS, and GSAP ScrollTrigger animations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

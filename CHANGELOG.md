@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.1.0.1] - 2026-08-30
+
+### Changed
+
+- Make full-slide navigation settle with shorter travel and a natural decelerating arrival.
+- Let the non-sticky header follow section scrolling through a damped spring instead of snapping immediately.
+- Preserve effectively instant transitions when reduced motion is requested.
+
 ## [0.1.0.0] - 2026-08-30
 
 ### Added

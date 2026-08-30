@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.1.1.0] - 2026-08-30
+
+### Added
+
+- Present S4 and S5 as paired horizontal YouTube showcases, S6 and S7 as paired portrait showcases, and S8 as a mixed horizontal-and-portrait showcase.
+- Show a persistent title and description for every portfolio video, with click-to-load YouTube controls and verified sample content.
+
+### Changed
+
+- Make production Vite builds target the `/portfolio/` GitHub Pages project path by default while keeping local development at `/`.
+
+### Fixed
+
+- Recover from invalid or blocked YouTube embeds by loading a browser-accessible native video fallback without changing the requested stage ratio.
+
 ## [0.1.0.1] - 2026-08-30
 
 ### Changed

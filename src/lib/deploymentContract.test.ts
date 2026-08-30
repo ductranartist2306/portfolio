@@ -20,8 +20,12 @@ test('GitHub Pages workflow verifies and deploys the dist artifact from main', a
   assert.match(workflow, /id-token: write/);
 });
 
-test('Vite reads the deploy-time Pages base without changing local development', async () => {
+test('Vite defaults production builds to the Pages project path without changing local development', async () => {
   const viteConfig = await readFile(viteConfigPath, 'utf8');
 
-  assert.match(viteConfig, /base: process\.env\.VITE_BASE_PATH \|\| '\/'/);
+  assert.match(viteConfig, /defineConfig\(\(\{ command \}\)/);
+  assert.match(
+    viteConfig,
+    /base: process\.env\.VITE_BASE_PATH \|\| \(command === 'build' \? '\/portfolio\/' : '\/'\)/
+  );
 });

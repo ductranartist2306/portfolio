@@ -186,23 +186,27 @@
           "id": "s4_bento_1",
           "title": "Wuling Bingo 2026 — Rain Cinematic",
           "subtitle": "Bento Ô 1: Xe Wuling Bingo màu tím 2026 dưới trời mưa",
+          "description": "Phim quảng cáo ô tô với nhịp dựng điện ảnh, ánh sáng tương phản và bối cảnh đường phố trong mưa.",
+          "youtubeUrl": "https://www.youtube.com/embed/aqz-KE-bpKQ",
           "fileName": "s4_wuling_bingo_rain.mp4",
           "path": "./assets/s4_wuling_bingo_rain.mp4",
-          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-car-driving-on-a-rainy-city-street-at-night-42861-large.mp4",
+          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
           "aspectRatio": "16:9",
-          "gridSpan": "col-span-12 lg:col-span-8",
-          "playMode": "Click-to-play, có control"
+          "gridSpan": "col-span-12 lg:col-span-6",
+          "playMode": "Click-to-play, YouTube controls"
         },
         {
           "id": "s4_bento_2",
           "title": "Wuling Mini EV Showcase",
           "subtitle": "Bento Ô 2: Các góc xe Wuling Mini EV (>20s)",
+          "description": "Video giới thiệu sản phẩm tập trung vào đường nét ngoại thất, không gian nội thất và trải nghiệm đô thị.",
+          "youtubeUrl": "https://www.youtube.com/embed/aqz-KE-bpKQ",
           "fileName": "s4_wuling_miniev.mp4",
           "path": "./assets/s4_wuling_miniev.mp4",
-          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-luxury-electric-car-in-a-showroom-41221-large.mp4",
-          "aspectRatio": "9:16",
-          "gridSpan": "col-span-12 lg:col-span-4",
-          "playMode": "Hover-to-play, muted"
+          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+          "aspectRatio": "16:9",
+          "gridSpan": "col-span-12 lg:col-span-6",
+          "playMode": "Click-to-play, YouTube controls"
         }
       ]
     },
@@ -217,23 +221,27 @@
           "id": "s5_bento_1",
           "title": "App TMT-eGreen UI Demo",
           "subtitle": "Bento Ô 1: App TMT-eGreen trên mockup Oppo A93",
+          "description": "TVC giới thiệu trải nghiệm ứng dụng bằng motion graphics, screen replacement và chuyển cảnh giao diện.",
+          "youtubeUrl": "https://www.youtube.com/embed/aqz-KE-bpKQ",
           "fileName": "s5_tmtegreen_oppoa93.mp4",
           "path": "./assets/s5_tmtegreen_oppoa93.mp4",
-          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-smartphone-showing-a-graph-41551-large.mp4",
-          "aspectRatio": "9:16",
+          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+          "aspectRatio": "16:9",
           "gridSpan": "col-span-12 lg:col-span-6",
-          "playMode": "Hover-to-play, muted"
+          "playMode": "Click-to-play, YouTube controls"
         },
         {
           "id": "s5_bento_2",
           "title": "4K Motion Transition Effects",
           "subtitle": "Bento Ô 2: Chuyển động 4K 5s",
+          "description": "Bài dựng chuyển động 4K thể hiện khả năng compositing, timing và thiết kế hiệu ứng hình ảnh.",
+          "youtubeUrl": "https://www.youtube.com/embed/aqz-KE-bpKQ",
           "fileName": "s5_transition_4k_5s.mp4",
           "path": "./assets/s5_transition_4k_5s.mp4",
-          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-colorful-fluid-motion-abstract-background-41485-large.mp4",
+          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
           "aspectRatio": "16:9",
           "gridSpan": "col-span-12 lg:col-span-6",
-          "playMode": "Hover-to-play, muted"
+          "playMode": "Click-to-play, YouTube controls"
         }
       ]
     },
@@ -248,9 +256,11 @@
           "id": "s6_grid_1",
           "title": "KOL / KOC Commercial Campaign",
           "subtitle": "Grid Dọc 1: Video clip quảng cáo KOL/KOC",
+          "description": "Nội dung quảng cáo dọc với hook nhanh, nhịp dựng gọn và bố cục tối ưu cho màn hình điện thoại.",
+          "youtubeUrl": "https://www.youtube.com/embed/y6oMutwJQCw",
           "fileName": "s6_social_campaign_01.mp4",
           "path": "./assets/s6_social_campaign_01.mp4",
-          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-young-woman-recording-a-vlog-with-her-phone-41539-large.mp4",
+          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
           "aspectRatio": "9:16",
           "playMode": "Click-to-play, có control"
         },
@@ -258,9 +268,11 @@
           "id": "s6_grid_2",
           "title": "Event TikTok & Shorts Format",
           "subtitle": "Grid Dọc 2: Video sự kiện định dạng TikTok/Shorts",
+          "description": "Video recap sự kiện dạng ngắn, ưu tiên khoảnh khắc nổi bật, caption động và âm thanh theo xu hướng.",
+          "youtubeUrl": "https://www.youtube.com/embed/y6oMutwJQCw",
           "fileName": "s6_social_campaign_02.mp4",
           "path": "./assets/s6_social_campaign_02.mp4",
-          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-crowd-at-a-music-festival-41526-large.mp4",
+          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
           "aspectRatio": "9:16",
           "playMode": "Click-to-play, có control"
         }
@@ -277,35 +289,45 @@
           "id": "rev_1",
           "title": "Trải Nghiệm Thực Tế Ô Tô Điện Wuling",
           "category": "Automotive / EV",
-          "desc": "Quay dựng góc chi tiết nội thất, chế độ lái thông minh và tính năng sạc điện.",
-          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-luxury-electric-car-in-a-showroom-41221-large.mp4"
+          "description": "Quay dựng góc chi tiết nội thất, chế độ lái thông minh và tính năng sạc điện.",
+          "youtubeUrl": "https://www.youtube.com/embed/y6oMutwJQCw",
+          "aspectRatio": "9:16",
+          "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4"
         },
         {
           "id": "rev_2",
           "title": "Review Mỹ Phẩm Skincare Dược Liệu",
           "category": "Beauty & Health",
-          "desc": "Hiệu ứng macro ánh sáng dịu nhẹ tôn vinh chất kem và thiết bị nhãn hàng.",
-          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-woman-applying-facial-cream-41541-large.mp4"
+          "description": "Hiệu ứng macro ánh sáng dịu nhẹ tôn vinh chất kem và thiết bị nhãn hàng.",
+          "youtubeUrl": "https://www.youtube.com/embed/y6oMutwJQCw",
+          "aspectRatio": "9:16",
+          "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4"
         }
       ]
     },
     "s8": {
       "id": "s8",
       "index": "S8",
-      "title": "Video Intro Event & Ảnh Chụp Event",
+      "title": "Video Intro & Short Event",
       "subtitle": "EVENTS, CONFERENCES & COMMUNITY",
       "sections": [
         {
           "type": "video",
           "title": "Video Intro Event",
           "body": "Video intro mở đầu cho các sự kiện, hội nghị khoa học (ví dụ: hội nghị Aesthetic, chương trình khởi động thương hiệu Vivant Skincare Việt Nam ngày 29/09).",
-          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-stage-lights-at-a-concert-41525-large.mp4"
+          "description": "Video intro mở đầu cho các sự kiện, hội nghị khoa học và chương trình ra mắt thương hiệu.",
+          "youtubeUrl": "https://www.youtube.com/embed/aqz-KE-bpKQ",
+          "aspectRatio": "16:9",
+          "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4"
         },
         {
-          "type": "photo",
-          "title": "Ảnh Chụp Event",
-          "body": "Ghi lại hình ảnh các chương trình sự kiện cộng đồng, thiện nguyện (chương trình 'Xoá BỚT cho em' phối hợp cùng VTV Cần Thơ - hành trình phá bỏ tự ti, đồng hành cùng trẻ em vùng khó khăn).",
-          "imageUrl": "./assets/project_spatial.jpg"
+          "type": "video",
+          "title": "Event Community Short",
+          "body": "Video dọc ghi lại các chương trình sự kiện cộng đồng và hoạt động thiện nguyện trong định dạng social-first.",
+          "description": "Recap dọc tập trung vào cảm xúc, con người và những khoảnh khắc đáng nhớ của sự kiện cộng đồng.",
+          "youtubeUrl": "https://www.youtube.com/embed/y6oMutwJQCw",
+          "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+          "aspectRatio": "9:16"
         }
       ]
     },

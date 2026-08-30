@@ -1,6 +1,5 @@
 import React from 'react';
 import { VideoCard } from './VideoCard';
-import { Film, Car, Sparkles } from 'lucide-react';
 
 interface S4CommercialsProps {
   data: any;
@@ -33,17 +32,19 @@ export const S4Commercials: React.FC<S4CommercialsProps> = ({
         </p>
       </div>
 
-      {/* Asymmetric Bento Grid Layout */}
+      {/* Two-up horizontal YouTube grid */}
       <div className="grid grid-cols-12 gap-6 my-auto">
         {data.bentoGrid.map((item: any) => (
           <div key={item.id} className="col-span-12 lg:col-span-6">
             <VideoCard
               title={item.title}
               subtitle={item.subtitle}
+              description={item.description}
               videoPath={item.path}
               fallbackUrl={item.fallbackVideoUrl}
+              youtubeUrl={item.youtubeUrl}
               sourceAspectRatio={item.aspectRatio as any}
-              playMode={item.id === 's4_bento_1' ? 'click' : 'hover'}
+              playMode="click"
               isActive={isActive}
               reducedMotion={reducedMotion}
             />

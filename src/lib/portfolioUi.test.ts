@@ -10,6 +10,7 @@ import {
   getFocusTrapTargetIndex,
   getMediaRenderState,
   getMediaObjectFit,
+  getMediaStageClass,
   getPortalAssetSources,
   getNextMediaSourceIndex,
   shouldNavigateFromScroll,
@@ -60,11 +61,18 @@ test('active YouTube media exposes controls and scopes autoplay to motion prefer
   assert.equal(new URL(reducedUrl).searchParams.get('autoplay'), '0');
 });
 
-test('portrait and square sources are contained inside the shared 16:9 stage', () => {
+test('non-landscape native sources remain contained inside their presentation stage', () => {
   assert.equal(getMediaObjectFit('16:9'), 'cover');
   assert.equal(getMediaObjectFit('9:16'), 'contain');
   assert.equal(getMediaObjectFit('4:5'), 'contain');
   assert.equal(getMediaObjectFit('1:1'), 'contain');
+});
+
+test('showcase stages use the requested horizontal or vertical presentation ratio', () => {
+  assert.equal(getMediaStageClass('16:9'), 'aspect-video');
+  assert.equal(getMediaStageClass('9:16'), 'aspect-[9/16]');
+  assert.equal(getMediaStageClass('4:5'), 'aspect-[4/5]');
+  assert.equal(getMediaStageClass('1:1'), 'aspect-square');
 });
 
 test('media render state distinguishes unavailable, deferred, native, and YouTube branches', () => {
@@ -88,6 +96,18 @@ test('media render state distinguishes unavailable, deferred, native, and YouTub
     getMediaRenderState({ activeSource: '/video.mp4', hasError: false, hasYoutube: false, youtubeSrc: null }),
     'native'
   );
+});
+
+test('failed YouTube embeds fall back to an available native source', () => {
+  const options = {
+    activeSource: '/video-fallback.mp4',
+    hasError: false,
+    hasYoutube: true,
+    youtubeSrc: 'https://www.youtube.com/embed/blocked',
+    youtubeFailed: true,
+  } as Parameters<typeof getMediaRenderState>[0] & { youtubeFailed: boolean };
+
+  assert.equal(getMediaRenderState(options), 'native');
 });
 
 test('portal asset URLs honor the GitHub Pages base path', () => {

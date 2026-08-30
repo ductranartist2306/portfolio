@@ -5,6 +5,7 @@ import {
   getActiveMediaSource,
   getMediaObjectFit,
   getMediaRenderState,
+  getMediaStageClass,
   getNextMediaSourceIndex,
   type MediaAspectRatio,
 } from '../lib/portfolioUi';
@@ -12,6 +13,7 @@ import {
 interface VideoCardProps {
   title: string;
   subtitle?: string;
+  description?: string;
   videoPath?: string;
   fallbackUrl?: string;
   youtubeUrl?: string;
@@ -27,6 +29,7 @@ const DEFAULT_MEDIA_ASPECT_RATIO: MediaAspectRatio = '16:9';
 export const VideoCard: React.FC<VideoCardProps> = ({
   title,
   subtitle,
+  description,
   videoPath,
   fallbackUrl,
   youtubeUrl,
@@ -42,9 +45,12 @@ export const VideoCard: React.FC<VideoCardProps> = ({
   const [isReady, setIsReady] = useState(false);
   const [sourceIndex, setSourceIndex] = useState(0);
   const [shouldRenderYouTube, setShouldRenderYouTube] = useState(playMode === 'autoplay');
+  const [hasYouTubeError, setHasYouTubeError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const objectFitClass =
     getMediaObjectFit(sourceAspectRatio) === 'contain' ? 'object-contain' : 'object-cover';
+  const stageClass = getMediaStageClass(sourceAspectRatio);
   const nativeSources = useMemo(
     () => Array.from(new Set([videoPath, fallbackUrl].filter(Boolean))) as string[],
     [fallbackUrl, videoPath]
@@ -56,14 +62,43 @@ export const VideoCard: React.FC<VideoCardProps> = ({
     (activeSource && (activeSource.includes('youtube.com') || activeSource.includes('youtu.be'))
       ? activeSource
       : undefined);
-  const shouldMountYouTube = Boolean(rawYtUrl) && isActive && (playMode === 'autoplay' || shouldRenderYouTube);
-  const youtubeSrc = rawYtUrl
+  const validatedYouTubeUrl = rawYtUrl
+    ? buildYouTubeEmbedUrl(rawYtUrl, {
+        isActive: true,
+        autoplay: false,
+        reducedMotion: true,
+      })
+    : null;
+  const youtubeFailed = hasYouTubeError || (Boolean(rawYtUrl) && !validatedYouTubeUrl);
+  const canUseYouTube = Boolean(rawYtUrl) && !youtubeFailed;
+  const shouldMountYouTube =
+    canUseYouTube && isActive && (playMode === 'autoplay' || shouldRenderYouTube);
+  const youtubeSrc = rawYtUrl && !youtubeFailed
     ? buildYouTubeEmbedUrl(rawYtUrl, {
         isActive: shouldMountYouTube,
         autoplay: playMode === 'autoplay' || isPlaying,
         reducedMotion,
       })
     : null;
+
+  const handleYouTubeError = () => {
+    setHasYouTubeError(true);
+    setShouldRenderYouTube(false);
+    setIsPlaying(false);
+    setIsReady(false);
+  };
+
+  const handleYouTubeLoad = () => {
+    setIsReady(true);
+    const playerWindow = iframeRef.current?.contentWindow;
+    if (!playerWindow) return;
+
+    playerWindow.postMessage(JSON.stringify({ event: 'listening' }), 'https://www.youtube.com');
+    playerWindow.postMessage(
+      JSON.stringify({ event: 'command', func: 'addEventListener', args: ['onError'] }),
+      'https://www.youtube.com'
+    );
+  };
 
   useEffect(() => {
     setSourceIndex(0);
@@ -72,12 +107,13 @@ export const VideoCard: React.FC<VideoCardProps> = ({
     setIsMuted(true);
     setIsPlaying(playMode === 'autoplay' && !reducedMotion);
     setShouldRenderYouTube(playMode === 'autoplay');
+    setHasYouTubeError(false);
   }, [fallbackUrl, playMode, reducedMotion, videoPath, youtubeUrl]);
 
   useEffect(() => {
     const video = videoRef.current;
 
-    if (rawYtUrl) {
+    if (canUseYouTube) {
       if (!isActive) {
         setShouldRenderYouTube(false);
         setIsPlaying(false);
@@ -111,7 +147,28 @@ export const VideoCard: React.FC<VideoCardProps> = ({
       video.currentTime = 0;
       setIsPlaying(false);
     }
-  }, [activeSource, isActive, playMode, rawYtUrl, reducedMotion]);
+  }, [activeSource, canUseYouTube, isActive, playMode, reducedMotion]);
+
+  useEffect(() => {
+    if (!shouldMountYouTube) return;
+
+    const handlePlayerMessage = (event: MessageEvent) => {
+      if (event.source !== iframeRef.current?.contentWindow) return;
+      if (event.origin !== 'https://www.youtube.com') return;
+
+      try {
+        const payload = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+        if (payload?.event === 'onError') {
+          handleYouTubeError();
+        }
+      } catch {
+        // Ignore unrelated player messages that are not JSON.
+      }
+    };
+
+    window.addEventListener('message', handlePlayerMessage);
+    return () => window.removeEventListener('message', handlePlayerMessage);
+  }, [shouldMountYouTube]);
 
   const startNativePlayback = () => {
     if (!videoRef.current || !isActive) return;
@@ -133,13 +190,13 @@ export const VideoCard: React.FC<VideoCardProps> = ({
   };
 
   const handleMouseEnter = () => {
-    if (playMode === 'hover' && !rawYtUrl && isActive && !reducedMotion) {
+    if (playMode === 'hover' && !canUseYouTube && isActive && !reducedMotion) {
       startNativePlayback();
     }
   };
 
   const handleMouseLeave = () => {
-    if (playMode === 'hover' && !rawYtUrl) {
+    if (playMode === 'hover' && !canUseYouTube) {
       stopNativePlayback(true);
     }
   };
@@ -147,7 +204,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
   const togglePlay = () => {
     if (!isActive) return;
 
-    if (rawYtUrl) {
+    if (canUseYouTube) {
       if (isPlaying) {
         setShouldRenderYouTube(false);
         setIsPlaying(false);
@@ -198,6 +255,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
     hasError,
     hasYoutube: Boolean(rawYtUrl),
     youtubeSrc,
+    youtubeFailed,
   });
   const showUnavailableState = mediaRenderState === 'unavailable';
   const showDeferredYouTubeState = mediaRenderState === 'deferred-youtube';
@@ -217,7 +275,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         className={`relative w-full overflow-hidden rounded-2xl bg-[#141B24] neon-border transition-all duration-500 ${className}`}
       >
         <div
-          className="relative aspect-video w-full bg-[radial-gradient(circle_at_top,_rgba(244,184,96,0.2),_transparent_55%),linear-gradient(180deg,_rgba(255,255,255,0.06),_rgba(10,14,20,0.96))]"
+          className={`relative w-full ${stageClass} bg-[radial-gradient(circle_at_top,_rgba(244,184,96,0.2),_transparent_55%),linear-gradient(180deg,_rgba(255,255,255,0.06),_rgba(10,14,20,0.96))]`}
           data-source-aspect={sourceAspectRatio}
           data-video-stage
         >
@@ -247,6 +305,15 @@ export const VideoCard: React.FC<VideoCardProps> = ({
             )}
           </div>
         </div>
+        <div className="border-t border-white/8 bg-[#111824] px-5 py-4">
+          <p className="font-title text-base font-semibold tracking-wide text-white">{title}</p>
+          {subtitle && <p className="mt-1 font-body text-xs text-[#00D9FF]">{subtitle}</p>}
+          {description && (
+            <p className="mt-2 font-body text-sm font-light leading-relaxed text-[#B8C2CC]">
+              {description}
+            </p>
+          )}
+        </div>
       </div>
     );
   }
@@ -255,7 +322,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
     <div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={playMode === 'click' && !rawYtUrl ? togglePlay : undefined}
+      onClick={playMode === 'click' && !canUseYouTube ? togglePlay : undefined}
       onKeyDown={handleKeyDown}
       tabIndex={playMode === 'autoplay' ? -1 : 0}
       role={playMode === 'autoplay' ? undefined : 'button'}
@@ -264,18 +331,20 @@ export const VideoCard: React.FC<VideoCardProps> = ({
       className={`relative w-full overflow-hidden rounded-2xl bg-[#141B24] neon-border neon-border-hover transition-all duration-500 ${playMode === 'autoplay' ? '' : 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D9FF]/60'} ${className}`}
     >
       <div
-        className="relative aspect-video w-full bg-[#0A0E14]"
+        className={`relative w-full ${stageClass} bg-[#0A0E14]`}
         data-source-aspect={sourceAspectRatio}
         data-video-stage
       >
         {mediaRenderState === 'youtube' && youtubeSrc ? (
           <iframe
+            ref={iframeRef}
             src={youtubeSrc}
             title={title || 'YouTube video player'}
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
-            onLoad={() => setIsReady(true)}
+            onLoad={handleYouTubeLoad}
+            onError={handleYouTubeError}
             className="absolute inset-0 h-full w-full"
           />
         ) : (
@@ -326,7 +395,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
               </button>
             )}
 
-            {!rawYtUrl && (
+            {!canUseYouTube && (
               <button
                 type="button"
                 onClick={toggleMute}
@@ -355,13 +424,18 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         )}
 
         <div className="absolute bottom-4 right-4 z-10 rounded-full border border-white/12 bg-black/45 px-3 py-1 font-mono-tech text-[10px] uppercase tracking-[0.24em] text-[#00D9FF] backdrop-blur-md">
-          16:9 Stage
+          {sourceAspectRatio} Stage
         </div>
       </div>
 
       <div className="border-t border-white/8 bg-[#111824] px-5 py-4">
         <p className="font-title text-base font-semibold tracking-wide text-white">{title}</p>
-        {subtitle && <p className="mt-1 font-body text-xs font-light text-[#B8C2CC]">{subtitle}</p>}
+        {subtitle && <p className="mt-1 font-body text-xs text-[#00D9FF]">{subtitle}</p>}
+        {description && (
+          <p className="mt-2 font-body text-sm font-light leading-relaxed text-[#B8C2CC]">
+            {description}
+          </p>
+        )}
       </div>
     </div>
   );

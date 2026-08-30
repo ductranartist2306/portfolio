@@ -32,17 +32,19 @@ export const S5Animation: React.FC<S5AnimationProps> = ({
         </p>
       </div>
 
-      {/* Mosaic Bento Grid */}
+      {/* Two-up horizontal YouTube grid */}
       <div className="grid grid-cols-12 gap-6 my-auto">
         {data.bentoGrid.map((item: any) => (
           <div key={item.id} className="col-span-12 lg:col-span-6">
             <VideoCard
               title={item.title}
               subtitle={item.subtitle}
+              description={item.description}
               videoPath={item.path}
               fallbackUrl={item.fallbackVideoUrl}
+              youtubeUrl={item.youtubeUrl}
               sourceAspectRatio={item.aspectRatio as any}
-              playMode="hover"
+              playMode="click"
               isActive={isActive}
               reducedMotion={reducedMotion}
             />

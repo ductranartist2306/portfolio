@@ -30,6 +30,7 @@ interface MediaRenderOptions {
   hasError: boolean;
   hasYoutube: boolean;
   youtubeSrc: string | null;
+  youtubeFailed?: boolean;
 }
 
 interface FocusTrapOptions {
@@ -76,6 +77,17 @@ export function getMediaObjectFit(aspectRatio: MediaAspectRatio = '16:9'): 'cove
   return aspectRatio === '16:9' ? 'cover' : 'contain';
 }
 
+export function getMediaStageClass(aspectRatio: MediaAspectRatio = '16:9'): string {
+  const stageClasses: Record<MediaAspectRatio, string> = {
+    '16:9': 'aspect-video',
+    '9:16': 'aspect-[9/16]',
+    '4:5': 'aspect-[4/5]',
+    '1:1': 'aspect-square',
+  };
+
+  return stageClasses[aspectRatio];
+}
+
 export function getActiveMediaSource(
   source: string | undefined,
   isActive: boolean
@@ -84,9 +96,10 @@ export function getActiveMediaSource(
 }
 
 export function getMediaRenderState(options: MediaRenderOptions): MediaRenderState {
-  if (options.hasError || (!options.hasYoutube && !options.activeSource)) return 'unavailable';
-  if (options.hasYoutube && !options.youtubeSrc) return 'deferred-youtube';
-  return options.hasYoutube ? 'youtube' : 'native';
+  const shouldUseYouTube = options.hasYoutube && !options.youtubeFailed;
+  if (options.hasError || (!shouldUseYouTube && !options.activeSource)) return 'unavailable';
+  if (shouldUseYouTube && !options.youtubeSrc) return 'deferred-youtube';
+  return shouldUseYouTube ? 'youtube' : 'native';
 }
 
 export function getNextMediaSourceIndex(

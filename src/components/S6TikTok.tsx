@@ -1,6 +1,6 @@
 import React from 'react';
 import { VideoCard } from './VideoCard';
-import { Smartphone, Flame, TrendingUp } from 'lucide-react';
+import { Flame } from 'lucide-react';
 
 interface S6TikTokProps {
   data: any;
@@ -33,19 +33,21 @@ export const S6TikTok: React.FC<S6TikTokProps> = ({
         </p>
       </div>
 
-      {/* Responsive 16:9 stages with contained vertical source footage */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-8 max-w-6xl mx-auto my-auto items-stretch">
+      {/* Responsive 9:16 YouTube showcases */}
+      <div className="mx-auto my-auto grid max-w-3xl grid-cols-1 items-start gap-8 md:grid-cols-2">
         {data.grid.map((item: any) => (
           <div
             key={item.id}
-            className="rounded-[28px] border border-white/10 bg-[#141B24]/70 p-4 sm:p-5 shadow-[0_24px_60px_rgba(0,0,0,0.22)]"
+            className="mx-auto w-full max-w-sm rounded-[28px] border border-white/10 bg-[#141B24]/70 p-4 shadow-[0_24px_60px_rgba(0,0,0,0.22)] sm:p-5"
           >
             <VideoCard
               title={item.title}
               subtitle={item.subtitle}
+              description={item.description}
               videoPath={item.path}
               fallbackUrl={item.fallbackVideoUrl}
-              sourceAspectRatio="9:16"
+              youtubeUrl={item.youtubeUrl}
+              sourceAspectRatio={item.aspectRatio as any}
               playMode="click"
               isActive={isActive}
               reducedMotion={reducedMotion}
@@ -54,7 +56,7 @@ export const S6TikTok: React.FC<S6TikTokProps> = ({
         ))}
 
         {/* Feature Highlights Card */}
-        <div className="lg:col-span-2 flex flex-col justify-between gap-6 p-6 rounded-[28px] bg-[#141B24] border border-[#FF9F1C]/30 min-h-[280px]">
+        <div className="flex min-h-[280px] flex-col justify-between gap-6 rounded-[28px] border border-[#FF9F1C]/30 bg-[#141B24] p-6 md:col-span-2">
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-[#FF9F1C]">
               <Flame className="w-5 h-5" />

@@ -1,6 +1,5 @@
 import React from 'react';
 import { VideoCard } from './VideoCard';
-import { Star, ShieldCheck, Tag } from 'lucide-react';
 
 interface S7ReviewsProps {
   data: any;
@@ -33,44 +32,25 @@ export const S7Reviews: React.FC<S7ReviewsProps> = ({
         </p>
       </div>
 
-      {/* Grid of Interactive Reviews */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 my-auto">
+      {/* Two portrait YouTube showcases */}
+      <div className="mx-auto my-auto grid max-w-3xl grid-cols-1 items-start gap-8 md:grid-cols-2">
         {data.reviews.map((rev: any) => (
           <div
             key={rev.id}
-            className="p-6 rounded-[28px] bg-[#141B24] border border-[#00D9FF]/20 hover:border-[#00D9FF] transition-all grid grid-cols-1 xl:grid-cols-12 gap-6 items-start"
+            className="mx-auto w-full max-w-sm rounded-[28px] border border-[#00D9FF]/20 bg-[#141B24]/70 p-4 transition-colors hover:border-[#00D9FF] sm:p-5"
           >
-            <div className="xl:col-span-6">
-              <VideoCard
-                title={rev.title}
-                subtitle={rev.category}
-                videoPath={rev.videoUrl}
-                fallbackUrl={rev.videoUrl}
-                sourceAspectRatio="9:16"
-                playMode="click"
-                isActive={isActive}
-                reducedMotion={reducedMotion}
-              />
-            </div>
-
-            <div className="xl:col-span-6 space-y-4 self-center">
-              <span className="font-mono-tech text-xs text-[#FF9F1C] px-3 py-1 rounded-full bg-[#FF9F1C]/10 border border-[#FF9F1C]/30 inline-block">
-                {rev.category}
-              </span>
-
-              <h3 className="font-title text-xl font-bold text-white uppercase">
-                {rev.title}
-              </h3>
-
-              <p className="font-body text-sm text-[#B8C2CC] leading-relaxed">
-                {rev.desc}
-              </p>
-
-              <div className="pt-4 border-t border-white/10 flex items-center gap-2 font-mono-tech text-xs text-[#00D9FF]">
-                <ShieldCheck className="w-4 h-4" />
-                <span>Thực hiện trọn gói: Lên kịch bản • Quay • Hậu kỳ</span>
-              </div>
-            </div>
+            <VideoCard
+              title={rev.title}
+              subtitle={rev.category}
+              description={rev.description}
+              videoPath={rev.videoUrl}
+              fallbackUrl={rev.videoUrl}
+              youtubeUrl={rev.youtubeUrl}
+              sourceAspectRatio={rev.aspectRatio as any}
+              playMode="click"
+              isActive={isActive}
+              reducedMotion={reducedMotion}
+            />
           </div>
         ))}
       </div>

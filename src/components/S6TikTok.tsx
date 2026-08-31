@@ -34,7 +34,10 @@ export const S6TikTok: React.FC<S6TikTokProps> = ({
       </div>
 
       {/* Responsive 9:16 YouTube showcases */}
-      <div className="mx-auto my-auto grid max-w-3xl grid-cols-1 items-start gap-8 md:grid-cols-2">
+      <div
+        data-showcase-focus
+        className="mx-auto my-auto grid max-w-3xl grid-cols-1 items-start gap-8 md:grid-cols-2"
+      >
         {data.grid.map((item: any) => (
           <div
             key={item.id}

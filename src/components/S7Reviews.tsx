@@ -33,7 +33,10 @@ export const S7Reviews: React.FC<S7ReviewsProps> = ({
       </div>
 
       {/* Two portrait YouTube showcases */}
-      <div className="mx-auto my-auto grid max-w-3xl grid-cols-1 items-start gap-8 md:grid-cols-2">
+      <div
+        data-showcase-focus
+        className="mx-auto my-auto grid max-w-3xl grid-cols-1 items-start gap-8 md:grid-cols-2"
+      >
         {data.reviews.map((rev: any) => (
           <div
             key={rev.id}

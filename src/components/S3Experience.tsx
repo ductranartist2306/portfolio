@@ -39,7 +39,10 @@ export const S3Experience: React.FC<S3ExperienceProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         {/* Left Column (5 cols): BTS Video + Company Showcase */}
         <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
-          <div className="rounded-2xl overflow-hidden bg-[#141B24] border border-[#00D9FF]/20">
+          <div
+            data-showcase-focus
+            className="rounded-2xl overflow-hidden bg-[#141B24] border border-[#00D9FF]/20"
+          >
             <VideoCard
               title="BEHIND THE SCENES — ON SET"
               subtitle="Hậu trường quay phim & điều hành sản xuất"

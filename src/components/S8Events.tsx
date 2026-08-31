@@ -31,7 +31,10 @@ export const S8Events: React.FC<S8EventsProps> = ({
       </div>
 
       {/* Mixed horizontal and portrait YouTube showcases */}
-      <div className="mx-auto my-auto grid max-w-6xl grid-cols-12 items-start gap-8">
+      <div
+        data-showcase-focus
+        className="mx-auto my-auto grid max-w-6xl grid-cols-12 items-start gap-8"
+      >
         {data.sections.map((section: any, index: number) => (
           <div
             key={section.title}

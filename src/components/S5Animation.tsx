@@ -33,7 +33,7 @@ export const S5Animation: React.FC<S5AnimationProps> = ({
       </div>
 
       {/* Two-up horizontal YouTube grid */}
-      <div className="grid grid-cols-12 gap-6 my-auto">
+      <div data-showcase-focus className="grid grid-cols-12 gap-6 my-auto">
         {data.bentoGrid.map((item: any) => (
           <div key={item.id} className="col-span-12 lg:col-span-6">
             <VideoCard

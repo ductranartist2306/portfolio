@@ -49,8 +49,6 @@ interface WheelDeltaOptions {
 
 interface TransitionInputOptions {
   isAnimating: boolean;
-  now: number;
-  lockUntil: number;
 }
 
 interface MediaRenderOptions {
@@ -221,7 +219,7 @@ export function getWheelDeltaPixels(options: WheelDeltaOptions): number {
 }
 
 export function shouldHoldTransitionInput(options: TransitionInputOptions): boolean {
-  return options.isAnimating || options.now < options.lockUntil;
+  return options.isAnimating;
 }
 
 export function getWheelGestureAction(

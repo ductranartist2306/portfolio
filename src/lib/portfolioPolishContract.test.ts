@@ -31,18 +31,16 @@ test('slide completion hides the outgoing element before clearing its fade style
   assert.ok(hideOutgoing < clearOutgoing, 'outgoing slide must hide before clearProps');
 });
 
-test('transition cooldown is set once at completion instead of extending for every wheel event', async () => {
+test('wheel input is released immediately after a transition completes', async () => {
   const source = await readFile(appPath, 'utf8');
   const completion = source.indexOf('onComplete: () =>');
   const handleWheel = source.indexOf('const handleWheel =');
   const handleWheelEnd = source.indexOf('const handleTouchStart =', handleWheel);
   const wheelHandler = source.slice(handleWheel, handleWheelEnd);
 
-  assert.match(
-    source.slice(completion),
-    /transitionInputLockUntilRef\.current\s*=\s*performance\.now\(\) \+ WHEEL_GESTURE_IDLE_MS/
-  );
-  assert.doesNotMatch(wheelHandler, /transitionInputLockUntilRef\.current\s*=/);
+  assert.ok(completion >= 0);
+  assert.doesNotMatch(source, /transitionInputLockUntilRef/);
+  assert.match(wheelHandler, /shouldHoldTransitionInput\(\{ isAnimating: isAnimating\.current \}\)/);
 });
 
 test('S3 keeps the four approved roles in chronological order', async () => {

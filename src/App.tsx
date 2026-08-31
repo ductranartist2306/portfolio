@@ -51,7 +51,6 @@ export function App() {
   const containerRef = useRef<HTMLDivElement>(null);
   const slidesRef = useRef<(HTMLDivElement | null)[]>([]);
   const isAnimating = useRef(false);
-  const transitionInputLockUntilRef = useRef(0);
   const wheelGestureRef = useRef<WheelGestureSession | null>(null);
   const touchGestureRef = useRef<TouchGestureSession | null>(null);
 
@@ -167,8 +166,6 @@ export function App() {
           gsap.set(nextElement, {
             clearProps: 'transform,opacity,scale,visibility,pointerEvents',
           });
-          transitionInputLockUntilRef.current =
-            performance.now() + WHEEL_GESTURE_IDLE_MS;
           isAnimating.current = false;
         },
       });
@@ -212,18 +209,12 @@ export function App() {
         return;
       }
 
-      const now = performance.now();
-      if (
-        shouldHoldTransitionInput({
-          isAnimating: isAnimating.current,
-          now,
-          lockUntil: transitionInputLockUntilRef.current,
-        })
-      ) {
+      if (shouldHoldTransitionInput({ isAnimating: isAnimating.current })) {
         event.preventDefault();
         return;
       }
 
+      const now = performance.now();
       const scrollElement = getSlideScrollElement(currentSlide);
       const lineHeight = Number.parseFloat(
         getComputedStyle(scrollElement ?? container).lineHeight

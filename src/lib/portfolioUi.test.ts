@@ -305,8 +305,12 @@ test('a new deliberate gesture at the boundary changes slides after its threshol
   );
 });
 
-test('transition input guard consumes tail events until the scroll stream becomes quiet', () => {
-  assert.equal(shouldHoldTransitionInput({ isAnimating: true, now: 100, lockUntil: 0 }), true);
-  assert.equal(shouldHoldTransitionInput({ isAnimating: false, now: 200, lockUntil: 260 }), true);
-  assert.equal(shouldHoldTransitionInput({ isAnimating: false, now: 261, lockUntil: 260 }), false);
+test('transition animation consumes wheel input while slides overlap', () => {
+  assert.equal(shouldHoldTransitionInput({ isAnimating: true }), true);
+});
+
+test('completed transitions immediately release new wheel input', () => {
+  const formerlyLockedInput = { isAnimating: false, now: 200, lockUntil: 260 };
+
+  assert.equal(shouldHoldTransitionInput(formerlyLockedInput), false);
 });

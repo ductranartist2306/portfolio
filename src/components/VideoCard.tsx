@@ -272,6 +272,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
     return (
       <div
         data-cursor-tone="light"
+        data-scroll-focus
         className={`relative w-full overflow-hidden rounded-2xl bg-[#141B24] neon-border transition-all duration-500 ${className}`}
       >
         <div
@@ -328,6 +329,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
       role={playMode === 'autoplay' ? undefined : 'button'}
       aria-label={playMode === 'autoplay' ? undefined : `${isPlaying ? 'Tạm dừng' : 'Phát'} ${title}`}
       data-cursor-tone="light"
+      data-scroll-focus
       className={`relative w-full overflow-hidden rounded-2xl bg-[#141B24] neon-border neon-border-hover transition-all duration-500 ${playMode === 'autoplay' ? '' : 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D9FF]/60'} ${className}`}
     >
       <div

@@ -135,7 +135,29 @@ body {
 }
 
 .magazine-slide {
-  will-change: transform, opacity;
+  min-height: 100dvh;
+}
+
+[data-portfolio-scroll] {
+  overscroll-behavior-y: contain;
+  scroll-padding-block-start: 5rem;
+  scroll-snap-type: y proximity;
+}
+
+[data-scroll-focus] {
+  scroll-margin-block: 5rem;
+  scroll-snap-align: center;
+  scroll-snap-stop: normal;
+}
+
+@media (min-width: 1280px) {
+  [data-portfolio-scroll] {
+    scroll-padding-block-start: 0;
+  }
+
+  [data-scroll-focus] {
+    scroll-margin-block: 2rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -143,5 +165,9 @@ body {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  [data-portfolio-scroll] {
+    scroll-behavior: auto;
   }
 }

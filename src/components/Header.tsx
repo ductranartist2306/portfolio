@@ -1,15 +1,13 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'motion/react';
 import { Menu, X, Send, Film } from 'lucide-react';
 import { NavigationItem } from '../types/portfolio';
-import { getFocusTrapTargetIndex, getHeaderTranslateY } from '../lib/portfolioUi';
+import { getFocusTrapTargetIndex } from '../lib/portfolioUi';
 
 interface HeaderProps {
   navItems: NavigationItem[];
   currentSlide: number;
   onNavigateToSlide: (index: number) => void;
   onDrawerOpenChange?: (isOpen: boolean) => void;
-  reducedMotion?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -17,15 +15,8 @@ export const Header: React.FC<HeaderProps> = ({
   currentSlide,
   onNavigateToSlide,
   onDrawerOpenChange,
-  reducedMotion = false,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const headerY = useMotionValue(0);
-  const easedHeaderY = useSpring(headerY, {
-    stiffness: 360,
-    damping: 38,
-    mass: 0.35,
-  });
   const headerRef = useRef<HTMLElement>(null);
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -36,20 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
   const leftNav = navItems.slice(0, 4);
   const rightNav = navItems.slice(4);
 
-  const getActiveSlideScrollElement = () => {
-    const slideEl = document.querySelectorAll('.magazine-slide')[currentSlide] as
-      | HTMLElement
-      | undefined;
-    return (
-      slideEl?.querySelector<HTMLElement>('[data-slide-scroll]') ??
-      slideEl?.querySelector<HTMLElement>('.overflow-y-auto') ??
-      null
-    );
-  };
-
   const setDrawerOpen = (nextOpen: boolean) => {
-    if (nextOpen) headerY.set(0);
-
     if (nextOpen && document.activeElement instanceof HTMLElement) {
       previousFocusRef.current = document.activeElement;
     }
@@ -73,42 +51,11 @@ export const Header: React.FC<HeaderProps> = ({
   }, [mobileMenuOpen, onDrawerOpenChange]);
 
   useEffect(() => {
-    headerY.set(0);
     setDrawerOpen(false);
-  }, [currentSlide, headerY]);
-
-  useEffect(() => {
-    const scrollEl = getActiveSlideScrollElement();
-    if (!scrollEl) return;
-
-    const handleScroll = () => {
-      const headerHeight = headerRef.current?.getBoundingClientRect().height ?? 0;
-      headerY.set(getHeaderTranslateY(scrollEl.scrollTop, headerHeight));
-    };
-
-    handleScroll();
-    scrollEl.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
-
-    let resizeObserver: ResizeObserver | null = null;
-    if (headerRef.current && 'ResizeObserver' in window) {
-      resizeObserver = new ResizeObserver(handleScroll);
-      resizeObserver.observe(headerRef.current);
-    }
-
-    return () => {
-      scrollEl.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-      resizeObserver?.disconnect();
-    };
-  }, [currentSlide, headerY]);
+  }, [currentSlide]);
 
   useEffect(() => {
     if (!mobileMenuOpen) {
-      const scrollEl = getActiveSlideScrollElement();
-      const headerHeight = headerRef.current?.getBoundingClientRect().height ?? 0;
-      headerY.set(getHeaderTranslateY(scrollEl?.scrollTop ?? 0, headerHeight));
-
       if (!previousFocusRef.current) return;
 
       const restoreTarget =
@@ -156,12 +103,12 @@ export const Header: React.FC<HeaderProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentSlide, headerY, mobileMenuOpen]);
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
 
-    const activeScrollEl = getActiveSlideScrollElement();
+    const activeScrollEl = document.querySelector<HTMLElement>('[data-portfolio-scroll]');
     const previousBodyOverflow = document.body.style.overflow;
     const previousScrollOverflow = activeScrollEl?.style.overflow ?? '';
     const previousScrollTouchAction = activeScrollEl?.style.touchAction ?? '';
@@ -179,17 +126,13 @@ export const Header: React.FC<HeaderProps> = ({
         activeScrollEl.style.touchAction = previousScrollTouchAction;
       }
     };
-  }, [currentSlide, mobileMenuOpen]);
+  }, [mobileMenuOpen]);
 
   return (
     <>
-      <motion.nav
+      <nav
         ref={headerRef}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        style={{ y: reducedMotion ? headerY : easedHeaderY }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute top-0 left-0 right-0 z-50 w-full pointer-events-none"
+        className="sticky top-0 z-50 w-full pointer-events-none xl:relative xl:top-auto"
       >
         <div className="liquid-glass w-full px-5 sm:px-8 py-3 flex items-center justify-between border-b border-white/10 pointer-events-auto backdrop-blur-md">
           {/* Left Desktop Nav Links */}
@@ -280,7 +223,7 @@ export const Header: React.FC<HeaderProps> = ({
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
-      </motion.nav>
+      </nav>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (

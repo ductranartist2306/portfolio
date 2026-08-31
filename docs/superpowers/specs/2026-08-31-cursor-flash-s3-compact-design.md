@@ -7,6 +7,10 @@ Status: Approved for specification review
 
 Polish the portfolio interaction without changing the approved slide motion: restore the operating-system cursor while retaining its animated trail, remove the single-frame flash at slide completion, and redesign S3 as a desktop viewport-sized block that advances to S4 in one downward gesture.
 
+## Supersession
+
+For S3 only, this addendum replaces the earlier desktop shared-scroll and sticky-column contract in `2026-08-31-scroll-effect-video-focus-design.md` when viewport width is at least `1280px` and height is at least `720px`. Below that gate, the earlier shared inner-scroll and boundary-navigation behavior remains in force so all content stays reachable. The prior GSAP motion and S4–S8 showcase-focus contracts remain unchanged at every viewport.
+
 ## Approved Experience
 
 ### Native cursor with animated trail

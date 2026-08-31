@@ -247,8 +247,8 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 key={item.id}
                 onClick={() => {
-                  onNavigateToSlide(item.targetSlide);
                   setDrawerOpen(false);
+                  window.setTimeout(() => onNavigateToSlide(item.targetSlide), 0);
                 }}
                 data-cursor-tone={item.targetSlide === 8 ? 'accent' : 'light'}
                 className={`text-left font-instrument text-2xl tracking-wide transition-colors py-1 flex items-center justify-between ${

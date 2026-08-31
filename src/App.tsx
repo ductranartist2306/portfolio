@@ -16,6 +16,7 @@ import { S8Events } from './components/S8Events';
 import { S9Contact } from './components/S9Contact';
 import {
   canNavigateSlides,
+  getElementOffsetTop,
   getShowcaseScrollTop,
   getWheelGestureAction,
   shouldNavigateFromScroll,
@@ -96,11 +97,16 @@ export function App() {
         return;
       }
 
-      const scrollRect = scrollElement.getBoundingClientRect();
+      const showcaseAnchor =
+        slide.querySelector<HTMLElement>('[data-showcase-anchor]') ?? showcase;
       const showcaseRect = showcase.getBoundingClientRect();
+      const anchorRect = showcaseAnchor.getBoundingClientRect();
       const headerHeight =
         document.querySelector<HTMLElement>('nav')?.getBoundingClientRect().height ?? 0;
-      const targetOffsetTop = showcaseRect.top - scrollRect.top + scrollElement.scrollTop;
+      const layoutOffsetTop = getElementOffsetTop(showcaseAnchor, scrollElement);
+      const fallbackOffsetTop =
+        anchorRect.top - scrollElement.getBoundingClientRect().top + scrollElement.scrollTop;
+      const targetOffsetTop = layoutOffsetTop ?? fallbackOffsetTop;
 
       scrollElement.scrollTop = getShowcaseScrollTop({
         scrollHeight: scrollElement.scrollHeight,
@@ -121,8 +127,10 @@ export function App() {
       const nextElement = slidesRef.current[targetIndex];
       if (!currentElement || !nextElement) return;
 
-      prepareSlideFocus(targetIndex);
-      if (targetIndex === currentSlide) return;
+      if (targetIndex === currentSlide) {
+        prepareSlideFocus(targetIndex);
+        return;
+      }
 
       isAnimating.current = true;
       wheelGestureRef.current = null;
@@ -135,10 +143,16 @@ export function App() {
 
       gsap.killTweensOf([currentElement, nextElement]);
       gsap.set(nextElement, {
+        display: 'block',
+        visibility: 'hidden',
+        pointerEvents: 'none',
+      });
+      prepareSlideFocus(targetIndex);
+      gsap.set(nextElement, {
         yPercent: direction * enterOffset,
         opacity: 0,
         scale: reducedMotion ? 1 : 0.992,
-        display: 'block',
+        visibility: 'visible',
         pointerEvents: 'none',
       });
 
@@ -146,7 +160,9 @@ export function App() {
         onComplete: () => {
           setCurrentSlide(targetIndex);
           gsap.set(currentElement, { clearProps: 'transform,opacity,scale,pointerEvents' });
-          gsap.set(nextElement, { clearProps: 'transform,opacity,scale,pointerEvents' });
+          gsap.set(nextElement, {
+            clearProps: 'transform,opacity,scale,visibility,pointerEvents',
+          });
           isAnimating.current = false;
         },
       });

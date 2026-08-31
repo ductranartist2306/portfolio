@@ -42,6 +42,7 @@ test('S3 keeps one shared section scroll owner', async () => {
   );
 
   assert.equal(source.match(/data-slide-scroll/g)?.length, 1);
+  assert.equal(source.match(/data-showcase-anchor/g)?.length, 1);
 });
 
 test('App restores the approved GSAP motion and section focus preparation', async () => {
@@ -53,8 +54,24 @@ test('App restores the approved GSAP motion and section focus preparation', asyn
   assert.match(source, /const enterOffset = reducedMotion \? 0 : 18/);
   assert.match(source, /const exitOffset = reducedMotion \? 0 : 10/);
   assert.match(source, /getShowcaseScrollTop/);
+  assert.match(source, /getElementOffsetTop\(showcaseAnchor, scrollElement\)/);
   assert.match(source, /getWheelGestureAction/);
   assert.doesNotMatch(source, /IntersectionObserver|data-scroll-focus/);
+});
+
+test('incoming slides become measurable before showcase focus is calculated', async () => {
+  const source = await readFile(new URL('../App.tsx', import.meta.url), 'utf8');
+  const navigationStart = source.indexOf('const goToSlide');
+  const hiddenReveal = source.indexOf("visibility: 'hidden'", navigationStart);
+  const focusPreparation = source.indexOf('prepareSlideFocus(targetIndex)', hiddenReveal);
+  const entrancePreparation = source.indexOf(
+    'yPercent: direction * enterOffset',
+    navigationStart
+  );
+
+  assert.ok(hiddenReveal >= 0, 'incoming slide must be revealed invisibly for measurement');
+  assert.ok(hiddenReveal < focusPreparation, 'incoming slide must be measurable before focus');
+  assert.ok(focusPreparation < entrancePreparation, 'focus must settle before entrance motion');
 });
 
 test('document-level snap rules do not compete with controlled slide motion', async () => {

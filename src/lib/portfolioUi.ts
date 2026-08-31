@@ -180,6 +180,21 @@ export function getShowcaseScrollTop(options: ShowcaseScrollOptions): number {
   return Math.min(maxScrollTop, Math.max(0, desiredTop));
 }
 
+export function getElementOffsetTop(
+  element: HTMLElement,
+  ancestor: HTMLElement
+): number | null {
+  let current: HTMLElement | null = element;
+  let offsetTop = 0;
+
+  while (current && current !== ancestor) {
+    offsetTop += current.offsetTop;
+    current = current.offsetParent as HTMLElement | null;
+  }
+
+  return current === ancestor ? offsetTop : null;
+}
+
 export function getWheelGestureAction(
   options: WheelGestureActionOptions
 ): WheelGestureAction {

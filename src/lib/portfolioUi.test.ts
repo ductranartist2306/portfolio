@@ -6,6 +6,7 @@ import {
   canNavigateSlides,
   getActiveMediaSource,
   getCursorPalette,
+  getElementOffsetTop,
   getHeaderTranslateY,
   getFocusTrapTargetIndex,
   getMediaRenderState,
@@ -236,6 +237,14 @@ test('showcase focus stays inside the section scroll range', () => {
     }),
     200
   );
+});
+
+test('showcase layout offsets follow a stable non-sticky anchor chain', () => {
+  const root = { offsetTop: 0, offsetParent: null } as unknown as HTMLElement;
+  const gridAnchor = { offsetTop: 237, offsetParent: root } as unknown as HTMLElement;
+  const showcase = { offsetTop: 0, offsetParent: gridAnchor } as unknown as HTMLElement;
+
+  assert.equal(getElementOffsetTop(showcase, root), 237);
 });
 
 test('wheel gestures scroll long section content before changing slides', () => {

@@ -36,7 +36,10 @@ export const S3Experience: React.FC<S3ExperienceProps> = ({
       </div>
 
       {/* Grid 2 Column Layout (5:7 ratio) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <div
+        data-showcase-anchor
+        className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start"
+      >
         {/* Left Column (5 cols): BTS Video + Company Showcase */}
         <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
           <div

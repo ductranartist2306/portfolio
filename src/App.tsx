@@ -20,6 +20,7 @@ import {
   getShowcaseScrollTop,
   getWheelDeltaPixels,
   getWheelGestureAction,
+  PIXEL_NAVIGATION_COMMIT_IDLE_MS,
   shouldHoldTransitionInput,
   shouldNavigateFromScroll,
   WHEEL_GESTURE_IDLE_MS,
@@ -155,7 +156,7 @@ export function App() {
       wheelGestureRef.current = null;
 
       const direction = targetIndex > currentSlide ? 1 : -1;
-      const exitDuration = reducedMotion ? 0.01 : 0.22;
+      const exitDuration = reducedMotion ? 0.01 : 0.11;
       const enterDuration = reducedMotion ? 0.01 : 0.34;
       const enterOffset = reducedMotion ? 0 : 18;
       const exitOffset = reducedMotion ? 0 : 10;
@@ -227,7 +228,8 @@ export function App() {
             const pending = pendingPixelNavigationRef.current;
             if (!pending || pending.timeoutId !== timeoutId) return;
 
-            const remaining = pending.lastEventAt + WHEEL_GESTURE_IDLE_MS - performance.now();
+            const remaining =
+              pending.lastEventAt + PIXEL_NAVIGATION_COMMIT_IDLE_MS - performance.now();
             if (remaining > 0) {
               queueCommit(performance.now() + remaining);
               return;
@@ -246,7 +248,7 @@ export function App() {
         };
       };
 
-      queueCommit(lastEventAt + WHEEL_GESTURE_IDLE_MS);
+      queueCommit(lastEventAt + PIXEL_NAVIGATION_COMMIT_IDLE_MS);
     },
     [clearPendingPixelNavigation, currentSlide, goToSlide, totalSlides]
   );

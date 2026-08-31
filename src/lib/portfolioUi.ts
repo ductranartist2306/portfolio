@@ -74,6 +74,7 @@ export type WheelGestureAction =
   | 'navigate-slide';
 
 export const WHEEL_GESTURE_IDLE_MS = 160;
+export const PIXEL_NAVIGATION_COMMIT_IDLE_MS = 80;
 export const WHEEL_NAVIGATION_DELTA = 30;
 
 export interface PortalAssetSources {

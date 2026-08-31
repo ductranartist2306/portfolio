@@ -40,6 +40,7 @@ test('pixel wheel streams schedule one quiet-end transition without a global coo
   assert.doesNotMatch(source, /transitionInputLockUntilRef/);
   assert.doesNotMatch(source, /wheelHandoffRef|WheelHandoff/);
   assert.match(source, /const pendingPixelNavigationRef = useRef<PendingPixelSlideNavigation \| null>\(null\)/);
+  assert.match(source, /lastEventAt \+ PIXEL_NAVIGATION_COMMIT_IDLE_MS/);
   assert.match(wheelHandler, /event\.deltaMode === 0 && pending\.direction === direction/);
   assert.match(wheelHandler, /schedulePixelSlideNavigation\(direction, now\)/);
 });

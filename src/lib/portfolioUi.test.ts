@@ -15,11 +15,13 @@ import {
   getPortalAssetSources,
   getNextMediaSourceIndex,
   getShowcaseScrollTop,
+  PIXEL_NAVIGATION_COMMIT_IDLE_MS,
   shouldHoldTransitionInput,
   getWheelDeltaPixels,
   getWheelGestureAction,
   shouldNavigateFromScroll,
   shouldEnableCustomCursor,
+  WHEEL_GESTURE_IDLE_MS,
 } from './portfolioUi';
 
 test('header scrolls away over exactly one measured header height', () => {
@@ -318,6 +320,11 @@ test('a pixel boundary stream defers slide navigation until the stream becomes q
   };
 
   assert.equal(getWheelGestureAction(pixelBoundaryStream), 'schedule-slide');
+});
+
+test('pixel navigation commits promptly without weakening gesture-boundary detection', () => {
+  assert.equal(PIXEL_NAVIGATION_COMMIT_IDLE_MS, 80);
+  assert.ok(PIXEL_NAVIGATION_COMMIT_IDLE_MS < WHEEL_GESTURE_IDLE_MS);
 });
 
 test('line-mode boundary wheel input changes slides immediately', () => {

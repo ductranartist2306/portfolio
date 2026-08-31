@@ -49,8 +49,8 @@ test('App restores the approved GSAP motion and section focus preparation', asyn
   const source = await readFile(new URL('../App.tsx', import.meta.url), 'utf8');
 
   assert.match(source, /import gsap from 'gsap'/);
-  assert.match(source, /const exitDuration = reducedMotion \? 0\.01 : 0\.46/);
-  assert.match(source, /const enterDuration = reducedMotion \? 0\.01 : 0\.78/);
+  assert.match(source, /const exitDuration = reducedMotion \? 0\.01 : 0\.22/);
+  assert.match(source, /const enterDuration = reducedMotion \? 0\.01 : 0\.34/);
   assert.match(source, /const enterOffset = reducedMotion \? 0 : 18/);
   assert.match(source, /const exitOffset = reducedMotion \? 0 : 10/);
   assert.match(source, /getShowcaseScrollTop/);

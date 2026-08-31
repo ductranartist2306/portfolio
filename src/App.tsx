@@ -155,8 +155,8 @@ export function App() {
       wheelGestureRef.current = null;
 
       const direction = targetIndex > currentSlide ? 1 : -1;
-      const exitDuration = reducedMotion ? 0.01 : 0.46;
-      const enterDuration = reducedMotion ? 0.01 : 0.78;
+      const exitDuration = reducedMotion ? 0.01 : 0.22;
+      const enterDuration = reducedMotion ? 0.01 : 0.34;
       const enterOffset = reducedMotion ? 0 : 18;
       const exitOffset = reducedMotion ? 0 : 10;
 

@@ -49,6 +49,12 @@ interface WheelDeltaOptions {
 
 interface TransitionInputOptions {
   isAnimating: boolean;
+  handoff?: {
+    direction: 'up' | 'down';
+    lastEventAt: number;
+  } | null;
+  direction?: 'up' | 'down';
+  now?: number;
 }
 
 interface MediaRenderOptions {
@@ -219,7 +225,13 @@ export function getWheelDeltaPixels(options: WheelDeltaOptions): number {
 }
 
 export function shouldHoldTransitionInput(options: TransitionInputOptions): boolean {
-  return options.isAnimating;
+  if (options.isAnimating) return true;
+  if (!options.handoff || !options.direction || options.now === undefined) return false;
+
+  return (
+    options.handoff.direction === options.direction &&
+    options.now - options.handoff.lastEventAt < WHEEL_GESTURE_IDLE_MS
+  );
 }
 
 export function getWheelGestureAction(

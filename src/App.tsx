@@ -34,6 +34,11 @@ interface WheelGestureSession {
   lastEventAt: number;
 }
 
+interface WheelHandoff {
+  direction: ScrollDirection;
+  lastEventAt: number;
+}
+
 interface TouchGestureSession {
   startY: number;
   atTop: boolean;
@@ -52,6 +57,7 @@ export function App() {
   const slidesRef = useRef<(HTMLDivElement | null)[]>([]);
   const isAnimating = useRef(false);
   const wheelGestureRef = useRef<WheelGestureSession | null>(null);
+  const wheelHandoffRef = useRef<WheelHandoff | null>(null);
   const touchGestureRef = useRef<TouchGestureSession | null>(null);
 
   const navItems = contentData.navigation;
@@ -122,7 +128,7 @@ export function App() {
   );
 
   const goToSlide = useCallback(
-    (targetIndex: number) => {
+    (targetIndex: number, wheelHandoff?: WheelHandoff) => {
       if (targetIndex < 0 || targetIndex >= totalSlides || isAnimating.current) return;
 
       const currentElement = slidesRef.current[currentSlide];
@@ -136,6 +142,7 @@ export function App() {
 
       isAnimating.current = true;
       wheelGestureRef.current = null;
+      wheelHandoffRef.current = wheelHandoff ?? null;
 
       const direction = targetIndex > currentSlide ? 1 : -1;
       const exitDuration = reducedMotion ? 0.01 : 0.46;
@@ -209,11 +216,6 @@ export function App() {
         return;
       }
 
-      if (shouldHoldTransitionInput({ isAnimating: isAnimating.current })) {
-        event.preventDefault();
-        return;
-      }
-
       const now = performance.now();
       const scrollElement = getSlideScrollElement(currentSlide);
       const lineHeight = Number.parseFloat(
@@ -226,6 +228,26 @@ export function App() {
         pageHeight: scrollElement?.clientHeight ?? container.clientHeight,
       });
       const direction: ScrollDirection = normalizedDeltaY > 0 ? 'down' : 'up';
+      const activeHandoff = wheelHandoffRef.current;
+      const continuesHandoff = shouldHoldTransitionInput({
+        isAnimating: false,
+        handoff: activeHandoff,
+        direction,
+        now,
+      });
+
+      if (continuesHandoff) {
+        wheelHandoffRef.current = { direction, lastEventAt: now };
+        event.preventDefault();
+        return;
+      }
+
+      wheelHandoffRef.current = null;
+      if (shouldHoldTransitionInput({ isAnimating: isAnimating.current })) {
+        event.preventDefault();
+        return;
+      }
+
       const atBoundary = isScrollBoundary(scrollElement, direction);
       const previousGesture = wheelGestureRef.current;
       const startsNewGesture =
@@ -259,7 +281,10 @@ export function App() {
       event.preventDefault();
       if (action === 'navigate-slide') {
         wheelGestureRef.current = null;
-        goToSlide(currentSlide + (direction === 'down' ? 1 : -1));
+        goToSlide(currentSlide + (direction === 'down' ? 1 : -1), {
+          direction,
+          lastEventAt: now,
+        });
       }
     };
 

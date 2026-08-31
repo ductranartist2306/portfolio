@@ -309,8 +309,26 @@ test('transition animation consumes wheel input while slides overlap', () => {
   assert.equal(shouldHoldTransitionInput({ isAnimating: true }), true);
 });
 
-test('completed transitions immediately release new wheel input', () => {
-  const formerlyLockedInput = { isAnimating: false, now: 200, lockUntil: 260 };
+test('transition handoff keeps contiguous same-direction wheel tail from moving the destination', () => {
+  const destinationTail = {
+    isAnimating: false,
+    handoff: { direction: 'down' as const, lastEventAt: 100 },
+    direction: 'down' as const,
+    now: 259,
+  };
 
-  assert.equal(shouldHoldTransitionInput(formerlyLockedInput), false);
+  assert.equal(shouldHoldTransitionInput(destinationTail), true);
+});
+
+test('transition handoff yields to a new direction or an idle-separated gesture', () => {
+  const handoff = { direction: 'down' as const, lastEventAt: 100 };
+
+  assert.equal(
+    shouldHoldTransitionInput({ isAnimating: false, handoff, direction: 'up', now: 120 }),
+    false
+  );
+  assert.equal(
+    shouldHoldTransitionInput({ isAnimating: false, handoff, direction: 'down', now: 260 }),
+    false
+  );
 });

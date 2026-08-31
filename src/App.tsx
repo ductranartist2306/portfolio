@@ -159,6 +159,7 @@ export function App() {
 
       const timeline = gsap.timeline({
         onComplete: () => {
+          gsap.set(currentElement, { display: 'none' });
           setCurrentSlide(targetIndex);
           gsap.set(currentElement, { clearProps: 'transform,opacity,scale,pointerEvents' });
           gsap.set(nextElement, {

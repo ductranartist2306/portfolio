@@ -74,6 +74,15 @@ export function App() {
       const slide = slidesRef.current[targetIndex];
       if (!slide) return;
 
+      if (targetIndex === 0) {
+        setCurrentSlide(0);
+        scrollContainerRef.current?.scrollTo({
+          top: 0,
+          behavior: reducedMotion ? 'auto' : 'smooth',
+        });
+        return;
+      }
+
       const videoFocus = slide.querySelector<HTMLElement>('[data-scroll-focus]');
       setCurrentSlide(targetIndex);
       (videoFocus ?? slide).scrollIntoView({
@@ -103,7 +112,7 @@ export function App() {
         />
 
         <main aria-hidden={drawerOpen || undefined} inert={drawerOpen || undefined}>
-          <section ref={(element) => { slidesRef.current[0] = element; }} id="slide-s1" className="magazine-slide relative min-h-dvh w-full [scroll-snap-align:start]">
+          <section ref={(element) => { slidesRef.current[0] = element; }} id="slide-s1" className="magazine-slide relative min-h-dvh w-full">
             <S1Hero data={slidesData.s1} onExploreClick={() => goToSlide(1)} />
           </section>
 

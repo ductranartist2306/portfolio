@@ -40,6 +40,13 @@ interface WheelGestureActionOptions {
   threshold?: number;
 }
 
+interface WheelDeltaOptions {
+  deltaY: number;
+  deltaMode: number;
+  lineHeight: number;
+  pageHeight: number;
+}
+
 interface MediaRenderOptions {
   activeSource: string | undefined;
   hasError: boolean;
@@ -193,6 +200,18 @@ export function getElementOffsetTop(
   }
 
   return current === ancestor ? offsetTop : null;
+}
+
+export function getWheelDeltaPixels(options: WheelDeltaOptions): number {
+  if (options.deltaMode === 1) {
+    return options.deltaY * Math.max(1, options.lineHeight);
+  }
+
+  if (options.deltaMode === 2) {
+    return options.deltaY * Math.max(1, options.pageHeight);
+  }
+
+  return options.deltaY;
 }
 
 export function getWheelGestureAction(

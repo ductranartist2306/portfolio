@@ -15,6 +15,7 @@ import {
   getPortalAssetSources,
   getNextMediaSourceIndex,
   getShowcaseScrollTop,
+  getWheelDeltaPixels,
   getWheelGestureAction,
   shouldNavigateFromScroll,
   shouldEnableCustomCursor,
@@ -245,6 +246,21 @@ test('showcase layout offsets follow a stable non-sticky anchor chain', () => {
   const showcase = { offsetTop: 0, offsetParent: gridAnchor } as unknown as HTMLElement;
 
   assert.equal(getElementOffsetTop(showcase, root), 237);
+});
+
+test('wheel deltas normalize pixel, line, and page input to one distance unit', () => {
+  assert.equal(
+    getWheelDeltaPixels({ deltaY: 24, deltaMode: 0, lineHeight: 20, pageHeight: 900 }),
+    24
+  );
+  assert.equal(
+    getWheelDeltaPixels({ deltaY: 3, deltaMode: 1, lineHeight: 20, pageHeight: 900 }),
+    60
+  );
+  assert.equal(
+    getWheelDeltaPixels({ deltaY: -1, deltaMode: 2, lineHeight: 20, pageHeight: 900 }),
+    -900
+  );
 });
 
 test('wheel gestures scroll long section content before changing slides', () => {

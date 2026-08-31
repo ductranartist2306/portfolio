@@ -56,6 +56,9 @@ test('App restores the approved GSAP motion and section focus preparation', asyn
   assert.match(source, /getShowcaseScrollTop/);
   assert.match(source, /getElementOffsetTop\(showcaseAnchor, scrollElement\)/);
   assert.match(source, /getWheelGestureAction/);
+  assert.match(source, /getWheelDeltaPixels/);
+  assert.match(source, /addEventListener\('touchcancel'/);
+  assert.match(source, /removeEventListener\('touchcancel'/);
   assert.doesNotMatch(source, /IntersectionObserver|data-scroll-focus/);
 });
 

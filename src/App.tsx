@@ -18,6 +18,7 @@ import {
   canNavigateSlides,
   getElementOffsetTop,
   getShowcaseScrollTop,
+  getWheelDeltaPixels,
   getWheelGestureAction,
   shouldNavigateFromScroll,
   WHEEL_GESTURE_IDLE_MS,
@@ -207,8 +208,17 @@ export function App() {
         return;
       }
 
-      const direction: ScrollDirection = event.deltaY > 0 ? 'down' : 'up';
       const scrollElement = getSlideScrollElement(currentSlide);
+      const lineHeight = Number.parseFloat(
+        getComputedStyle(scrollElement ?? container).lineHeight
+      );
+      const normalizedDeltaY = getWheelDeltaPixels({
+        deltaY: event.deltaY,
+        deltaMode: event.deltaMode,
+        lineHeight: Number.isFinite(lineHeight) ? lineHeight : 16,
+        pageHeight: scrollElement?.clientHeight ?? container.clientHeight,
+      });
+      const direction: ScrollDirection = normalizedDeltaY > 0 ? 'down' : 'up';
       const atBoundary = isScrollBoundary(scrollElement, direction);
       const now = performance.now();
       const previousGesture = wheelGestureRef.current;
@@ -221,12 +231,13 @@ export function App() {
         ? {
             direction,
             startedAtBoundary: atBoundary,
-            accumulatedDelta: Math.abs(event.deltaY),
+            accumulatedDelta: Math.abs(normalizedDeltaY),
             lastEventAt: now,
           }
         : {
             ...previousGesture,
-            accumulatedDelta: previousGesture.accumulatedDelta + Math.abs(event.deltaY),
+            accumulatedDelta:
+              previousGesture.accumulatedDelta + Math.abs(normalizedDeltaY),
             lastEventAt: now,
           };
 
@@ -268,6 +279,10 @@ export function App() {
       } else if (distance < 0 && gesture.atTop) {
         goToSlide(currentSlide - 1);
       }
+    };
+
+    const handleTouchCancel = () => {
+      touchGestureRef.current = null;
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -313,12 +328,14 @@ export function App() {
     container.addEventListener('wheel', handleWheel, { passive: false });
     container.addEventListener('touchstart', handleTouchStart, { passive: true });
     container.addEventListener('touchend', handleTouchEnd, { passive: true });
+    container.addEventListener('touchcancel', handleTouchCancel, { passive: true });
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       container.removeEventListener('wheel', handleWheel);
       container.removeEventListener('touchstart', handleTouchStart);
       container.removeEventListener('touchend', handleTouchEnd);
+      container.removeEventListener('touchcancel', handleTouchCancel);
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [

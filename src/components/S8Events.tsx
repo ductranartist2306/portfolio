@@ -53,6 +53,7 @@ export const S8Events: React.FC<S8EventsProps> = ({
               videoPath={section.videoUrl}
               fallbackUrl={section.videoUrl}
               youtubeUrl={section.youtubeUrl}
+              posterUrl={section.posterUrl}
               sourceAspectRatio={section.aspectRatio as any}
               playMode="click"
               isActive={isActive}

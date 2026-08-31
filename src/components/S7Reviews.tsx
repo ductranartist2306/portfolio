@@ -46,6 +46,7 @@ export const S7Reviews: React.FC<S7ReviewsProps> = ({
               videoPath={rev.videoUrl}
               fallbackUrl={rev.videoUrl}
               youtubeUrl={rev.youtubeUrl}
+              posterUrl={rev.posterUrl}
               sourceAspectRatio={rev.aspectRatio as any}
               playMode="click"
               isActive={isActive}

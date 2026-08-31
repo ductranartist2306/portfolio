@@ -8,6 +8,7 @@ type ShowcaseItem = {
   description?: string;
   youtubeUrl?: string;
   fallbackVideoUrl?: string;
+  posterUrl?: string;
   videoUrl?: string;
   aspectRatio?: string;
   type?: string;
@@ -25,6 +26,12 @@ function assertEmbeddedShowcaseItem(item: ShowcaseItem, aspectRatio: '16:9' | '9
     'showcase item requires a browser-accessible native fallback'
   );
   assert.equal(item.aspectRatio, aspectRatio);
+  assert.equal(
+    item.posterUrl,
+    aspectRatio === '16:9'
+      ? './assets/video-poster-horizontal.webp'
+      : './assets/video-poster-portrait.webp'
+  );
 }
 
 test('S4 and S5 each expose two horizontal YouTube showcases', () => {

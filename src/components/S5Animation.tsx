@@ -43,6 +43,7 @@ export const S5Animation: React.FC<S5AnimationProps> = ({
               videoPath={item.path}
               fallbackUrl={item.fallbackVideoUrl}
               youtubeUrl={item.youtubeUrl}
+              posterUrl={item.posterUrl}
               sourceAspectRatio={item.aspectRatio as any}
               playMode="click"
               isActive={isActive}

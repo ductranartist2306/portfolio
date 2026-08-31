@@ -43,6 +43,7 @@ export const S4Commercials: React.FC<S4CommercialsProps> = ({
               videoPath={item.path}
               fallbackUrl={item.fallbackVideoUrl}
               youtubeUrl={item.youtubeUrl}
+              posterUrl={item.posterUrl}
               sourceAspectRatio={item.aspectRatio as any}
               playMode="click"
               isActive={isActive}

@@ -17,6 +17,7 @@ interface VideoCardProps {
   videoPath?: string;
   fallbackUrl?: string;
   youtubeUrl?: string;
+  posterUrl?: string;
   sourceAspectRatio?: MediaAspectRatio;
   playMode?: 'autoplay' | 'hover' | 'click';
   isActive?: boolean;
@@ -33,6 +34,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
   videoPath,
   fallbackUrl,
   youtubeUrl,
+  posterUrl,
   sourceAspectRatio = DEFAULT_MEDIA_ASPECT_RATIO,
   playMode = 'hover',
   isActive = true,
@@ -280,7 +282,17 @@ export const VideoCard: React.FC<VideoCardProps> = ({
           data-source-aspect={sourceAspectRatio}
           data-video-stage
         >
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+          {posterUrl && isActive && (
+            <img
+              src={posterUrl}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover opacity-70"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0E14]/95 via-[#0A0E14]/45 to-black/20" />
+          <div className="absolute inset-0 z-[1] flex flex-col items-center justify-center gap-3 px-6 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-black/30">
               <Film className="h-5 w-5 text-white/60" />
             </div>

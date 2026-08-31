@@ -47,6 +47,7 @@ export const S6TikTok: React.FC<S6TikTokProps> = ({
               videoPath={item.path}
               fallbackUrl={item.fallbackVideoUrl}
               youtubeUrl={item.youtubeUrl}
+              posterUrl={item.posterUrl}
               sourceAspectRatio={item.aspectRatio as any}
               playMode="click"
               isActive={isActive}

@@ -15,6 +15,7 @@ import {
   getPortalAssetSources,
   getNextMediaSourceIndex,
   getShowcaseScrollTop,
+  shouldHoldTransitionInput,
   getWheelDeltaPixels,
   getWheelGestureAction,
   shouldNavigateFromScroll,
@@ -302,4 +303,10 @@ test('a new deliberate gesture at the boundary changes slides after its threshol
     }),
     'navigate-slide'
   );
+});
+
+test('transition input guard consumes tail events until the scroll stream becomes quiet', () => {
+  assert.equal(shouldHoldTransitionInput({ isAnimating: true, now: 100, lockUntil: 0 }), true);
+  assert.equal(shouldHoldTransitionInput({ isAnimating: false, now: 200, lockUntil: 260 }), true);
+  assert.equal(shouldHoldTransitionInput({ isAnimating: false, now: 261, lockUntil: 260 }), false);
 });

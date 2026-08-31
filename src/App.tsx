@@ -20,6 +20,7 @@ import {
   getShowcaseScrollTop,
   getWheelDeltaPixels,
   getWheelGestureAction,
+  shouldHoldTransitionInput,
   shouldNavigateFromScroll,
   WHEEL_GESTURE_IDLE_MS,
 } from './lib/portfolioUi';
@@ -50,6 +51,7 @@ export function App() {
   const containerRef = useRef<HTMLDivElement>(null);
   const slidesRef = useRef<(HTMLDivElement | null)[]>([]);
   const isAnimating = useRef(false);
+  const transitionInputLockUntilRef = useRef(0);
   const wheelGestureRef = useRef<WheelGestureSession | null>(null);
   const touchGestureRef = useRef<TouchGestureSession | null>(null);
 
@@ -203,9 +205,21 @@ export function App() {
     const handleWheel = (event: WheelEvent) => {
       if (
         event.deltaY === 0 ||
-        isAnimating.current ||
         !canNavigateSlides({ drawerOpen, interactiveTarget: false })
       ) {
+        return;
+      }
+
+      const now = performance.now();
+      if (
+        shouldHoldTransitionInput({
+          isAnimating: isAnimating.current,
+          now,
+          lockUntil: transitionInputLockUntilRef.current,
+        })
+      ) {
+        event.preventDefault();
+        transitionInputLockUntilRef.current = now + WHEEL_GESTURE_IDLE_MS;
         return;
       }
 
@@ -221,7 +235,6 @@ export function App() {
       });
       const direction: ScrollDirection = normalizedDeltaY > 0 ? 'down' : 'up';
       const atBoundary = isScrollBoundary(scrollElement, direction);
-      const now = performance.now();
       const previousGesture = wheelGestureRef.current;
       const startsNewGesture =
         !previousGesture ||

@@ -6,6 +6,7 @@ const cursorPath = new URL('../components/CustomCursor.tsx', import.meta.url);
 const appPath = new URL('../App.tsx', import.meta.url);
 const contentPath = new URL('../data/contentData.json', import.meta.url);
 const s3Path = new URL('../components/S3Experience.tsx', import.meta.url);
+const cssPath = new URL('../index.css', import.meta.url);
 
 test('custom cursor keeps only the particle canvas and never hides the native cursor', async () => {
   const source = await readFile(cursorPath, 'utf8');
@@ -55,4 +56,22 @@ test('S3 renders one compact vertical timeline without duplicated employer UI', 
   assert.match(source, /data-s3-timeline/);
   assert.match(source, /data-s3-timeline[^>]*className="[^"]*space-y-3/s);
   assert.doesNotMatch(source, /data-s3-timeline[^>]*grid-cols-2/s);
+});
+
+test('S3 desktop fit uses an explicit width-and-height gate without hiding content', async () => {
+  const source = await readFile(cssPath, 'utf8');
+  const mediaStart = source.indexOf('@media (min-width: 1280px) and (min-height: 720px)');
+  const nextMedia = source.indexOf('@media', mediaStart + 1);
+  const gatedRules = source.slice(mediaStart, nextMedia >= 0 ? nextMedia : undefined);
+
+  assert.ok(mediaStart >= 0, 'compact S3 requires the approved desktop gate');
+  assert.match(gatedRules, /\[data-s3-root\]/);
+  assert.match(gatedRules, /\[data-s3-header\]/);
+  assert.match(gatedRules, /\[data-s3-grid\]/);
+  assert.match(gatedRules, /\[data-s3-left\]/);
+  assert.match(gatedRules, /\[data-s3-timeline\]/);
+  assert.doesNotMatch(
+    gatedRules,
+    /overflow:\s*hidden|max-height|line-clamp|\n\s*height:\s*\d/
+  );
 });

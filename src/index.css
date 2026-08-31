@@ -158,6 +158,35 @@ body {
   will-change: transform, opacity;
 }
 
+@media (min-width: 1280px) and (min-height: 720px) {
+  [data-s3-root] {
+    padding-top: 5.5rem;
+    padding-bottom: 1.25rem;
+  }
+
+  [data-s3-header] {
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  [data-s3-header] h2 {
+    font-size: 1.75rem;
+    line-height: 1.05;
+  }
+
+  [data-s3-grid] {
+    gap: 1.5rem;
+  }
+
+  [data-s3-left] {
+    align-self: start;
+  }
+
+  [data-s3-timeline] > * + * {
+    margin-block-start: 0.5rem !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-rise {
     animation: none;

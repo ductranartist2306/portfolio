@@ -12,6 +12,7 @@ Polish the portfolio interaction without changing the approved slide motion: res
 ### Native cursor with animated trail
 
 - The browser and operating system render the normal pointer or hand cursor.
+- The browser and operating system own every native cursor state after cursor replacement is removed; the app renders only the particle canvas.
 - The app no longer hides the native cursor globally.
 - The custom 32px ring and 12px dot are removed.
 - The existing canvas particle trail remains active for fine mouse pointers when reduced motion is not requested.
@@ -37,6 +38,8 @@ S3 keeps four roles in chronological order:
 
 GAPO Social Network and Media Department – VOV World are removed from the S3 timeline data and from visible company summaries.
 
+All visible S3 metadata must reflect the retained data. The current top-right `2019–2026` chip must derive from the first and last retained roles and render `2021–2026`; any employer count must render four or be removed.
+
 - The four roles remain a single vertical timeline, not a 2×2 grid or horizontal carousel.
 - Only one role is expanded at a time. Carnow remains selected initially.
 - Collapsed cards show company, role, and period in a compact row.
@@ -48,10 +51,10 @@ GAPO Social Network and Media Department – VOV World are removed from the S3 t
 
 ## Responsive Behavior
 
-- At `1280×720`, `1440×900`, and wider desktop viewports, S3's inner `data-slide-scroll` must have no meaningful vertical travel (`scrollHeight <= clientHeight + 1`).
+- Desktop no-scroll behavior applies only when viewport width is at least `1280px` and viewport height is at least `720px`. At `1280×720`, `1440×900`, and larger viewports that satisfy both thresholds, S3's inner `data-slide-scroll` must have no meaningful vertical travel (`scrollHeight <= clientHeight + 1`).
 - Because desktop S3 starts at its lower boundary, one deliberate downward wheel/trackpad gesture uses the existing GSAP transition to enter S4.
 - Upward navigation from S3 behaves like the other viewport-sized blocks and returns to S2 through the same transition path.
-- On narrower or shorter screens, S3 may use its existing vertical inner scroller so all four jobs and expanded details remain reachable. Content reachability takes priority over one-gesture navigation on mobile.
+- If either viewport dimension is below the desktop gate, including a wide-but-short viewport such as `1600×700`, S3 may use its existing vertical inner scroller so all four jobs and expanded details remain reachable. Content reachability takes priority over one-gesture navigation on mobile and short desktop screens.
 
 ## Architecture and Data Flow
 

@@ -115,7 +115,27 @@ body {
 }
 
 .animate-fade-rise {
-  animation: fadeRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes portalDrift {
+  0% {
+    opacity: 0.88;
+    transform: translate3d(0, 0, 0) scale(1.02);
+  }
+  50% {
+    opacity: 1;
+    transform: translate3d(-1.2%, -0.8%, 0) scale(1.065);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translate3d(0.6%, 0.4%, 0) scale(1.025);
+  }
+}
+
+.animate-portal-drift {
+  animation: portalDrift 24s ease-in-out infinite alternate;
+  will-change: transform, opacity;
 }
 
 /* Custom scrollbar */
@@ -164,6 +184,12 @@ body {
   .animate-fade-rise {
     animation: none;
     opacity: 1;
+    transform: none;
+  }
+
+  .animate-portal-drift {
+    animation: none;
+    opacity: 0.92;
     transform: none;
   }
 

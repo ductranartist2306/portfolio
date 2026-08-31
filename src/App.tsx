@@ -167,6 +167,8 @@ export function App() {
           gsap.set(nextElement, {
             clearProps: 'transform,opacity,scale,visibility,pointerEvents',
           });
+          transitionInputLockUntilRef.current =
+            performance.now() + WHEEL_GESTURE_IDLE_MS;
           isAnimating.current = false;
         },
       });
@@ -219,7 +221,6 @@ export function App() {
         })
       ) {
         event.preventDefault();
-        transitionInputLockUntilRef.current = now + WHEEL_GESTURE_IDLE_MS;
         return;
       }
 

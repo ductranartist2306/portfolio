@@ -67,53 +67,6 @@ export function App() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const root = scrollContainerRef.current;
-    if (!root) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (drawerOpen) return;
-
-      const target = event.target;
-      const isEditing =
-        target instanceof Element &&
-        Boolean(target.closest('input, textarea, select, [contenteditable="true"]'));
-      if (isEditing) return;
-
-      const pageStep = root.clientHeight * 0.85;
-      const scrollAmount =
-        event.key === 'PageDown'
-          ? pageStep
-          : event.key === 'PageUp'
-          ? -pageStep
-          : event.key === 'ArrowDown'
-          ? 80
-          : event.key === 'ArrowUp'
-          ? -80
-          : null;
-
-      if (scrollAmount !== null) {
-        event.preventDefault();
-        root.scrollBy({
-          top: scrollAmount,
-          behavior: reducedMotion ? 'auto' : 'smooth',
-        });
-        return;
-      }
-
-      if (event.key === 'Home' || event.key === 'End') {
-        event.preventDefault();
-        root.scrollTo({
-          top: event.key === 'Home' ? 0 : root.scrollHeight,
-          behavior: reducedMotion ? 'auto' : 'smooth',
-        });
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [drawerOpen, reducedMotion]);
-
   const goToSlide = useCallback(
     (targetIndex: number) => {
       if (targetIndex < 0 || targetIndex >= totalSlides) return;
@@ -140,6 +93,51 @@ export function App() {
     },
     [reducedMotion, totalSlides]
   );
+
+  useEffect(() => {
+    const root = scrollContainerRef.current;
+    if (!root) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (drawerOpen) return;
+
+      const target = event.target;
+      const isEditing =
+        target instanceof Element &&
+        Boolean(target.closest('input, textarea, select, [contenteditable="true"]'));
+      if (isEditing) return;
+
+      if (event.key === 'PageDown' || event.key === 'PageUp') {
+        event.preventDefault();
+        goToSlide(currentSlide + (event.key === 'PageDown' ? 1 : -1));
+        return;
+      }
+
+      const scrollAmount =
+        event.key === 'ArrowDown'
+          ? 80
+          : event.key === 'ArrowUp'
+          ? -80
+          : null;
+
+      if (scrollAmount !== null) {
+        event.preventDefault();
+        root.scrollBy({
+          top: scrollAmount,
+          behavior: reducedMotion ? 'auto' : 'smooth',
+        });
+        return;
+      }
+
+      if (event.key === 'Home' || event.key === 'End') {
+        event.preventDefault();
+        goToSlide(event.key === 'Home' ? 0 : totalSlides - 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentSlide, drawerOpen, goToSlide, reducedMotion, totalSlides]);
 
   return (
     <div className="relative h-dvh w-screen overflow-hidden bg-[#130c08] font-body text-white">

@@ -13,6 +13,8 @@ import {
   getMediaStageClass,
   getPortalAssetSources,
   getNextMediaSourceIndex,
+  getShowcaseScrollTop,
+  getWheelGestureAction,
   shouldNavigateFromScroll,
   shouldEnableCustomCursor,
 } from './portfolioUi';
@@ -184,5 +186,95 @@ test('keyboard navigation leaves a long section only at its requested boundary',
   assert.equal(
     shouldNavigateFromScroll({ direction: 'up', scrollTop: 0, scrollHeight: 1000, clientHeight: 500 }),
     true
+  );
+});
+
+test('showcase focus centers a target that fits the usable viewport', () => {
+  assert.equal(
+    getShowcaseScrollTop({
+      scrollHeight: 1800,
+      clientHeight: 900,
+      targetOffsetTop: 700,
+      targetHeight: 400,
+      safeInset: 80,
+    }),
+    410
+  );
+});
+
+test('showcase focus top-aligns a tall target below the safe inset', () => {
+  assert.equal(
+    getShowcaseScrollTop({
+      scrollHeight: 2200,
+      clientHeight: 900,
+      targetOffsetTop: 600,
+      targetHeight: 1000,
+      safeInset: 80,
+    }),
+    520
+  );
+});
+
+test('showcase focus stays inside the section scroll range', () => {
+  assert.equal(
+    getShowcaseScrollTop({
+      scrollHeight: 1000,
+      clientHeight: 800,
+      targetOffsetTop: 50,
+      targetHeight: 300,
+      safeInset: 80,
+    }),
+    0
+  );
+  assert.equal(
+    getShowcaseScrollTop({
+      scrollHeight: 1000,
+      clientHeight: 800,
+      targetOffsetTop: 900,
+      targetHeight: 300,
+      safeInset: 80,
+    }),
+    200
+  );
+});
+
+test('wheel gestures scroll long section content before changing slides', () => {
+  assert.equal(
+    getWheelGestureAction({
+      atBoundary: false,
+      startedAtBoundary: false,
+      accumulatedDelta: 80,
+    }),
+    'scroll-section'
+  );
+});
+
+test('the gesture that reaches a boundary cannot spend its inertial tail on navigation', () => {
+  assert.equal(
+    getWheelGestureAction({
+      atBoundary: true,
+      startedAtBoundary: false,
+      accumulatedDelta: 160,
+    }),
+    'hold-boundary'
+  );
+});
+
+test('a new deliberate gesture at the boundary changes slides after its threshold', () => {
+  assert.equal(
+    getWheelGestureAction({
+      atBoundary: true,
+      startedAtBoundary: true,
+      accumulatedDelta: 20,
+    }),
+    'hold-boundary'
+  );
+  assert.equal(
+    getWheelGestureAction({
+      atBoundary: true,
+      startedAtBoundary: true,
+      accumulatedDelta: 30,
+    }),
+    'navigate-slide'
   );
 });

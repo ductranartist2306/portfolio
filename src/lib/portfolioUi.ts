@@ -25,6 +25,21 @@ interface ScrollBoundaryOptions {
   clientHeight: number;
 }
 
+interface ShowcaseScrollOptions {
+  scrollHeight: number;
+  clientHeight: number;
+  targetOffsetTop: number;
+  targetHeight: number;
+  safeInset: number;
+}
+
+interface WheelGestureActionOptions {
+  atBoundary: boolean;
+  startedAtBoundary: boolean;
+  accumulatedDelta: number;
+  threshold?: number;
+}
+
 interface MediaRenderOptions {
   activeSource: string | undefined;
   hasError: boolean;
@@ -40,6 +55,10 @@ interface FocusTrapOptions {
 }
 
 export type MediaRenderState = 'unavailable' | 'deferred-youtube' | 'youtube' | 'native';
+export type WheelGestureAction = 'scroll-section' | 'hold-boundary' | 'navigate-slide';
+
+export const WHEEL_GESTURE_IDLE_MS = 160;
+export const WHEEL_NAVIGATION_DELTA = 30;
 
 export interface PortalAssetSources {
   desktopAvif: string;
@@ -144,6 +163,32 @@ export function canNavigateSlides(options: SlideNavigationOptions): boolean {
 export function shouldNavigateFromScroll(options: ScrollBoundaryOptions): boolean {
   if (options.direction === 'up') return options.scrollTop <= 0;
   return options.scrollTop + options.clientHeight >= options.scrollHeight - 1;
+}
+
+export function getShowcaseScrollTop(options: ShowcaseScrollOptions): number {
+  const clientHeight = Math.max(0, options.clientHeight);
+  const safeInset = Math.min(clientHeight, Math.max(0, options.safeInset));
+  const usableHeight = Math.max(0, clientHeight - safeInset);
+  const maxScrollTop = Math.max(0, options.scrollHeight - clientHeight);
+  const targetOffsetTop = Math.max(0, options.targetOffsetTop);
+  const targetHeight = Math.max(0, options.targetHeight);
+  const desiredTop =
+    targetHeight <= usableHeight
+      ? targetOffsetTop - safeInset - (usableHeight - targetHeight) / 2
+      : targetOffsetTop - safeInset;
+
+  return Math.min(maxScrollTop, Math.max(0, desiredTop));
+}
+
+export function getWheelGestureAction(
+  options: WheelGestureActionOptions
+): WheelGestureAction {
+  if (!options.atBoundary) return 'scroll-section';
+
+  const threshold = Math.max(0, options.threshold ?? WHEEL_NAVIGATION_DELTA);
+  return options.startedAtBoundary && options.accumulatedDelta >= threshold
+    ? 'navigate-slide'
+    : 'hold-boundary';
 }
 
 function normalizeYouTubeUrl(value: string): URL | null {

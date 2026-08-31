@@ -63,3 +63,14 @@ test('document-level snap rules do not compete with controlled slide motion', as
   assert.doesNotMatch(source, /scroll-snap-type|scroll-snap-align|data-scroll-focus/);
   assert.match(source, /\.magazine-slide\s*\{[^}]*will-change:\s*transform, opacity/s);
 });
+
+test('header follows and locks the active inner slide scroller', async () => {
+  const source = await readFile(new URL('../components/Header.tsx', import.meta.url), 'utf8');
+
+  assert.match(source, /useMotionValue/);
+  assert.match(source, /useSpring/);
+  assert.match(source, /getHeaderTranslateY/);
+  assert.match(source, /\[data-slide-scroll\]/);
+  assert.match(source, /reducedMotion\?: boolean/);
+  assert.doesNotMatch(source, /\[data-portfolio-scroll\]/);
+});

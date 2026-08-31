@@ -331,6 +331,7 @@ export function App() {
         currentSlide={currentSlide}
         onNavigateToSlide={goToSlide}
         onDrawerOpenChange={setDrawerOpen}
+        reducedMotion={reducedMotion}
       />
 
       <main

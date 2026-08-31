@@ -309,26 +309,24 @@ test('transition animation consumes wheel input while slides overlap', () => {
   assert.equal(shouldHoldTransitionInput({ isAnimating: true }), true);
 });
 
-test('transition handoff keeps contiguous same-direction wheel tail from moving the destination', () => {
-  const destinationTail = {
-    isAnimating: false,
-    handoff: { direction: 'down' as const, lastEventAt: 100 },
-    direction: 'down' as const,
-    now: 259,
+test('a pixel boundary stream defers slide navigation until the stream becomes quiet', () => {
+  const pixelBoundaryStream = {
+    atBoundary: true,
+    startedAtBoundary: true,
+    accumulatedDelta: 30,
+    deltaMode: 0,
   };
 
-  assert.equal(shouldHoldTransitionInput(destinationTail), true);
+  assert.equal(getWheelGestureAction(pixelBoundaryStream), 'schedule-slide');
 });
 
-test('transition handoff yields to a new direction or an idle-separated gesture', () => {
-  const handoff = { direction: 'down' as const, lastEventAt: 100 };
+test('line-mode boundary wheel input changes slides immediately', () => {
+  const lineBoundaryStream = {
+    atBoundary: true,
+    startedAtBoundary: true,
+    accumulatedDelta: 30,
+    deltaMode: 1,
+  };
 
-  assert.equal(
-    shouldHoldTransitionInput({ isAnimating: false, handoff, direction: 'up', now: 120 }),
-    false
-  );
-  assert.equal(
-    shouldHoldTransitionInput({ isAnimating: false, handoff, direction: 'down', now: 260 }),
-    false
-  );
+  assert.equal(getWheelGestureAction(lineBoundaryStream), 'navigate-slide');
 });

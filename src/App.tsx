@@ -34,9 +34,11 @@ interface WheelGestureSession {
   lastEventAt: number;
 }
 
-interface WheelHandoff {
+interface PendingPixelSlideNavigation {
   direction: ScrollDirection;
+  targetIndex: number;
   lastEventAt: number;
+  timeoutId: number;
 }
 
 interface TouchGestureSession {
@@ -57,7 +59,7 @@ export function App() {
   const slidesRef = useRef<(HTMLDivElement | null)[]>([]);
   const isAnimating = useRef(false);
   const wheelGestureRef = useRef<WheelGestureSession | null>(null);
-  const wheelHandoffRef = useRef<WheelHandoff | null>(null);
+  const pendingPixelNavigationRef = useRef<PendingPixelSlideNavigation | null>(null);
   const touchGestureRef = useRef<TouchGestureSession | null>(null);
 
   const navItems = contentData.navigation;
@@ -127,8 +129,17 @@ export function App() {
     [getSlideScrollElement]
   );
 
+  const clearPendingPixelNavigation = useCallback(() => {
+    const pending = pendingPixelNavigationRef.current;
+    if (!pending) return;
+
+    window.clearTimeout(pending.timeoutId);
+    pendingPixelNavigationRef.current = null;
+  }, []);
+
   const goToSlide = useCallback(
-    (targetIndex: number, wheelHandoff?: WheelHandoff) => {
+    (targetIndex: number) => {
+      clearPendingPixelNavigation();
       if (targetIndex < 0 || targetIndex >= totalSlides || isAnimating.current) return;
 
       const currentElement = slidesRef.current[currentSlide];
@@ -142,7 +153,6 @@ export function App() {
 
       isAnimating.current = true;
       wheelGestureRef.current = null;
-      wheelHandoffRef.current = wheelHandoff ?? null;
 
       const direction = targetIndex > currentSlide ? 1 : -1;
       const exitDuration = reducedMotion ? 0.01 : 0.46;
@@ -201,7 +211,44 @@ export function App() {
           reducedMotion ? 0 : 0.08
         );
     },
-    [currentSlide, prepareSlideFocus, reducedMotion, totalSlides]
+    [clearPendingPixelNavigation, currentSlide, prepareSlideFocus, reducedMotion, totalSlides]
+  );
+
+  const schedulePixelSlideNavigation = useCallback(
+    (direction: ScrollDirection, lastEventAt: number) => {
+      clearPendingPixelNavigation();
+
+      const targetIndex = currentSlide + (direction === 'down' ? 1 : -1);
+      if (targetIndex < 0 || targetIndex >= totalSlides) return;
+
+      const queueCommit = (deadline: number) => {
+        const timeoutId = window.setTimeout(() => {
+          window.requestAnimationFrame(() => {
+            const pending = pendingPixelNavigationRef.current;
+            if (!pending || pending.timeoutId !== timeoutId) return;
+
+            const remaining = pending.lastEventAt + WHEEL_GESTURE_IDLE_MS - performance.now();
+            if (remaining > 0) {
+              queueCommit(performance.now() + remaining);
+              return;
+            }
+
+            pendingPixelNavigationRef.current = null;
+            goToSlide(pending.targetIndex);
+          });
+        }, Math.max(0, deadline - performance.now()));
+
+        pendingPixelNavigationRef.current = {
+          direction,
+          targetIndex,
+          lastEventAt,
+          timeoutId,
+        };
+      };
+
+      queueCommit(lastEventAt + WHEEL_GESTURE_IDLE_MS);
+    },
+    [clearPendingPixelNavigation, currentSlide, goToSlide, totalSlides]
   );
 
   useEffect(() => {
@@ -213,6 +260,7 @@ export function App() {
         event.deltaY === 0 ||
         !canNavigateSlides({ drawerOpen, interactiveTarget: false })
       ) {
+        if (drawerOpen) clearPendingPixelNavigation();
         return;
       }
 
@@ -228,27 +276,26 @@ export function App() {
         pageHeight: scrollElement?.clientHeight ?? container.clientHeight,
       });
       const direction: ScrollDirection = normalizedDeltaY > 0 ? 'down' : 'up';
-      const activeHandoff = wheelHandoffRef.current;
-      const continuesHandoff = shouldHoldTransitionInput({
-        isAnimating: false,
-        handoff: activeHandoff,
-        direction,
-        now,
-      });
+      const atBoundary = isScrollBoundary(scrollElement, direction);
+      const pending = pendingPixelNavigationRef.current;
 
-      if (continuesHandoff) {
-        wheelHandoffRef.current = { direction, lastEventAt: now };
-        event.preventDefault();
-        return;
+      if (pending) {
+        if (!atBoundary) {
+          clearPendingPixelNavigation();
+        } else if (event.deltaMode === 0 && pending.direction === direction) {
+          event.preventDefault();
+          schedulePixelSlideNavigation(direction, now);
+          return;
+        } else {
+          clearPendingPixelNavigation();
+        }
       }
 
-      wheelHandoffRef.current = null;
       if (shouldHoldTransitionInput({ isAnimating: isAnimating.current })) {
         event.preventDefault();
         return;
       }
 
-      const atBoundary = isScrollBoundary(scrollElement, direction);
       const previousGesture = wheelGestureRef.current;
       const startsNewGesture =
         !previousGesture ||
@@ -274,21 +321,26 @@ export function App() {
         atBoundary,
         startedAtBoundary: gesture.startedAtBoundary,
         accumulatedDelta: gesture.accumulatedDelta,
+        deltaMode: event.deltaMode,
       });
 
-      if (action === 'scroll-section') return;
+      if (action === 'scroll-section') {
+        clearPendingPixelNavigation();
+        return;
+      }
 
       event.preventDefault();
-      if (action === 'navigate-slide') {
+      if (action === 'schedule-slide') {
         wheelGestureRef.current = null;
-        goToSlide(currentSlide + (direction === 'down' ? 1 : -1), {
-          direction,
-          lastEventAt: now,
-        });
+        schedulePixelSlideNavigation(direction, now);
+      } else if (action === 'navigate-slide') {
+        wheelGestureRef.current = null;
+        goToSlide(currentSlide + (direction === 'down' ? 1 : -1));
       }
     };
 
     const handleTouchStart = (event: TouchEvent) => {
+      clearPendingPixelNavigation();
       const scrollElement = getSlideScrollElement(currentSlide);
       touchGestureRef.current = {
         startY: event.touches[0].clientY,
@@ -342,6 +394,7 @@ export function App() {
           : null;
       if (!direction) return;
 
+      clearPendingPixelNavigation();
       event.preventDefault();
       const scrollElement = getSlideScrollElement(currentSlide);
       if (scrollElement && !isScrollBoundary(scrollElement, direction)) {
@@ -368,16 +421,23 @@ export function App() {
       container.removeEventListener('touchend', handleTouchEnd);
       container.removeEventListener('touchcancel', handleTouchCancel);
       window.removeEventListener('keydown', handleKeyDown);
+      clearPendingPixelNavigation();
     };
   }, [
+    clearPendingPixelNavigation,
     currentSlide,
     drawerOpen,
     getSlideScrollElement,
     goToSlide,
     isScrollBoundary,
     reducedMotion,
+    schedulePixelSlideNavigation,
     totalSlides,
   ]);
+
+  useEffect(() => {
+    if (drawerOpen) clearPendingPixelNavigation();
+  }, [clearPendingPixelNavigation, drawerOpen]);
 
   useEffect(() => {
     return () => {
@@ -394,7 +454,10 @@ export function App() {
         navItems={navItems}
         currentSlide={currentSlide}
         onNavigateToSlide={goToSlide}
-        onDrawerOpenChange={setDrawerOpen}
+        onDrawerOpenChange={(isOpen) => {
+          if (isOpen) clearPendingPixelNavigation();
+          setDrawerOpen(isOpen);
+        }}
         reducedMotion={reducedMotion}
       />
 

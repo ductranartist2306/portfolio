@@ -37,6 +37,7 @@ interface WheelGestureActionOptions {
   atBoundary: boolean;
   startedAtBoundary: boolean;
   accumulatedDelta: number;
+  deltaMode?: number;
   threshold?: number;
 }
 
@@ -49,12 +50,6 @@ interface WheelDeltaOptions {
 
 interface TransitionInputOptions {
   isAnimating: boolean;
-  handoff?: {
-    direction: 'up' | 'down';
-    lastEventAt: number;
-  } | null;
-  direction?: 'up' | 'down';
-  now?: number;
 }
 
 interface MediaRenderOptions {
@@ -72,7 +67,11 @@ interface FocusTrapOptions {
 }
 
 export type MediaRenderState = 'unavailable' | 'deferred-youtube' | 'youtube' | 'native';
-export type WheelGestureAction = 'scroll-section' | 'hold-boundary' | 'navigate-slide';
+export type WheelGestureAction =
+  | 'scroll-section'
+  | 'hold-boundary'
+  | 'schedule-slide'
+  | 'navigate-slide';
 
 export const WHEEL_GESTURE_IDLE_MS = 160;
 export const WHEEL_NAVIGATION_DELTA = 30;
@@ -225,13 +224,7 @@ export function getWheelDeltaPixels(options: WheelDeltaOptions): number {
 }
 
 export function shouldHoldTransitionInput(options: TransitionInputOptions): boolean {
-  if (options.isAnimating) return true;
-  if (!options.handoff || !options.direction || options.now === undefined) return false;
-
-  return (
-    options.handoff.direction === options.direction &&
-    options.now - options.handoff.lastEventAt < WHEEL_GESTURE_IDLE_MS
-  );
+  return options.isAnimating;
 }
 
 export function getWheelGestureAction(
@@ -240,9 +233,11 @@ export function getWheelGestureAction(
   if (!options.atBoundary) return 'scroll-section';
 
   const threshold = Math.max(0, options.threshold ?? WHEEL_NAVIGATION_DELTA);
-  return options.startedAtBoundary && options.accumulatedDelta >= threshold
-    ? 'navigate-slide'
-    : 'hold-boundary';
+  if (!options.startedAtBoundary || options.accumulatedDelta < threshold) {
+    return 'hold-boundary';
+  }
+
+  return options.deltaMode === 0 ? 'schedule-slide' : 'navigate-slide';
 }
 
 function normalizeYouTubeUrl(value: string): URL | null {

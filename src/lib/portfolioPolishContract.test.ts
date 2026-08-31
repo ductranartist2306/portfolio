@@ -31,16 +31,17 @@ test('slide completion hides the outgoing element before clearing its fade style
   assert.ok(hideOutgoing < clearOutgoing, 'outgoing slide must hide before clearProps');
 });
 
-test('wheel handoff owns a contiguous tail without restoring the old global cooldown', async () => {
+test('pixel wheel streams schedule one quiet-end transition without a global cooldown', async () => {
   const source = await readFile(appPath, 'utf8');
   const handleWheel = source.indexOf('const handleWheel =');
   const handleWheelEnd = source.indexOf('const handleTouchStart =', handleWheel);
   const wheelHandler = source.slice(handleWheel, handleWheelEnd);
 
   assert.doesNotMatch(source, /transitionInputLockUntilRef/);
-  assert.match(source, /const wheelHandoffRef = useRef<WheelHandoff \| null>\(null\)/);
-  assert.match(wheelHandler, /handoff: activeHandoff/);
-  assert.match(wheelHandler, /wheelHandoffRef\.current = \{ direction, lastEventAt: now \}/);
+  assert.doesNotMatch(source, /wheelHandoffRef|WheelHandoff/);
+  assert.match(source, /const pendingPixelNavigationRef = useRef<PendingPixelSlideNavigation \| null>\(null\)/);
+  assert.match(wheelHandler, /event\.deltaMode === 0 && pending\.direction === direction/);
+  assert.match(wheelHandler, /schedulePixelSlideNavigation\(direction, now\)/);
 });
 
 test('S3 keeps the four approved roles in chronological order', async () => {

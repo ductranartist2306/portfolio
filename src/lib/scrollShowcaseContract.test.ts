@@ -43,3 +43,23 @@ test('S3 keeps one shared section scroll owner', async () => {
 
   assert.equal(source.match(/data-slide-scroll/g)?.length, 1);
 });
+
+test('App restores the approved GSAP motion and section focus preparation', async () => {
+  const source = await readFile(new URL('../App.tsx', import.meta.url), 'utf8');
+
+  assert.match(source, /import gsap from 'gsap'/);
+  assert.match(source, /const exitDuration = reducedMotion \? 0\.01 : 0\.46/);
+  assert.match(source, /const enterDuration = reducedMotion \? 0\.01 : 0\.78/);
+  assert.match(source, /const enterOffset = reducedMotion \? 0 : 18/);
+  assert.match(source, /const exitOffset = reducedMotion \? 0 : 10/);
+  assert.match(source, /getShowcaseScrollTop/);
+  assert.match(source, /getWheelGestureAction/);
+  assert.doesNotMatch(source, /IntersectionObserver|data-scroll-focus/);
+});
+
+test('document-level snap rules do not compete with controlled slide motion', async () => {
+  const source = await readFile(new URL('../index.css', import.meta.url), 'utf8');
+
+  assert.doesNotMatch(source, /scroll-snap-type|scroll-snap-align|data-scroll-focus/);
+  assert.match(source, /\.magazine-slide\s*\{[^}]*will-change:\s*transform, opacity/s);
+});

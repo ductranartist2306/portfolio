@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowDownRight, Sparkles, Send, Check } from 'lucide-react';
+import React from 'react';
+import { ArrowDownRight, Sparkles } from 'lucide-react';
 
 interface S1HeroProps {
   data: any;
@@ -7,18 +7,6 @@ interface S1HeroProps {
 }
 
 export const S1Hero: React.FC<S1HeroProps> = ({ data, onExploreClick }) => {
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim()) {
-      setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 4000);
-      setEmail('');
-    }
-  };
-
   return (
     <div
       className="portal-section relative flex h-full min-h-screen w-full flex-col justify-between overflow-x-hidden overflow-y-auto px-6 pb-12 pt-32 text-white lg:px-16"
@@ -64,40 +52,11 @@ export const S1Hero: React.FC<S1HeroProps> = ({ data, onExploreClick }) => {
           {data.author || 'TRAN ANH DUC'}
         </h1>
 
-        {/* Email Consultation Form & Portfolio Button */}
+        {/* Portfolio Exploration */}
         <div
-          className="animate-fade-rise flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4 w-full max-w-2xl"
+          className="animate-fade-rise pt-4"
           style={{ animationDelay: '0.6s' }}
         >
-          <form onSubmit={handleSubmit} className="flex-1 flex items-center gap-2">
-            <div className="relative flex w-full flex-col gap-2 sm:block">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Nhập email của bạn để nhận báo giá..."
-                className="liquid-glass w-full rounded-full border-none px-5 py-3 pr-5 text-xs text-white placeholder-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F4B860] focus-visible:ring-offset-2 focus-visible:ring-offset-black/70 sm:pr-32"
-              />
-              <button
-                type="submit"
-                data-cursor-tone="accent"
-                className="liquid-glass static flex cursor-pointer items-center justify-center gap-1.5 rounded-full px-4 py-3 text-xs font-medium text-white transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F4B860] focus-visible:ring-offset-2 focus-visible:ring-offset-black/70 sm:absolute sm:bottom-1 sm:right-1 sm:top-1 sm:py-0"
-              >
-                {submitted ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-green-400" />
-                    <span>ĐÃ GỬI</span>
-                  </>
-                ) : (
-                  <>
-                    <span>NHẬN BÁO GIÁ</span>
-                    <Send className="w-3 h-3" />
-                  </>
-                )}
-              </button>
-            </div>
-          </form>
-
           <button
             onClick={onExploreClick}
             data-cursor-tone="accent"

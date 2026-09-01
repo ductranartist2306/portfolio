@@ -5,6 +5,7 @@ import test from 'node:test';
 const cursorPath = new URL('../components/CustomCursor.tsx', import.meta.url);
 const appPath = new URL('../App.tsx', import.meta.url);
 const contentPath = new URL('../data/contentData.json', import.meta.url);
+const s1Path = new URL('../components/S1Hero.tsx', import.meta.url);
 const s3Path = new URL('../components/S3Experience.tsx', import.meta.url);
 const cssPath = new URL('../index.css', import.meta.url);
 
@@ -15,6 +16,15 @@ test('custom cursor keeps only the particle canvas and never hides the native cu
   assert.doesNotMatch(source, /h-8 w-8 rounded-full|h-3 w-3 rounded-full/);
   assert.match(source, /<canvas/);
   assert.match(source, /spawnParticle/);
+});
+
+test('S1 removes the inactive quote-email block while retaining portfolio exploration', async () => {
+  const source = await readFile(s1Path, 'utf8');
+
+  assert.doesNotMatch(source, /Nhập email của bạn để nhận báo giá|NHẬN BÁO GIÁ/);
+  assert.doesNotMatch(source, /handleSubmit|const \[email/);
+  assert.match(source, /onClick=\{onExploreClick\}/);
+  assert.match(source, /DỰ ÁN NỔI BẬT/);
 });
 
 test('slide completion hides the outgoing element before clearing its fade styles', async () => {

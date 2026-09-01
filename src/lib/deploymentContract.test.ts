@@ -3,6 +3,7 @@ import { access, readFile, stat } from 'node:fs/promises';
 import test from 'node:test';
 
 const workflowPath = new URL('../../.github/workflows/deploy-pages.yml', import.meta.url);
+const agentsPath = new URL('../../AGENTS.md', import.meta.url);
 const viteConfigPath = new URL('../../vite.config.ts', import.meta.url);
 const contentDataPath = new URL('../data/contentData.json', import.meta.url);
 const compatibilitySpatialPath = new URL('../../assets/project_spatial.jpg', import.meta.url);
@@ -22,6 +23,20 @@ test('GitHub Pages workflow verifies and deploys the dist artifact from main', a
   assert.match(workflow, /actions\/deploy-pages@v4/);
   assert.match(workflow, /pages: write/);
   assert.match(workflow, /id-token: write/);
+});
+
+test('GitHub Pages deployment fails when the live site serves Vite source files', async () => {
+  const [workflow, rules] = await Promise.all([
+    readFile(workflowPath, 'utf8'),
+    readFile(agentsPath, 'utf8'),
+  ]);
+
+  assert.match(workflow, /verify:\n\s+needs: deploy/);
+  assert.match(workflow, /needs\.deploy\.outputs\.page_url/);
+  assert.match(workflow, /src="\/src\/main\.tsx"/);
+  assert.match(workflow, /\/portfolio\/assets\//);
+  assert.match(rules, /GitHub Actions/);
+  assert.match(rules, /Deploy from a branch/);
 });
 
 test('Vite defaults production builds to the Pages project path without changing local development', async () => {

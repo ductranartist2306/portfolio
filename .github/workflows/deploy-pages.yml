@@ -52,6 +52,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -59,3 +61,32 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  verify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify GitHub Pages serves the built Vite artifact
+        env:
+          SITE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          for attempt in $(seq 1 18); do
+            page="$(curl --fail --silent --show-error --location "$SITE_URL" || true)"
+
+            if printf '%s' "$page" | grep -Fq 'src="/src/main.tsx"'; then
+              echo "GitHub Pages is serving Vite source instead of the deployed artifact."
+            else
+              asset_path="$(printf '%s' "$page" | sed -n 's|.*src="\(/portfolio/assets/[^"]*\.js\)".*|\1|p' | head -n 1)"
+              site_origin="$(printf '%s' "$SITE_URL" | sed -E 's#(https?://[^/]+).*#\1#')"
+
+              if [ -n "$asset_path" ] && curl --fail --silent --show-error --location "$site_origin$asset_path" > /dev/null; then
+                echo "GitHub Pages is serving the built artifact."
+                exit 0
+              fi
+            fi
+
+            sleep 10
+          done
+
+          echo "::error::GitHub Pages did not serve the built Vite artifact after deployment."
+          exit 1

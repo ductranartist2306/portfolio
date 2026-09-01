@@ -33,6 +33,9 @@ test('GitHub Pages deployment fails when the live site serves Vite source files'
 
   assert.match(workflow, /verify:\n\s+needs: deploy/);
   assert.match(workflow, /needs\.deploy\.outputs\.page_url/);
+  assert.match(workflow, /actions: read/);
+  assert.match(workflow, /github\.token/);
+  assert.match(workflow, /pages build and deployment/);
   assert.match(workflow, /src="\/src\/main\.tsx"/);
   assert.match(workflow, /\/portfolio\/assets\//);
   assert.match(rules, /GitHub Actions/);

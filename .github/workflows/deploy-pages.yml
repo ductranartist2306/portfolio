@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: read
   pages: write
   id-token: write
@@ -68,8 +69,24 @@ jobs:
     steps:
       - name: Verify GitHub Pages serves the built Vite artifact
         env:
+          GH_TOKEN: ${{ github.token }}
           SITE_URL: ${{ needs.deploy.outputs.page_url }}
         run: |
+          for attempt in $(seq 1 6); do
+            legacy_builds="$(curl --fail --silent --show-error \
+              --header "Authorization: Bearer $GH_TOKEN" \
+              --header "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs?head_sha=$GITHUB_SHA&per_page=100" \
+              | jq '[.workflow_runs[] | select(.name == "pages build and deployment")] | length')"
+
+            if [ "$legacy_builds" -gt 0 ]; then
+              echo "::error::Pages is still configured for Deploy from a branch. Change Settings > Pages > Source to GitHub Actions."
+              exit 1
+            fi
+
+            sleep 5
+          done
+
           for attempt in $(seq 1 18); do
             page="$(curl --fail --silent --show-error --location "$SITE_URL" || true)"
 

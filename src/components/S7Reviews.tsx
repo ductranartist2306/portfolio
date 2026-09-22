@@ -21,7 +21,7 @@ export const S7Reviews: React.FC<S7ReviewsProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-white/10 pb-6 mb-8 gap-4">
         <div>
           <span className="font-mono-tech text-xs text-[#00D9FF] tracking-widest uppercase block mb-1">
-            {data.index} // {data.subtitle}
+            {data.subtitle}
           </span>
           <h2 className="font-title text-3xl sm:text-5xl font-bold uppercase tracking-tight text-white">
             {data.title}
@@ -32,10 +32,10 @@ export const S7Reviews: React.FC<S7ReviewsProps> = ({
         </p>
       </div>
 
-      {/* Two portrait YouTube showcases */}
+      {/* Four portrait YouTube showcases in a horizontal row */}
       <div
         data-showcase-focus
-        className="mx-auto my-auto grid max-w-3xl grid-cols-1 items-start gap-8 md:grid-cols-2"
+        className="mx-auto my-auto grid max-w-6xl grid-cols-2 items-start gap-6 lg:grid-cols-4"
       >
         {data.reviews.map((rev: any) => (
           <div

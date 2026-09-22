@@ -97,9 +97,9 @@
       "media": {
         "behindTheScenes": {
           "fileName": "s3_behindthescenes.mp4",
-          "path": "./assets/s3_behindthescenes.mp4",
-          "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-film-crew-working-on-a-movie-set-41530-large.mp4",
-          "youtubeUrl": "https://www.youtube.com/embed/t2MhC7DhrPc?autoplay=1&mute=1&loop=1&controls=0&rel=0&playsinline=1&playlist=t2MhC7DhrPc",
+          "path": null,
+          "fallbackVideoUrl": null,
+          "youtubeUrl": null,
           "type": "youtube",
           "aspectRatio": "16:9"
         },
@@ -107,6 +107,10 @@
           "fileName": "s3_companies_logos.png",
           "path": "./assets/s3_companies_logos.png",
           "type": "png"
+        },
+        "supplementaryImage": {
+          "path": null,
+          "caption": "Ảnh bổ sung — sẽ cập nhật sau"
         }
       },
       "timeline": [
@@ -166,7 +170,7 @@
           "title": "Wuling Bingo 2026 — Rain Cinematic",
           "subtitle": "Bento Ô 1: Xe Wuling Bingo màu tím 2026 dưới trời mưa",
           "description": "Phim quảng cáo ô tô với nhịp dựng điện ảnh, ánh sáng tương phản và bối cảnh đường phố trong mưa.",
-          "youtubeUrl": "https://www.youtube.com/embed/7jtM0xuwrd8",
+          "youtubeUrl": "https://www.youtube.com/embed/DinPxnoppAI",
           "posterUrl": "./assets/video-poster-horizontal.webp",
           "fileName": "s4_wuling_bingo_rain.mp4",
           "path": "./assets/s4_wuling_bingo_rain.mp4",
@@ -180,11 +184,11 @@
           "title": "Wuling Mini EV Showcase",
           "subtitle": "Bento Ô 2: Các góc xe Wuling Mini EV (>20s)",
           "description": "Video giới thiệu sản phẩm tập trung vào đường nét ngoại thất, không gian nội thất và trải nghiệm đô thị.",
-          "youtubeUrl": "https://www.youtube.com/embed/jHa1YHmXIJQ",
+          "youtubeUrl": null,
           "posterUrl": "./assets/video-poster-horizontal.webp",
           "fileName": "s4_wuling_miniev.mp4",
-          "path": "./assets/s4_wuling_miniev.mp4",
-          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+          "path": null,
+          "fallbackVideoUrl": null,
           "aspectRatio": "16:9",
           "gridSpan": "col-span-12 lg:col-span-6",
           "playMode": "Click-to-play, YouTube controls"
@@ -217,7 +221,7 @@
           "title": "4K Motion Transition Effects",
           "subtitle": "Bento Ô 2: Chuyển động 4K 5s",
           "description": "Bài dựng chuyển động 4K thể hiện khả năng compositing, timing và thiết kế hiệu ứng hình ảnh.",
-          "youtubeUrl": "https://www.youtube.com/embed/jHa1YHmXIJQ",
+          "youtubeUrl": "https://www.youtube.com/embed/7jtM0xuwrd8",
           "posterUrl": "./assets/video-poster-horizontal.webp",
           "fileName": "s5_transition_4k_5s.mp4",
           "path": "./assets/s5_transition_4k_5s.mp4",
@@ -231,7 +235,7 @@
     "s6": {
       "id": "s6",
       "index": "S6",
-      "title": "Video TikTok & Social Media",
+      "title": "VIDEO TIKTOK & SHORT / ANIMATION",
       "subtitle": "SHORT-FORM & KOL CAMPAIGNS",
       "description": "Nội dung ngắn hợp xu hướng, truyền thông thương hiệu với KOL/KOC, định dạng tối ưu cho TikTok, Instagram Reels và YouTube Shorts.",
       "grid": [
@@ -240,7 +244,7 @@
           "title": "KOL / KOC Commercial Campaign",
           "subtitle": "Grid Dọc 1: Video clip quảng cáo KOL/KOC",
           "description": "Nội dung quảng cáo dọc với hook nhanh, nhịp dựng gọn và bố cục tối ưu cho màn hình điện thoại.",
-          "youtubeUrl": "https://www.youtube.com/embed/AKp-p_aL7y8",
+          "youtubeUrl": "https://www.youtube.com/embed/kD9Oq1FpLXs",
           "posterUrl": "./assets/video-poster-portrait.webp",
           "fileName": "s6_social_campaign_01.mp4",
           "path": "./assets/s6_social_campaign_01.mp4",
@@ -253,11 +257,37 @@
           "title": "Event TikTok & Shorts Format",
           "subtitle": "Grid Dọc 2: Video sự kiện định dạng TikTok/Shorts",
           "description": "Video recap sự kiện dạng ngắn, ưu tiên khoảnh khắc nổi bật, caption động và âm thanh theo xu hướng.",
-          "youtubeUrl": "https://www.youtube.com/embed/kD9Oq1FpLXs",
+          "youtubeUrl": "https://www.youtube.com/embed/K94jIxvmrBE",
           "posterUrl": "./assets/video-poster-portrait.webp",
           "fileName": "s6_social_campaign_02.mp4",
           "path": "./assets/s6_social_campaign_02.mp4",
           "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+          "aspectRatio": "9:16",
+          "playMode": "Click-to-play, có control"
+        },
+        {
+          "id": "s6_grid_3",
+          "title": "Animation & Motion Short",
+          "subtitle": "Grid Dọc 3: Video animation dạng ngắn",
+          "description": "Video animation ngắn với chuyển động đồ hoạ bắt mắt, tối ưu cho định dạng dọc.",
+          "youtubeUrl": "https://www.youtube.com/embed/VBv2l5EVFKg",
+          "posterUrl": "./assets/video-poster-portrait.webp",
+          "fileName": "s6_social_campaign_03.mp4",
+          "path": "./assets/s6_social_campaign_03.mp4",
+          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+          "aspectRatio": "9:16",
+          "playMode": "Click-to-play, có control"
+        },
+        {
+          "id": "s6_grid_4",
+          "title": "Video TikTok & Shorts Sắp Cập Nhật",
+          "subtitle": "Grid Dọc 4: Đang cập nhật",
+          "description": "Video dọc bổ sung đang được biên tập, sẽ cập nhật sớm.",
+          "youtubeUrl": null,
+          "posterUrl": "./assets/video-poster-portrait.webp",
+          "fileName": "s6_social_campaign_04.mp4",
+          "path": null,
+          "fallbackVideoUrl": null,
           "aspectRatio": "9:16",
           "playMode": "Click-to-play, có control"
         }
@@ -275,7 +305,7 @@
           "title": "Trải Nghiệm Thực Tế Ô Tô Điện Wuling",
           "category": "Automotive / EV",
           "description": "Quay dựng góc chi tiết nội thất, chế độ lái thông minh và tính năng sạc điện.",
-          "youtubeUrl": "https://www.youtube.com/embed/0xjvZ0zpQcU",
+          "youtubeUrl": "https://www.youtube.com/embed/AKp-p_aL7y8",
           "posterUrl": "./assets/video-poster-portrait.webp",
           "aspectRatio": "9:16",
           "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4"
@@ -285,7 +315,27 @@
           "title": "Review Mỹ Phẩm Skincare Dược Liệu",
           "category": "Beauty & Health",
           "description": "Hiệu ứng macro ánh sáng dịu nhẹ tôn vinh chất kem và thiết bị nhãn hàng.",
-          "youtubeUrl": "https://www.youtube.com/embed/AKp-p_aL7y8",
+          "youtubeUrl": "https://www.youtube.com/embed/jMh5BFqE-0c",
+          "posterUrl": "./assets/video-poster-portrait.webp",
+          "aspectRatio": "9:16",
+          "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4"
+        },
+        {
+          "id": "rev_3",
+          "title": "Trải Nghiệm Thiết Bị Công Nghệ",
+          "category": "Tech Gadget",
+          "description": "Unboxing và đánh giá tính năng nổi bật của thiết bị công nghệ mới.",
+          "youtubeUrl": "https://www.youtube.com/embed/o2hVhAzIz10",
+          "posterUrl": "./assets/video-poster-portrait.webp",
+          "aspectRatio": "9:16",
+          "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4"
+        },
+        {
+          "id": "rev_4",
+          "title": "Trải Nghiệm Đồ Gia Dụng Cao Cấp",
+          "category": "Premium Home Goods",
+          "description": "Cận cảnh chất lượng hoàn thiện và trải nghiệm sử dụng thực tế sản phẩm gia dụng cao cấp.",
+          "youtubeUrl": "https://www.youtube.com/embed/pSv6fXrdlfg",
           "posterUrl": "./assets/video-poster-portrait.webp",
           "aspectRatio": "9:16",
           "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4"
@@ -303,17 +353,17 @@
           "title": "Video Intro Event",
           "body": "Video intro mở đầu cho các sự kiện, hội nghị khoa học (ví dụ: hội nghị Aesthetic, chương trình khởi động thương hiệu Vivant Skincare Việt Nam ngày 29/09).",
           "description": "Video intro mở đầu cho các sự kiện, hội nghị khoa học và chương trình ra mắt thương hiệu.",
-          "youtubeUrl": "https://www.youtube.com/embed/PRF13rApxgw",
+          "youtubeUrl": null,
           "posterUrl": "./assets/video-poster-horizontal.webp",
           "aspectRatio": "16:9",
-          "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4"
+          "videoUrl": null
         },
         {
           "type": "video",
           "title": "Event Community Short",
           "body": "Video dọc ghi lại các chương trình sự kiện cộng đồng và hoạt động thiện nguyện trong định dạng social-first.",
           "description": "Recap dọc tập trung vào cảm xúc, con người và những khoảnh khắc đáng nhớ của sự kiện cộng đồng.",
-          "youtubeUrl": "https://www.youtube.com/embed/kD9Oq1FpLXs",
+          "youtubeUrl": "https://www.youtube.com/embed/KrBFPyZaYjI",
           "posterUrl": "./assets/video-poster-portrait.webp",
           "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
           "aspectRatio": "9:16"
@@ -332,10 +382,10 @@
         "phone": "0964221467",
         "email": "ductran.artist2306@gmail.com",
         "socials": [
-          { "platform": "Instagram", "handle": "ditotheti", "url": "https://instagram.com" },
-          { "platform": "Facebook", "handle": "Đức Trần", "url": "https://facebook.com" },
+          { "platform": "Instagram", "handle": "ditotheti", "url": "https://instagram.com/ditotheti" },
+          { "platform": "Facebook", "handle": "Đức Trần", "url": "https://www.facebook.com/ditotheti" },
           { "platform": "Behance", "handle": "Đức Trần", "url": "https://behance.net" },
-          { "platform": "TikTok", "handle": "ditotheti", "url": "https://tiktok.com" }
+          { "platform": "TikTok", "handle": "ditotheti", "url": "https://tiktok.com/@ditotheti" }
         ]
       },
       "media": {

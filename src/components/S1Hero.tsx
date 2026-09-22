@@ -35,7 +35,7 @@ export const S1Hero: React.FC<S1HeroProps> = ({ data, onExploreClick }) => {
           style={{ animationDelay: '0.3s' }}
         >
           <Sparkles className="w-3.5 h-3.5 text-white/90" />
-          <span>{data.index || '01'} — {data.subtitle || 'EDITOR & FILMMAKER'}</span>
+          <span>{data.subtitle || 'EDITOR & FILMMAKER'}</span>
         </div>
 
         <p

@@ -27,7 +27,7 @@ export const S9Contact: React.FC<S9ContactProps> = ({ data, brand }) => {
         {/* Giant Header CTA */}
         <div className="text-center space-y-4">
           <span className="font-mono-tech text-xs text-[#00D9FF] uppercase tracking-[0.3em] font-semibold">
-            {data.index} // {data.subtitle}
+            {data.subtitle}
           </span>
 
           <h2 className="font-title text-4xl sm:text-7xl lg:text-8xl font-bold uppercase tracking-tight text-white leading-none">

@@ -16,7 +16,7 @@ export const S2About: React.FC<S2AboutProps> = ({ data, brand }) => {
       {/* Header Eyebrow */}
       <div className="flex items-center gap-3 border-b border-white/10 pb-4 mb-8">
         <span className="font-mono-tech text-xs text-[#00D9FF] tracking-widest uppercase">
-          {data.index} // {data.title}
+          {data.title}
         </span>
       </div>
 

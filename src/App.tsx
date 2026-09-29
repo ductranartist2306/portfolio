@@ -475,7 +475,12 @@ export function App() {
           className="magazine-slide absolute inset-0 h-full w-full"
           style={{ display: currentSlide === 0 ? 'block' : 'none' }}
         >
-          <S1Hero data={slidesData.s1} onExploreClick={() => goToSlide(1)} />
+          <S1Hero
+            data={slidesData.s1}
+            onExploreClick={() => goToSlide(1)}
+            isActive={currentSlide === 0}
+            reducedMotion={reducedMotion}
+          />
         </div>
 
         <div

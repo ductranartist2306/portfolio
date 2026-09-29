@@ -1,12 +1,20 @@
 import React from 'react';
 import { ArrowDownRight, Sparkles } from 'lucide-react';
+import { VideoCard } from './VideoCard';
 
 interface S1HeroProps {
   data: any;
   onExploreClick: () => void;
+  isActive?: boolean;
+  reducedMotion?: boolean;
 }
 
-export const S1Hero: React.FC<S1HeroProps> = ({ data, onExploreClick }) => {
+export const S1Hero: React.FC<S1HeroProps> = ({
+  data,
+  onExploreClick,
+  isActive = true,
+  reducedMotion = false,
+}) => {
   return (
     <div
       className="portal-section relative flex h-full min-h-screen w-full flex-col justify-between overflow-x-hidden overflow-y-auto px-6 pb-12 pt-32 text-white lg:px-16"
@@ -29,42 +37,61 @@ export const S1Hero: React.FC<S1HeroProps> = ({ data, onExploreClick }) => {
       </div>
 
       {/* Main Hero Visual Center */}
-      <div className="relative z-10 my-auto py-8 flex flex-col justify-center items-start space-y-6 max-w-5xl">
-        <div
-          className="animate-fade-rise glass-pill px-4 py-1.5 text-xs text-white/80 uppercase tracking-widest flex items-center gap-2"
-          style={{ animationDelay: '0.3s' }}
-        >
-          <Sparkles className="w-3.5 h-3.5 text-white/90" />
-          <span>{data.subtitle || 'EDITOR & FILMMAKER'}</span>
+      <div className="relative z-10 my-auto grid grid-cols-1 items-center gap-10 py-8 lg:grid-cols-2">
+        <div className="flex max-w-5xl flex-col items-start space-y-6">
+          <div
+            className="animate-fade-rise glass-pill px-4 py-1.5 text-xs text-white/80 uppercase tracking-widest flex items-center gap-2"
+            style={{ animationDelay: '0.3s' }}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-white/90" />
+            <span>{data.subtitle || 'EDITOR & FILMMAKER'}</span>
+          </div>
+
+          <p
+            className="animate-fade-rise font-mono-tech text-xs sm:text-sm text-white/60 uppercase tracking-[0.3em]"
+            style={{ animationDelay: '0.4s' }}
+          >
+            {data.title || 'PORTFOLIO'}
+          </p>
+
+          <h1
+            className="animate-fade-rise font-instrument text-6xl sm:text-8xl lg:text-9xl font-normal tracking-tight leading-none bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent"
+            style={{ animationDelay: '0.5s' }}
+          >
+            {data.author || 'TRAN ANH DUC'}
+          </h1>
+
+          {/* Portfolio Exploration */}
+          <div
+            className="animate-fade-rise pt-4"
+            style={{ animationDelay: '0.6s' }}
+          >
+            <button
+              onClick={onExploreClick}
+              data-cursor-tone="accent"
+              className="liquid-glass flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-medium uppercase text-white transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F4B860] focus-visible:ring-offset-2 focus-visible:ring-offset-black/70"
+            >
+              <span>DỰ ÁN NỔI BẬT</span>
+              <ArrowDownRight className="w-4 h-4 text-white/80" />
+            </button>
+          </div>
         </div>
 
-        <p
-          className="animate-fade-rise font-mono-tech text-xs sm:text-sm text-white/60 uppercase tracking-[0.3em]"
-          style={{ animationDelay: '0.4s' }}
-        >
-          {data.title || 'PORTFOLIO'}
-        </p>
-
-        <h1
-          className="animate-fade-rise font-instrument text-6xl sm:text-8xl lg:text-9xl font-normal tracking-tight leading-none bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent"
-          style={{ animationDelay: '0.5s' }}
-        >
-          {data.author || 'TRAN ANH DUC'}
-        </h1>
-
-        {/* Portfolio Exploration */}
         <div
-          className="animate-fade-rise pt-4"
-          style={{ animationDelay: '0.6s' }}
+          className="animate-fade-rise mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-white/15 bg-[#141B24] shadow-cyan-glow lg:mx-0 lg:ml-auto"
+          style={{ animationDelay: '0.7s' }}
         >
-          <button
-            onClick={onExploreClick}
-            data-cursor-tone="accent"
-            className="liquid-glass flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-medium uppercase text-white transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F4B860] focus-visible:ring-offset-2 focus-visible:ring-offset-black/70"
-          >
-            <span>DỰ ÁN NỔI BẬT</span>
-            <ArrowDownRight className="w-4 h-4 text-white/80" />
-          </button>
+          <VideoCard
+            title="INTRO CV"
+            subtitle="Video giới thiệu portfolio"
+            videoPath={data.media?.path}
+            fallbackUrl={data.media?.fallbackVideoUrl}
+            youtubeUrl={data.media?.youtubeUrl}
+            sourceAspectRatio={data.media?.aspectRatio ?? '16:9'}
+            playMode="click"
+            isActive={isActive}
+            reducedMotion={reducedMotion}
+          />
         </div>
       </div>
     </div>

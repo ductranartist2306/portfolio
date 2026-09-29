@@ -64,8 +64,9 @@
         "fileName": "s1_hero_showreel_4k.mp4",
         "path": "./assets/s1_hero_showreel_4k.mp4",
         "fallbackVideoUrl": "https://assets.mixkit.co/videos/preview/mixkit-cinematic-shot-of-a-cameraman-filming-a-scene-41528-large.mp4",
-        "type": "mp4",
-        "mode": "Autoplay, loop, muted, mờ nhẹ",
+        "youtubeUrl": "https://www.youtube.com/embed/fWpLTKLFb4E",
+        "type": "youtube",
+        "mode": "Click-to-play, YouTube controls",
         "aspectRatio": "16:9"
       }
     },

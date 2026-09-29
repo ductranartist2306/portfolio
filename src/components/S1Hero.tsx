@@ -67,29 +67,6 @@ export const S1Hero: React.FC<S1HeroProps> = ({ data, onExploreClick }) => {
           </button>
         </div>
       </div>
-
-      {/* Bottom Liquid Glass Grid Cards */}
-      <div
-        className="animate-fade-rise relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 pt-4"
-        style={{ animationDelay: '0.7s' }}
-      >
-        <div className="liquid-glass rounded-2xl p-4">
-          <span className="font-mono-tech text-[10px] text-white/50 uppercase tracking-wider block mb-1">CHUYÊN MÔN</span>
-          <span className="font-sans text-sm text-white font-medium">Quay Phim & Edit Video</span>
-        </div>
-        <div className="liquid-glass rounded-2xl p-4">
-          <span className="font-mono-tech text-[10px] text-white/50 uppercase tracking-wider block mb-1">KINH NGHIỆM</span>
-          <span className="font-sans text-sm text-white font-medium">Hơn 5 Năm Chuyên Nghiệp</span>
-        </div>
-        <div className="liquid-glass rounded-2xl p-4">
-          <span className="font-mono-tech text-[10px] text-white/50 uppercase tracking-wider block mb-1">PHẦN MỀM</span>
-          <span className="font-sans text-sm text-white font-medium">Premiere, AE, PTS, CapCut</span>
-        </div>
-        <div className="liquid-glass rounded-2xl p-4">
-          <span className="font-mono-tech text-[10px] text-white/50 uppercase tracking-wider block mb-1">ĐỊA BÀN</span>
-          <span className="font-sans text-sm text-white font-medium">Hà Nội / Toàn Quốc</span>
-        </div>
-      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Award, Film, CheckCircle2, Cpu, Wrench } from 'lucide-react';
-import portraitImg from '../assets/images/regenerated_image_1787278337594.webp';
+import portraitImg from '../assets/images/s2_portrait_client_update.webp';
 
 interface S2AboutProps {
   data: any;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Building, CheckCircle2, ImageIcon } from 'lucide-react';
+import { Building, CheckCircle2 } from 'lucide-react';
 import { VideoCard } from './VideoCard';
 
 interface S3ExperienceProps {
@@ -45,7 +45,7 @@ export const S3Experience: React.FC<S3ExperienceProps> = ({
         data-showcase-anchor
         className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12"
       >
-        <div data-s3-left className="space-y-6 lg:col-span-5">
+        <div data-s3-left className="lg:col-span-5">
           <div
             data-showcase-focus
             className="overflow-hidden rounded-2xl border border-[#00D9FF]/20 bg-[#141B24]"
@@ -62,27 +62,6 @@ export const S3Experience: React.FC<S3ExperienceProps> = ({
               reducedMotion={reducedMotion}
             />
           </div>
-
-          {data.media?.supplementaryImage?.path ? (
-            <div className="overflow-hidden rounded-2xl border border-[#00D9FF]/20 bg-[#141B24]">
-              <img
-                src={data.media.supplementaryImage.path}
-                alt={data.media.supplementaryImage.caption ?? ''}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          ) : (
-            <div className="flex aspect-[4/3] flex-col items-center justify-center gap-3 rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(244,184,96,0.2),_transparent_55%),linear-gradient(180deg,_rgba(255,255,255,0.06),_rgba(10,14,20,0.96))] px-6 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-black/30">
-                <ImageIcon className="h-5 w-5 text-white/60" />
-              </div>
-              <p className="font-mono-tech text-[10px] uppercase tracking-[0.24em] text-white/45">
-                Ảnh sắp cập nhật
-              </p>
-            </div>
-          )}
         </div>
 
         <div className="relative pl-8 lg:col-span-7">

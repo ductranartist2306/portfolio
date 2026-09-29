@@ -43,12 +43,12 @@
   "navigation": [
     { "id": "s1", "label": "Trang Bìa", "targetSlide": 0 },
     { "id": "s2", "label": "Giới Thiệu", "targetSlide": 1 },
-    { "id": "s3", "label": "Kinh Nghiệm", "targetSlide": 2 },
+    { "id": "s3", "label": "Kinh Nghiệm Làm Việc", "targetSlide": 2 },
     { "id": "s4", "label": "Video Quảng Cáo", "targetSlide": 3 },
     { "id": "s5", "label": "Video TVC", "targetSlide": 4 },
-    { "id": "s6", "label": "TikTok & Shorts", "targetSlide": 5 },
-    { "id": "s7", "label": "Review Sản Phẩm", "targetSlide": 6 },
-    { "id": "s8", "label": "Sự Kiện & Event", "targetSlide": 7 },
+    { "id": "s6", "label": "TikTok & Animation", "targetSlide": 5 },
+    { "id": "s7", "label": "Video Review Sản Phẩm", "targetSlide": 6 },
+    { "id": "s8", "label": "Sự Kiện & Community", "targetSlide": 7 },
     { "id": "s9", "label": "Liên Hệ", "targetSlide": 8 }
   ],
   "slides": {
@@ -77,8 +77,8 @@
       "headline": "Sáng Tạo Hình Ảnh & Dựng Phim Chuyên Nghiệp",
       "body": "Với hơn 5 năm kinh nghiệm quay phim, chụp ảnh, edit video. Tôi luôn mong muốn nâng cao kỹ năng quay cũng như kỹ năng Edit Video của bản thân. Sử dụng thành thạo các phần mềm như Adobe Premiere Pro, After Effects, PTS, CapCut. Đã từng tham gia nhiều dự án từ video quảng cáo, sự kiện và các dạng video ngắn.",
       "media": {
-        "fileName": "regenerated_image_1787278337594.png",
-        "path": "/src/assets/images/regenerated_image_1787278337594.png",
+        "fileName": "s2_portrait_client_update.webp",
+        "path": "/src/assets/images/s2_portrait_client_update.webp",
         "type": "jpg",
         "aspectRatio": "4:5"
       },
@@ -98,8 +98,8 @@
         "behindTheScenes": {
           "fileName": "s3_behindthescenes.mp4",
           "path": null,
-          "fallbackVideoUrl": null,
-          "youtubeUrl": null,
+          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+          "youtubeUrl": "https://www.youtube.com/embed/fWpLTKLFb4E",
           "type": "youtube",
           "aspectRatio": "16:9"
         },
@@ -107,10 +107,6 @@
           "fileName": "s3_companies_logos.png",
           "path": "./assets/s3_companies_logos.png",
           "type": "png"
-        },
-        "supplementaryImage": {
-          "path": null,
-          "caption": "Ảnh bổ sung — sẽ cập nhật sau"
         }
       },
       "timeline": [
@@ -184,11 +180,11 @@
           "title": "Wuling Mini EV Showcase",
           "subtitle": "Bento Ô 2: Các góc xe Wuling Mini EV (>20s)",
           "description": "Video giới thiệu sản phẩm tập trung vào đường nét ngoại thất, không gian nội thất và trải nghiệm đô thị.",
-          "youtubeUrl": null,
+          "youtubeUrl": "https://www.youtube.com/embed/1xQ9juePTf8",
           "posterUrl": "./assets/video-poster-horizontal.webp",
           "fileName": "s4_wuling_miniev.mp4",
           "path": null,
-          "fallbackVideoUrl": null,
+          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
           "aspectRatio": "16:9",
           "gridSpan": "col-span-12 lg:col-span-6",
           "playMode": "Click-to-play, YouTube controls"
@@ -280,14 +276,14 @@
         },
         {
           "id": "s6_grid_4",
-          "title": "Video TikTok & Shorts Sắp Cập Nhật",
-          "subtitle": "Grid Dọc 4: Đang cập nhật",
-          "description": "Video dọc bổ sung đang được biên tập, sẽ cập nhật sớm.",
-          "youtubeUrl": null,
+          "title": "Animation Motion Reel",
+          "subtitle": "Grid Dọc 4: Video animation dạng ngắn",
+          "description": "Bài animation ngắn với chuyển động đồ hoạ bắt mắt, tối ưu cho định dạng dọc.",
+          "youtubeUrl": "https://www.youtube.com/embed/FJHyuflKf4M",
           "posterUrl": "./assets/video-poster-portrait.webp",
           "fileName": "s6_social_campaign_04.mp4",
           "path": null,
-          "fallbackVideoUrl": null,
+          "fallbackVideoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4",
           "aspectRatio": "9:16",
           "playMode": "Click-to-play, có control"
         }
@@ -353,10 +349,10 @@
           "title": "Video Intro Event",
           "body": "Video intro mở đầu cho các sự kiện, hội nghị khoa học (ví dụ: hội nghị Aesthetic, chương trình khởi động thương hiệu Vivant Skincare Việt Nam ngày 29/09).",
           "description": "Video intro mở đầu cho các sự kiện, hội nghị khoa học và chương trình ra mắt thương hiệu.",
-          "youtubeUrl": null,
+          "youtubeUrl": "https://www.youtube.com/embed/vi5PzYoV2Ec",
           "posterUrl": "./assets/video-poster-horizontal.webp",
           "aspectRatio": "16:9",
-          "videoUrl": null
+          "videoUrl": "https://media.w3.org/2010/05/sintel/trailer.mp4"
         },
         {
           "type": "video",
@@ -384,7 +380,7 @@
         "socials": [
           { "platform": "Instagram", "handle": "ditotheti", "url": "https://instagram.com/ditotheti" },
           { "platform": "Facebook", "handle": "Đức Trần", "url": "https://www.facebook.com/ditotheti" },
-          { "platform": "Behance", "handle": "Đức Trần", "url": "https://behance.net" },
+          { "platform": "Behance", "handle": "Đức Trần", "url": "https://www.behance.net/ductran2306" },
           { "platform": "TikTok", "handle": "ditotheti", "url": "https://tiktok.com/@ditotheti" }
         ]
       },

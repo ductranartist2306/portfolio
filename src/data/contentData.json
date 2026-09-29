@@ -78,8 +78,8 @@
       "headline": "Sáng Tạo Hình Ảnh & Dựng Phim Chuyên Nghiệp",
       "body": "Với hơn 5 năm kinh nghiệm quay phim, chụp ảnh, edit video. Tôi luôn mong muốn nâng cao kỹ năng quay cũng như kỹ năng Edit Video của bản thân. Sử dụng thành thạo các phần mềm như Adobe Premiere Pro, After Effects, PTS, CapCut. Đã từng tham gia nhiều dự án từ video quảng cáo, sự kiện và các dạng video ngắn.",
       "media": {
-        "fileName": "s2_portrait_client_update.webp",
-        "path": "/src/assets/images/s2_portrait_client_update.webp",
+        "fileName": "446x558.png",
+        "path": "/src/assets/images/446x558.png",
         "type": "jpg",
         "aspectRatio": "4:5"
       },
@@ -232,7 +232,7 @@
     "s6": {
       "id": "s6",
       "index": "S6",
-      "title": "VIDEO TIKTOK & SHORT / ANIMATION",
+      "title": "ADS / ANIMATION & PRODUCT VIDEO",
       "subtitle": "SHORT-FORM & KOL CAMPAIGNS",
       "description": "Nội dung ngắn hợp xu hướng, truyền thông thương hiệu với KOL/KOC, định dạng tối ưu cho TikTok, Instagram Reels và YouTube Shorts.",
       "grid": [
@@ -293,9 +293,9 @@
     "s7": {
       "id": "s7",
       "index": "S7",
-      "title": "Short Video Review Sản Phẩm",
-      "subtitle": "PRODUCT EXPERIENCES & UNBOXING",
-      "description": "Các video đánh giá thực tế, unboxing và trải nghiệm chiều sâu cho sản phẩm ô tô, thiết bị công nghệ, mỹ phẩm và đồ gia dụng cao cấp.",
+      "title": "VJ / CONTENT CREATOR",
+      "subtitle": "CREATIVE STORYTELLING & ON-CAMERA CONTENT",
+      "description": "Sáng tạo nội dung video từ ý tưởng đến thành phẩm, kết hợp storytelling, hình ảnh và phong cách thể hiện phù hợp cho social, campaign và thương hiệu.",
       "reviews": [
         {
           "id": "rev_1",

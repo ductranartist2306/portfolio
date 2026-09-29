@@ -26,11 +26,11 @@ export const S9Contact: React.FC<S9ContactProps> = ({ data, brand }) => {
       <div className="relative z-10 max-w-6xl mx-auto w-full my-auto space-y-10">
         {/* Giant Header CTA */}
         <div className="text-center space-y-4">
-          <span className="font-mono-tech text-xs text-[#00D9FF] uppercase tracking-[0.3em] font-semibold">
+          <span className="font-mono-tech text-sm text-[#00D9FF] uppercase tracking-[0.3em] font-bold">
             {data.subtitle}
           </span>
 
-          <h2 className="font-title text-4xl sm:text-7xl lg:text-8xl font-bold uppercase tracking-tight text-white leading-none">
+          <h2 className="mt-3 font-title text-4xl sm:text-7xl lg:text-8xl font-bold uppercase tracking-tight text-white leading-none">
             LET'S WORK <span className="text-[#00D9FF]">TOGETHER</span>
           </h2>
 

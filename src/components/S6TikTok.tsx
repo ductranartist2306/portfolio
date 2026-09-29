@@ -1,6 +1,6 @@
 import React from 'react';
 import { VideoCard } from './VideoCard';
-import { Flame } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 interface S6TikTokProps {
   data: any;
@@ -21,7 +21,7 @@ export const S6TikTok: React.FC<S6TikTokProps> = ({
       {/* Header Eyebrow */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-white/10 pb-6 mb-8 gap-4">
         <div>
-          <span className="font-mono-tech text-xs text-[#00D9FF] tracking-widest uppercase block mb-1">
+          <span className="font-mono-tech text-sm font-bold text-[#00D9FF] tracking-widest uppercase block mb-3">
             {data.subtitle}
           </span>
           <h2 className="font-title text-3xl sm:text-5xl font-bold uppercase tracking-tight text-white">
@@ -33,15 +33,15 @@ export const S6TikTok: React.FC<S6TikTokProps> = ({
         </p>
       </div>
 
-      {/* Responsive 9:16 YouTube showcases */}
+      {/* Four 9:16 YouTube showcases in a single row */}
       <div
         data-showcase-focus
-        className="mx-auto my-auto grid max-w-3xl grid-cols-1 items-start gap-8 md:grid-cols-2"
+        className="mx-auto grid max-w-6xl grid-cols-2 gap-6 lg:grid-cols-4"
       >
         {data.grid.map((item: any) => (
           <div
             key={item.id}
-            className="mx-auto w-full max-w-sm rounded-[28px] border border-white/10 bg-[#141B24]/70 p-4 shadow-[0_24px_60px_rgba(0,0,0,0.22)] sm:p-5"
+            className="mx-auto flex h-full w-full max-w-sm flex-col rounded-[28px] border border-[#00D9FF]/20 bg-[#141B24]/70 p-4 transition-colors hover:border-[#00D9FF] sm:p-5"
           >
             <VideoCard
               title={item.title}
@@ -55,43 +55,25 @@ export const S6TikTok: React.FC<S6TikTokProps> = ({
               playMode="click"
               isActive={isActive}
               reducedMotion={reducedMotion}
+              className="flex h-full flex-col"
             />
           </div>
         ))}
+      </div>
 
-        {/* Feature Highlights Card */}
-        <div className="flex min-h-[280px] flex-col justify-between gap-6 rounded-[28px] border border-[#FF9F1C]/30 bg-[#141B24] p-6 md:col-span-2">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-[#FF9F1C]">
-              <Flame className="w-5 h-5" />
-              <span className="font-mono-tech text-xs font-bold uppercase tracking-wider">
-                XU HƯỚNG SHORT-FORM
-              </span>
-            </div>
-
-            <h3 className="font-title text-2xl font-bold uppercase text-white leading-tight">
-              Tối Ưu Hoá Tỉ Lệ Giữ Chân Người Xem
-            </h3>
-
-            <p className="font-body text-xs text-[#B8C2CC] leading-relaxed">
-              Dựng nhanh, tiết tấu dồn dập, sound design giật gân chuẩn thuật toán TikTok, Reels & Shorts.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-4 border-t border-white/10 font-mono-tech text-xs text-[#00D9FF]">
-            <div className="flex items-center justify-between p-2 rounded bg-[#0A0E14]">
-              <span>KOL / KOC Commercial</span>
-              <span>100% Retain</span>
-            </div>
-            <div className="flex items-center justify-between p-2 rounded bg-[#0A0E14]">
-              <span>Dynamic Captions</span>
-              <span>Sub Tự Động</span>
-            </div>
-            <div className="flex items-center justify-between p-2 rounded bg-[#0A0E14]">
-              <span>Trend Sound Effects</span>
-              <span>SFX Standard</span>
-            </div>
-          </div>
+      {/* Dock-style status bar */}
+      <div className="mx-auto mt-8 flex w-fit max-w-full flex-wrap items-center justify-center gap-x-5 gap-y-2 rounded-full px-6 py-3 liquid-glass">
+        <div className="flex items-center gap-2 text-[#FF9F1C]">
+          <Sparkles className="h-3.5 w-3.5" />
+          <span className="font-mono-tech text-[11px] font-bold uppercase tracking-wider">
+            Phong Cách Animation
+          </span>
+        </div>
+        <span className="hidden h-4 w-px bg-white/15 sm:block" />
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 font-mono-tech text-[11px] text-[#00D9FF]">
+          <span>Motion Graphics 2D/3D</span>
+          <span>Sound Design Đồng Bộ</span>
+          <span>Định Dạng Dọc 9:16</span>
         </div>
       </div>
     </div>

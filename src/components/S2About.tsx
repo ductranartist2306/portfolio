@@ -26,7 +26,7 @@ export const S2About: React.FC<S2AboutProps> = ({ data, brand }) => {
         <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
           <div className="relative group rounded-2xl overflow-hidden bg-[#141B24] neon-border neon-border-hover shadow-cyan-glow aspect-[4/5] max-w-md mx-auto lg:mx-0">
             <img
-              src={portraitImg || data.media?.path}
+              src={data.media?.path || portraitImg}
               alt={data.subtitle}
               onError={(e) => {
                 (e.target as HTMLImageElement).src = './assets/profile_portrait.jpg';
@@ -49,7 +49,7 @@ export const S2About: React.FC<S2AboutProps> = ({ data, brand }) => {
         {/* Right Scrollable Content (7 cols) */}
         <div className="lg:col-span-7 space-y-8">
           <div>
-            <span className="font-mono-tech text-xs text-[#FF9F1C] uppercase tracking-widest block mb-2">
+            <span className="font-mono-tech text-sm font-bold text-[#FF9F1C] uppercase tracking-widest block mb-4">
               TỔNG QUAN NĂNG LỰC
             </span>
             <h2 className="font-title text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-wide leading-tight text-white mb-6">

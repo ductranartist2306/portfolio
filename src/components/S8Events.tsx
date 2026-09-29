@@ -21,7 +21,7 @@ export const S8Events: React.FC<S8EventsProps> = ({
       {/* Header Eyebrow */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-white/10 pb-6 mb-8 gap-4">
         <div>
-          <span className="font-mono-tech text-xs text-[#00D9FF] tracking-widest uppercase block mb-1">
+          <span className="font-mono-tech text-sm font-bold text-[#00D9FF] tracking-widest uppercase block mb-3">
             {data.subtitle}
           </span>
           <h2 className="font-title text-3xl sm:text-5xl font-bold uppercase tracking-tight text-white">

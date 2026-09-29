@@ -1,5 +1,6 @@
 import React from 'react';
 import { VideoCard } from './VideoCard';
+import { Flame } from 'lucide-react';
 
 interface S7ReviewsProps {
   data: any;
@@ -20,7 +21,7 @@ export const S7Reviews: React.FC<S7ReviewsProps> = ({
       {/* Header Eyebrow */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-white/10 pb-6 mb-8 gap-4">
         <div>
-          <span className="font-mono-tech text-xs text-[#00D9FF] tracking-widest uppercase block mb-1">
+          <span className="font-mono-tech text-sm font-bold text-[#00D9FF] tracking-widest uppercase block mb-3">
             {data.subtitle}
           </span>
           <h2 className="font-title text-3xl sm:text-5xl font-bold uppercase tracking-tight text-white">
@@ -35,12 +36,12 @@ export const S7Reviews: React.FC<S7ReviewsProps> = ({
       {/* Four portrait YouTube showcases in a horizontal row */}
       <div
         data-showcase-focus
-        className="mx-auto my-auto grid max-w-6xl grid-cols-2 items-start gap-6 lg:grid-cols-4"
+        className="mx-auto grid max-w-6xl grid-cols-2 gap-6 lg:grid-cols-4"
       >
         {data.reviews.map((rev: any) => (
           <div
             key={rev.id}
-            className="mx-auto w-full max-w-sm rounded-[28px] border border-[#00D9FF]/20 bg-[#141B24]/70 p-4 transition-colors hover:border-[#00D9FF] sm:p-5"
+            className="mx-auto flex h-full w-full max-w-sm flex-col rounded-[28px] border border-[#00D9FF]/20 bg-[#141B24]/70 p-4 transition-colors hover:border-[#00D9FF] sm:p-5"
           >
             <VideoCard
               title={rev.title}
@@ -54,9 +55,26 @@ export const S7Reviews: React.FC<S7ReviewsProps> = ({
               playMode="click"
               isActive={isActive}
               reducedMotion={reducedMotion}
+              className="flex h-full flex-col"
             />
           </div>
         ))}
+      </div>
+
+      {/* Dock-style status bar */}
+      <div className="mx-auto mt-8 flex w-fit max-w-full flex-wrap items-center justify-center gap-x-5 gap-y-2 rounded-full px-6 py-3 liquid-glass">
+        <div className="flex items-center gap-2 text-[#FF9F1C]">
+          <Flame className="h-3.5 w-3.5" />
+          <span className="font-mono-tech text-[11px] font-bold uppercase tracking-wider">
+            Xu Hướng Short-Form
+          </span>
+        </div>
+        <span className="hidden h-4 w-px bg-white/15 sm:block" />
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 font-mono-tech text-[11px] text-[#00D9FF]">
+          <span>KOL/KOC · 100% Retain</span>
+          <span>Dynamic Captions</span>
+          <span>Trend Sound Effects</span>
+        </div>
       </div>
     </div>
   );

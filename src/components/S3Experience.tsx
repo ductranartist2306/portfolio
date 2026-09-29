@@ -28,10 +28,10 @@ export const S3Experience: React.FC<S3ExperienceProps> = ({
         className="mb-6 flex items-center justify-between border-b border-white/10 pb-4"
       >
         <div>
-          <span className="block font-mono-tech text-xs uppercase tracking-widest text-[#00D9FF]">
+          <span className="block font-mono-tech text-sm font-bold uppercase tracking-widest text-[#00D9FF]">
             {data.title}
           </span>
-          <h2 className="mt-1 font-title text-2xl font-bold uppercase tracking-tight text-white sm:text-4xl">
+          <h2 className="mt-3 font-title text-2xl font-bold uppercase tracking-tight text-white sm:text-4xl">
             {data.subtitle}
           </h2>
         </div>
@@ -39,33 +39,15 @@ export const S3Experience: React.FC<S3ExperienceProps> = ({
           {startYear} — {endYear}
         </span>
       </div>
+      
 
       <div
         data-s3-grid
         data-showcase-anchor
         className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12"
       >
-        <div data-s3-left className="lg:col-span-5">
-          <div
-            data-showcase-focus
-            className="overflow-hidden rounded-2xl border border-[#00D9FF]/20 bg-[#141B24]"
-          >
-            <VideoCard
-              title="BEHIND THE SCENES — ON SET"
-              subtitle="Hậu trường quay phim & điều hành sản xuất"
-              videoPath={data.media?.behindTheScenes?.path}
-              fallbackUrl={data.media?.behindTheScenes?.fallbackVideoUrl}
-              youtubeUrl={data.media?.behindTheScenes?.youtubeUrl}
-              sourceAspectRatio={data.media?.behindTheScenes?.aspectRatio ?? '16:9'}
-              playMode="click"
-              isActive={isActive}
-              reducedMotion={reducedMotion}
-            />
-          </div>
-        </div>
-
-        <div className="relative pl-8 lg:col-span-7">
-          <div className="absolute bottom-3 left-[7px] top-3 w-px bg-gradient-to-b from-[#00D9FF]/50 via-white/10 to-transparent" />
+        <div className="relative pr-8 lg:col-span-7">
+          <div className="absolute bottom-3 right-[7px] top-3 w-px bg-gradient-to-b from-[#00D9FF]/50 via-white/10 to-transparent" />
 
           <div data-s3-timeline className="space-y-3">
             {data.timeline.map((item: any, idx: number) => {
@@ -74,7 +56,7 @@ export const S3Experience: React.FC<S3ExperienceProps> = ({
               return (
                 <div key={item.company} className="relative">
                   <span
-                    className={`absolute -left-8 top-5 h-[15px] w-[15px] rounded-full border-2 transition-colors ${
+                    className={`absolute -right-8 top-5 h-[15px] w-[15px] rounded-full border-2 transition-colors ${
                       isSelected
                         ? 'border-[#00D9FF] bg-[#00D9FF] shadow-cyan-glow'
                         : 'border-white/20 bg-[#0A0E14]'
@@ -142,6 +124,26 @@ export const S3Experience: React.FC<S3ExperienceProps> = ({
             })}
           </div>
         </div>
+        <div data-s3-left className="lg:col-span-5">
+          <div
+            data-showcase-focus
+            className="overflow-hidden rounded-2xl border border-[#00D9FF]/20 bg-[#141B24]"
+          >
+            <VideoCard
+              title="BEHIND THE SCENES — ON SET"
+              subtitle="Hậu trường quay phim & điều hành sản xuất"
+              videoPath={data.media?.behindTheScenes?.path}
+              fallbackUrl={data.media?.behindTheScenes?.fallbackVideoUrl}
+              youtubeUrl={data.media?.behindTheScenes?.youtubeUrl}
+              sourceAspectRatio={data.media?.behindTheScenes?.aspectRatio ?? '16:9'}
+              playMode="autoplay"
+              isActive={isActive}
+              reducedMotion={reducedMotion}
+            />
+          </div>
+        </div>
+
+        
       </div>
     </div>
   );

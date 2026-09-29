@@ -25,12 +25,6 @@ export const S1Hero: React.FC<S1HeroProps> = ({
         className="animate-fade-rise relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4"
         style={{ animationDelay: '0.2s' }}
       >
-        <div className="glass-pill px-4 py-1.5 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-white animate-pulse shadow-[0_0_8px_white]" />
-          <span className="font-mono-tech text-xs tracking-wider text-white/90 uppercase">
-            {data.tagline || 'SẴN SÀNG NHẬN DỰ ÁN MỚI'}
-          </span>
-        </div>
         <div className="glass-pill px-4 py-1.5 text-xs text-white/70 tracking-wider uppercase font-mono-tech">
           {data.locationTag || 'HÀ NỘI, VIỆT NAM'}
         </div>
@@ -75,23 +69,6 @@ export const S1Hero: React.FC<S1HeroProps> = ({
               <ArrowDownRight className="w-4 h-4 text-white/80" />
             </button>
           </div>
-        </div>
-
-        <div
-          className="animate-fade-rise mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-white/15 bg-[#141B24] shadow-cyan-glow lg:mx-0 lg:ml-auto"
-          style={{ animationDelay: '0.7s' }}
-        >
-          <VideoCard
-            title="INTRO CV"
-            subtitle="Video giới thiệu portfolio"
-            videoPath={data.media?.path}
-            fallbackUrl={data.media?.fallbackVideoUrl}
-            youtubeUrl={data.media?.youtubeUrl}
-            sourceAspectRatio={data.media?.aspectRatio ?? '16:9'}
-            playMode="click"
-            isActive={isActive}
-            reducedMotion={reducedMotion}
-          />
         </div>
       </div>
     </div>

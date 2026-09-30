@@ -48,9 +48,9 @@ test('S6 exposes four real vertical YouTube showcases', () => {
   items.forEach((item) => assertEmbeddedShowcaseItem(item, '9:16'));
 });
 
-test('S7 exposes four real vertical YouTube showcases', () => {
+test('S7 exposes three real vertical YouTube showcases', () => {
   const items = slides.s7.reviews as ShowcaseItem[];
-  assert.equal(items.length, 4);
+  assert.equal(items.length, 3);
   items.forEach((item) => assertEmbeddedShowcaseItem(item, '9:16'));
 });
 

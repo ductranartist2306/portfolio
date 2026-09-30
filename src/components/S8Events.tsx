@@ -52,6 +52,7 @@ export const S8Events: React.FC<S8EventsProps> = ({
             </div>
             <VideoCard
               title={section.title}
+              subtitle={section.subtitle}
               description={section.description}
               videoPath={section.videoUrl}
               fallbackUrl={section.videoUrl}

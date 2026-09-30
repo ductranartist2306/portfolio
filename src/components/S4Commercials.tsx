@@ -57,7 +57,7 @@ export const S4Commercials: React.FC<S4CommercialsProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/10">
         <div className="p-4 rounded-xl bg-[#141B24] border border-white/5">
           <span className="font-mono-tech text-[10px] text-[#00D9FF] uppercase block">DỰ ÁN ĐIỂN HÌNH</span>
-          <span className="font-title text-sm font-semibold text-white mt-1 block">Wuling Bingo 2026 & Mini EV</span>
+          <span className="font-title text-sm font-semibold text-white mt-1 block">Kaiyo HEPA H13 Air Purifier</span>
         </div>
         <div className="p-4 rounded-xl bg-[#141B24] border border-white/5">
           <span className="font-mono-tech text-[10px] text-[#FF9F1C] uppercase block">KỸ THUẬT NỔI BẬT</span>

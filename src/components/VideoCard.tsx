@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Play, Pause, Volume2, VolumeX, Film } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import {
   buildYouTubeEmbedUrl,
   getActiveMediaSource,
@@ -283,19 +283,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         >
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0E14]/95 via-[#0A0E14]/45 to-black/20" />
           <div className="absolute inset-0 z-[1] flex flex-col items-center justify-center gap-3 px-6 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-black/30">
-              <Film className="h-5 w-5 text-white/60" />
-            </div>
-            <div className="space-y-1">
-              <h4 className="font-title text-sm font-semibold tracking-wide text-white">{title}</h4>
-              {subtitle && (
-                <p className="font-body text-xs text-[#B8C2CC] line-clamp-2">{subtitle}</p>
-              )}
-              <p className="font-mono-tech text-[10px] uppercase tracking-[0.24em] text-white/45">
-                {statusLabel}
-              </p>
-            </div>
-            {showDeferredYouTubeState && isActive && playMode !== 'autoplay' && (
+            {showDeferredYouTubeState && isActive && playMode !== 'autoplay' ? (
               <button
                 type="button"
                 onClick={togglePlay}
@@ -305,6 +293,10 @@ export const VideoCard: React.FC<VideoCardProps> = ({
                 <Play className="h-3.5 w-3.5 fill-current" />
                 Xem Video
               </button>
+            ) : (
+              <p className="font-mono-tech text-[10px] uppercase tracking-[0.24em] text-white/45">
+                {statusLabel}
+              </p>
             )}
           </div>
         </div>

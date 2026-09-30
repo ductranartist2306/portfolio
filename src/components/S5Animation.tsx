@@ -61,7 +61,7 @@ export const S5Animation: React.FC<S5AnimationProps> = ({
         </div>
         <div className="p-3 rounded-lg bg-[#141B24] border border-[#00D9FF]/20 text-center">
           <span className="text-[#00D9FF] block">APP MOCKUP</span>
-          <span className="text-[#B8C2CC] text-[10px]">TMT-eGreen / Oppo A93</span>
+          <span className="text-[#B8C2CC] text-[10px]">CarNow App</span>
         </div>
         <div className="p-3 rounded-lg bg-[#141B24] border border-[#FF9F1C]/20 text-center">
           <span className="text-[#FF9F1C] block">4K MOTION</span>

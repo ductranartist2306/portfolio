@@ -1,5 +1,6 @@
 import React from 'react';
 import { Award, Film, CheckCircle2, Cpu, Wrench } from 'lucide-react';
+import clientPortraitImg from '../assets/images/446x558.png';
 import portraitImg from '../assets/images/s2_portrait_client_update.webp';
 
 interface S2AboutProps {
@@ -26,10 +27,13 @@ export const S2About: React.FC<S2AboutProps> = ({ data, brand }) => {
         <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
           <div className="relative group rounded-2xl overflow-hidden bg-[#141B24] neon-border neon-border-hover shadow-cyan-glow aspect-[4/5] max-w-md mx-auto lg:mx-0">
             <img
-              src={data.media?.path || portraitImg}
+              src={clientPortraitImg}
               alt={data.subtitle}
               onError={(e) => {
-                (e.target as HTMLImageElement).src = './assets/profile_portrait.jpg';
+                const img = e.target as HTMLImageElement;
+                if (img.src !== portraitImg) {
+                  img.src = portraitImg;
+                }
               }}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
